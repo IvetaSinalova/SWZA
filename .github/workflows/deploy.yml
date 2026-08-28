@@ -14,12 +14,16 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-      - uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
-          port: 21
-          server-dir: ${{ secrets.FTP_SERVER_DIR }}
-          local-dir: ./dist/
+      - name: Install lftp
+        run: sudo apt-get update && sudo apt-get install -y lftp
+      - name: Deploy via FTPS
+        run: |
+          lftp -u "${{ secrets.FTP_USERNAME }}","${{ secrets.FTP_PASSWORD }}" "${{ secrets.FTP_SERVER }}" <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ftp:ssl-auth TLS
+          set ftp:passive-mode true
+          set ssl:verify-certificate false
+          mirror -R --verbose --parallel=2 ./dist/ "${{ secrets.FTP_SERVER_DIR }}"
+          bye
+          EOF
