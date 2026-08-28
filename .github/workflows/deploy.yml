@@ -27,18 +27,24 @@ jobs:
           $PSNativeCommandUseErrorActionPreference = $true
 
           $serverDir = $env:FTP_SERVER_DIR.TrimEnd("/")
-          $remoteDirUrl = "ftp://$($env:FTP_SERVER)/$serverDir/"
-          $remoteIndexUrl = "ftp://$($env:FTP_SERVER)/$serverDir/index.html"
+          $rootUrl = "ftp://$($env:FTP_SERVER)/"
 
           curl.exe --version
 
-          Write-Host "Checking target directory"
-          curl.exe --verbose --fail --show-error --ssl-reqd --insecure `
+          Write-Host "Checking FTP login"
+          curl.exe --verbose --fail --show-error --ftp-ssl --insecure --ftp-pasv --disable-epsv `
             --user "$($env:FTP_USERNAME):$($env:FTP_PASSWORD)" `
-            "$remoteDirUrl"
+            "$rootUrl"
 
-          Write-Host "Uploading index.html"
-          curl.exe --verbose --fail --show-error --ssl-reqd --insecure --ftp-create-dirs `
-            --user "$($env:FTP_USERNAME):$($env:FTP_PASSWORD)" `
-            --upload-file "dist/index.html" `
-            "$remoteIndexUrl"
+          $files = Get-ChildItem -Path "dist" -File -Recurse
+
+          foreach ($file in $files) {
+            $relativePath = [System.IO.Path]::GetRelativePath("dist", $file.FullName).Replace("\", "/")
+            $remoteUrl = "ftp://$($env:FTP_SERVER)/$serverDir/$relativePath"
+
+            Write-Host "Uploading $relativePath"
+            curl.exe --fail --show-error --ftp-ssl --insecure --ftp-pasv --disable-epsv --ftp-create-dirs `
+              --user "$($env:FTP_USERNAME):$($env:FTP_PASSWORD)" `
+              --upload-file "$($file.FullName)" `
+              "$remoteUrl"
+          }
