@@ -230,3 +230,12 @@ V GitHub repozitari musia byt nastavene secrets:
 - `FTP_USERNAME`
 - `FTP_PASSWORD`
 - `FTP_SERVER_DIR`
+
+Workflow pouziva klasicke FTP pripojenie:
+
+- protokol: `ftp`
+- port: `21`
+- `FTP_SERVER` zapis bez `ftp://`, `https://` alebo lomitok, napriklad iba nazov FTP servera
+- `FTP_SERVER_DIR` je cielovy priecinok na hostingu, napriklad `/startupweekendzilina.sk/`
+
+Ak Websupport pristup funguje iba cez SFTP, tento workflow nebude stacit a treba vymenit deploy action za SFTP variant.
