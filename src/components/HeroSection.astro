@@ -1,0 +1,4 @@
+---
+import { site } from '../data/site'; const {event}=site;
+---
+<section class="shell hero" id="top"><div><p class="eyebrow">● {event.eyebrow}</p><h1>{event.headline}</h1><p class="support">{event.support}</p><a class="button" href="#tickets">Chcem byť pri tom ↗</a></div><div class="hero-card"><small>Ďalší event</small><strong>{event.date}</strong><span>{event.location}</span><div class="countdown">{Object.entries(event.countdown).map(([key,val])=><div><b>{val}</b><small>{key}</small></div>)}</div></div></section>

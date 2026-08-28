@@ -1,0 +1,4 @@
+---
+import { site } from '../data/site';
+---
+<section class="shell section" id="mentors"><p class="eyebrow">Ľudia</p><h2>Na toto nebudeš sám.</h2><div class="mentor-grid">{site.mentors.map(([name,role])=><article class="mentor"><i>+</i><div><h3>{name}</h3><p>{role}</p></div></article>)}</div></section>

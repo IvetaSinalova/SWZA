@@ -1,0 +1,4 @@
+---
+import { site } from '../data/site';
+---
+<section class="shell section" id="schedule"><p class="eyebrow">Program</p><h2>Tri dni. Jeden posun.</h2><div class="schedule">{site.schedule.map(([day,title,time])=><div><span>{day}</span><b>{title}</b><time>{time}</time></div>)}</div></section>

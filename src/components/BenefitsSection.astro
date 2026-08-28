@@ -1,0 +1,4 @@
+---
+import { site } from '../data/site';
+---
+<section class="shell section" id="benefits"><p class="eyebrow">Čo ťa čaká</p><h2>Všetko, čo potrebuješ<br/>začať.</h2><div class="grid">{site.benefits.map(([num,title,text])=><article><span>{num}</span><h3>{title}</h3><p>{text}</p></article>)}</div></section>

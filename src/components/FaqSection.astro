@@ -1,0 +1,4 @@
+---
+import { site } from '../data/site';
+---
+<section class="shell section faq" id="faq"><div><p class="eyebrow">FAQ</p><h2>Čo potrebuješ<br/>vedieť.</h2></div><div>{site.faq.map(([question,answer])=><details><summary>{question}<b>+</b></summary><p>{answer}</p></details>)}</div></section>

@@ -1,0 +1,22 @@
+heading: WE WILL PROVIDE YOU WITH..
+intro: WE PROVIDE MENTORSHIP FROM EXPERTS, FULL CATERING, A DEDICATED WORKSPACE, ESSENTIAL OFFICE SUPPLIES, VALUABLE NETWORKING AND TECHSTARS RESOURCES.
+introHtml: WE PROVIDE <strong>MENTORSHIP</strong> FROM EXPERTS, FULL <strong>CATERING</strong>, A DEDICATED <strong>WORKSPACE</strong>, ESSENTIAL OFFICE <strong>SUPPLIES</strong>, VALUABLE <strong>NETWORKING</strong> AND <strong>TECHSTARS RESOURCES</strong>.
+items:
+  - title: Mentorship
+    text: We are bringing more than 14 entrepreneurs and subject matter experts to guide and support you throughout the weekend.
+    textHtml: We are bringing more than <strong>14 entrepreneurs</strong> and subject matter experts to guide and support you throughout the weekend.
+  - title: Food & Drinks
+    text: We’ll keep you energized, nourished, and delighted through the weekend with Red Bull, meals, snacks, and coffee.
+    textHtml: We’ll keep you energized, nourished, and delighted through the weekend with Red Bull, meals, <strong>snacks, and coffee</strong>.
+  - title: Tools
+    text: Every startup needs the right tools in the right space. We’ll provide markers, post-it notes, and other brainstorming tools.
+    textHtml: Every startup needs the right tools in the right space. We’ll provide markers, <strong>post-it notes, and other brainstorming tools</strong>.
+  - title: Space
+    text: Thanks to our venue sponsor, your team will have a dedicated office for the entire weekend.
+    textHtml: Thanks to our venue sponsor, your team will have a <strong>dedicated office for the entire weekend</strong>.
+  - title: Networking
+    text: Learn how to tap into your personal network, connect with other attendees, organizers and industry experts.
+    textHtml: Learn how to tap into your personal network, connect with other attendees, organizers and <strong>industry experts</strong>.
+  - title: Resources
+    text: In just 54 hours, it’s best not to spend your time reinventing the wheel. We’ll provide you with valuable resources.
+    textHtml: In just 54 hours, it’s best not to spend your time reinventing the wheel. We’ll provide you with <strong>valuable resources</strong>.

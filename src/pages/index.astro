@@ -1,0 +1,124 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { readFileSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
+import { parse } from 'yaml';
+import rawSite from '../content/site.yaml?raw';
+const site = parse(rawSite);
+const eventYear = String(site.activeYear);
+const eventImageRoot = `/images/events/${eventYear}`;
+const sharedImageRoot = '/images/home';
+const eventContent = (file) => {
+  const data = parse(readFileSync(join(process.cwd(), `src/content/events/${eventYear}`, file), 'utf8'));
+  return { ...data, year: file === 'schedule.yaml' ? eventYear : `(${eventYear})` };
+};
+const withEventImages = (data, folder) => ({
+  ...data,
+  items: data.items?.map((item) => ({
+    ...item,
+    image: item.image ? (item.image.startsWith('/') ? item.image : `${eventImageRoot}/${folder}/${item.image}`) : item.image,
+  })) ?? [],
+});
+const commonContent = (file) => parse(readFileSync(join(process.cwd(), 'src/content/common', file), 'utf8'));
+const location = eventContent('location.yaml');
+const hero = { ...commonContent('hero.yaml'), ...location };
+const about = commonContent('about.yaml');
+const essence = commonContent('essence.yaml');
+const benefits = commonContent('benefits.yaml');
+const mentors = withEventImages(eventContent('mentors.yaml'), 'mentors');
+const childrenMentors = eventContent('kids-mentors.yaml');
+const judges = withEventImages(eventContent('judges.yaml'), 'judges');
+const facilitator = withEventImages(eventContent('facilitator.yaml'), 'facilitator');
+const statement = commonContent('statement.yaml');
+const tickets = eventContent('tickets.yaml');
+const formatScheduleLabel = (date) => {
+  const months = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
+  return `${String(date.getUTCDate()).padStart(2, '0')} ${months[date.getUTCMonth()]}`;
+};
+const addDaysToDate = (date, days) => {
+  const nextDate = new Date(date);
+  nextDate.setUTCDate(nextDate.getUTCDate() + days);
+  return nextDate;
+};
+const eventStartDate = new Date(`${location.start.split('T')[0]}T00:00:00Z`);
+const scheduleData = eventContent('schedule.yaml');
+const schedule = {
+  ...scheduleData,
+  days: scheduleData.days.map((day, dayIndex) => {
+    const date = addDaysToDate(eventStartDate, dayIndex);
+    const isoDate = date.toISOString().slice(0, 10);
+    return { ...day, date: isoDate, label: formatScheduleLabel(date) };
+  }),
+};
+const applyAnnouncement = (data) => { if (data.announcementStatus === 'partial') data.note = data.items?.length ? data.announcementText : 'ANNOUNCING SOON.'; else data.note = ''; };
+applyAnnouncement(mentors); applyAnnouncement(childrenMentors); applyAnnouncement(judges); applyAnnouncement(facilitator);
+const galleryImages = readdirSync(join(process.cwd(), 'public/images/home/about/gallery'))
+  .filter((file) => /\.(jpe?g|png|webp|avif|gif)$/i.test(file))
+  .map((file) => `${sharedImageRoot}/about/gallery/${encodeURIComponent(file)}`);
+---
+<BaseLayout title={site.title} description={site.description}>
+  <header class="topbar"><a class="mini-logo" href="#top"><span>techstars</span><strong>Startup Weekend</strong><b>{hero.city}</b></a><nav><a href="#top">HOME</a><a href="#about">ABOUT</a><a href="#mentors">MENTORS</a><a href="#partners">PARTNERS</a><a href="#schedule">SCHEDULE</a><a href="#faq">FAQ</a><a href="#contact">CONTACT</a></nav><a class="buy" href={tickets.buyUrl} target="_blank" rel="noopener noreferrer">BUY TICKETS <img src="/images/tickets.png" alt="" aria-hidden="true" /></a></header>
+  <main id="top">
+    <section class="hero-figma"><h1>{hero.title} <em>{hero.city}</em></h1><div class="hero-lower"><div class="welcome-collage" aria-label={`${site.title} community`}><img src={`${sharedImageRoot}/welcome/speaker.jpg`} alt="Speaker addressing the Startup Weekend audience"/><img src={`${sharedImageRoot}/welcome/collaboration.jpg`} alt="Startup Weekend participants collaborating"/><img src={`${sharedImageRoot}/welcome/team.jpg`} alt="Startup Weekend team"/><img src={`${sharedImageRoot}/welcome/workshop.jpg`} alt="Workshop speaker presenting"/><strong aria-hidden="true">S</strong></div><div class="hero-signup"><div class="event-status" data-start={hero.start} data-end={hero.end} data-next-start={hero.nextStart || ""} data-year={hero.currentYear} data-live-title={hero.liveTitle} data-live-text={hero.liveText} data-past-title={hero.pastTitle} data-past-text={hero.pastText}><div class="digits" data-countdown><span><b data-unit="days">00</b><small>Days</small></span><span><b data-unit="hours">00</b><small>Hours</small></span><span><b data-unit="minutes">00</b><small>Minutes</small></span><span><b data-unit="seconds">00</b><small>Seconds</small></span></div><div class="event-message" hidden><strong data-message-title></strong><p data-message-text></p></div></div></div></div><div class="hero-notes"><span>{hero.cornerNote}</span><span>{hero.weekendNote}</span></div></section>
+    <div class="ticker"><div class="ticker-track"><span>{hero.ticker}</span><span>{hero.ticker}</span><span>{hero.ticker}</span><span>{hero.ticker}</span></div></div>
+    <section class="about-figma shell" id="about"><div class="section-head"><h2>{about.heading}</h2><p set:html={about.introHtml ?? about.intro}></p></div><div class="green-rule"><span class="s-solid-green">S</span> <span class="s-solid-green">S</span></div><div class="about-photos"><img src={`${sharedImageRoot}/about/participant.jpg`} alt="Startup Weekend participant working"/><img src={`${sharedImageRoot}/about/audience.jpg`} alt="Startup Weekend audience"/></div><div class="photo-caption"><span>{about.photoCredit}</span><span>{about.photoYear}</span></div></section>
+    <section class="essence shell"><div class="essence-label">{essence.label} <b class="s-black">S</b></div><p set:html={essence.textHtml ?? essence.text}></p><div class="thumb-row"><div class="essence-gallery">{galleryImages.slice(0, 4).map((image, index) => <button type="button" class="gallery-thumb" data-gallery-image={image} aria-label={`Open gallery image ${index + 1}`}><img src={image} alt={`Startup Weekend moment ${index + 1}`}/></button>)}</div><small set:html={essence.noteHtml ?? essence.note}></small></div></section>
+    <dialog class="gallery-lightbox" aria-label="Startup Weekend photo gallery"><button type="button" class="gallery-close" aria-label="Close image">×</button><img data-lightbox-image src="" alt=""/></dialog>
+    <section class="benefits-figma shell" id="partners"><div class="section-head"><h2>{benefits.heading}</h2><p set:html={benefits.introHtml ?? benefits.intro}></p></div><div class="green-rule"><span class="s-outline-green">S</span> <span class="s-outline-green">S</span></div><div class="benefit-grid">{benefits.items.map((item) => <article><h3>{item.title}</h3><p set:html={item.textHtml ?? item.text}></p></article>)}</div></section>
+    <section class="mentors-figma shell" id="mentors"><div class="section-head mentor-head"><h2>{mentors.heading} <em>{mentors.year}</em></h2><p>{mentors.intro}</p></div><p class="section-note">{mentors.note}</p><div class="green-rule"></div><div class="mentor-carousel"><button class="mentor-arrow mentor-prev" type="button" aria-label="Previous mentors">←</button><div class="mentor-viewport"><div class="mentor-cards">{[...mentors.items, ...mentors.items].map((mentor, index) => <article class="mentor-card" aria-hidden={index >= mentors.items.length}><div class="mentor-meta"><span>{mentor.name}</span>{mentor.country && <span>{mentor.country}</span>}</div>{mentor.role && <span class="mentor-role">{mentor.role}</span>}<img src={mentor.image} alt={mentor.name}/>{mentor.text && <p>{mentor.text}</p>}</article>)}</div></div><button class="mentor-arrow mentor-next" type="button" aria-label="Next mentors">→</button></div></section>
+    <section class="children-mentors-figma shell"><div class="section-head mentor-head"><h2>{childrenMentors.heading} <em>{childrenMentors.year}</em></h2><p>{childrenMentors.intro}</p></div><p class="section-note">{childrenMentors.note}</p><div class="green-rule"></div></section>
+    <section class="judges-figma shell" id="judges"><div class="section-head mentor-head"><h2>{judges.heading} <em>{judges.year}</em></h2><p>{judges.intro}</p></div><p class="section-note">{judges.note}</p><div class="green-rule"></div><div class="judges-cards">{judges.items.map((judge) => <article class="mentor-card judge-card"><div class="mentor-meta"><span>{judge.name}</span><span>{judge.company}</span></div><span class="mentor-role">{judge.role}</span><img src={judge.image} alt={judge.name}/><p>{judge.text}</p></article>)}</div></section>
+    <section class="facilitator-figma shell" id="facilitator"><div class="section-head mentor-head"><h2>{facilitator.heading} <em>{facilitator.year}</em></h2><p>{facilitator.intro}</p></div><div class="green-rule"></div><div class="facilitator-card-wrap">{facilitator.items.map((person) => <article class="mentor-card judge-card facilitator-card"><div class="mentor-meta"><span>{person.name}</span><span>{person.country}</span></div><span class="mentor-role">{person.role}</span><img src={person.image} alt={person.name}/><p>{person.text}</p></article>)}</div></section>
+    <section class="schedule-figma shell" id="schedule"><div class="section-head schedule-head"><h2>{schedule.heading} <em>{schedule.year}</em></h2><p>{schedule.intro}</p></div><div class="schedule-days">{schedule.days.map((day, dayIndex) => <section class="schedule-day" data-schedule-day><header><span class="schedule-day-number">{String(dayIndex + 1).padStart(2, '0')}</span><h3>{day.name}</h3><time datetime={day.date}>{day.label}</time><span class="schedule-day-live">LIVE TODAY</span></header><div class="schedule-list">{day.items.map((item) => <article class="schedule-item" data-schedule-item data-start={`${day.date}T${item.time}:00${schedule.utcOffset}`} data-end={`${day.date}T${item.end}:00${schedule.utcOffset}`}><time datetime={`${day.date}T${item.time}:00${schedule.utcOffset}`}>{item.time}</time><div class="schedule-title"><strong>{item.title}</strong>{item.access && <span>{item.access}</span>}</div>{item.location && <span class="schedule-location">{item.location}</span>}<span class="schedule-now"><i></i>HAPPENING NOW</span></article>)}</div></section>)}</div></section>
+    <section class="statement shell" id="contact">{statement.text}</section>
+  </main>
+</BaseLayout>
+<script>
+  const status = document.querySelector('[data-start]');
+  const countdown = status?.querySelector('[data-countdown]');
+  const message = status?.querySelector('.event-message');
+  const setMessage = (title, text, isLive = false, keepCountdown = false) => { countdown.hidden = !keepCountdown; message.hidden = false; message.classList.toggle('during-event', keepCountdown); const messageText = message.querySelector('[data-message-text]'); message.querySelector('[data-message-title]').textContent = title; messageText.textContent = text; if (isLive) { const link = document.createElement('a'); link.href = '#schedule'; link.textContent = ' VIEW SCHEDULE'; link.className = 'message-link'; messageText.append(link); } };
+  const updateEventState = () => {
+    if (!status || !countdown || !message) return;
+    const now = Date.now(); const start = new Date(status.dataset.start).getTime(); const end = new Date(status.dataset.end).getTime(); const nextStart = status.dataset.nextStart ? new Date(status.dataset.nextStart).getTime() : null; document.body.classList.toggle('event-past', now >= end);
+    if (now >= start && now < end) { countdown.querySelectorAll('[data-unit]').forEach((element) => { element.textContent = '00'; }); setMessage(status.dataset.liveTitle, status.dataset.liveText, true, true); return; }
+    if (now >= end) { setMessage(`${status.dataset.pastTitle} ${status.dataset.year}`, status.dataset.pastText); return; }
+    const target = now < start ? start : nextStart; countdown.hidden = false; message.hidden = true;
+    const remaining = Math.max(0, target - now); const values = { days: Math.floor(remaining / 86400000), hours: Math.floor(remaining / 3600000) % 24, minutes: Math.floor(remaining / 60000) % 60, seconds: Math.floor(remaining / 1000) % 60 };
+    Object.entries(values).forEach(([unit, value]) => { const element = countdown.querySelector(`[data-unit="${unit}"]`); if (element) element.textContent = String(value).padStart(2, '0'); });
+  };
+  updateEventState(); window.setInterval(updateEventState, 1000);
+  const scheduleItems = [...document.querySelectorAll('[data-schedule-item]')];
+  const updateScheduleState = () => {
+    const now = Date.now();
+    document.querySelectorAll('[data-schedule-day]').forEach((day) => day.classList.remove('is-live'));
+    scheduleItems.forEach((item) => {
+      const isLive = now >= new Date(item.dataset.start).getTime() && now < new Date(item.dataset.end).getTime();
+      item.classList.toggle('is-live', isLive);
+      if (isLive) { item.setAttribute('aria-current', 'step'); item.closest('[data-schedule-day]')?.classList.add('is-live'); }
+      else item.removeAttribute('aria-current');
+    });
+  };
+  updateScheduleState(); window.setInterval(updateScheduleState, 30000);
+  const mentorViewport = document.querySelector('.mentor-viewport'); const mentorTrack = document.querySelector('.mentor-cards'); const previousMentors = document.querySelector('.mentor-prev'); const nextMentors = document.querySelector('.mentor-next');
+  if (mentorViewport && mentorTrack) {
+    let paused = false; let dragging = false; let startX = 0; let startScroll = 0; let resumeTimer;
+    const loopPoint = () => mentorTrack.scrollWidth / 2;
+    const keepLooping = () => { if (mentorViewport.scrollLeft >= loopPoint()) mentorViewport.scrollLeft -= loopPoint(); if (mentorViewport.scrollLeft <= 0) mentorViewport.scrollLeft += loopPoint(); };
+    const resumeSoon = () => { window.clearTimeout(resumeTimer); resumeTimer = window.setTimeout(() => { paused = false; }, 450); };
+    const moveMentors = (direction) => { paused = true; mentorViewport.scrollBy({ left: direction * mentorViewport.clientWidth * 0.72, behavior: 'smooth' }); resumeSoon(); };
+    previousMentors?.addEventListener('click', () => moveMentors(-1)); nextMentors?.addEventListener('click', () => moveMentors(1));
+    mentorViewport.addEventListener('mouseenter', () => { paused = true; });
+    mentorViewport.addEventListener('mouseleave', () => { paused = false; });
+    mentorViewport.addEventListener('pointerdown', (event) => { dragging = true; paused = true; startX = event.clientX; startScroll = mentorViewport.scrollLeft; mentorViewport.setPointerCapture(event.pointerId); });
+    mentorViewport.addEventListener('pointermove', (event) => { if (dragging) mentorViewport.scrollLeft = startScroll - (event.clientX - startX); });
+    const finishDrag = () => { dragging = false; paused = false; keepLooping(); };
+    mentorViewport.addEventListener('pointerup', finishDrag); mentorViewport.addEventListener('pointercancel', finishDrag);
+    window.setInterval(() => { if (!paused && !dragging) { mentorViewport.scrollLeft += 0.55; keepLooping(); } }, 30);
+  }
+  const lightbox = document.querySelector('.gallery-lightbox'); const lightboxImage = lightbox?.querySelector('[data-lightbox-image]'); const closeLightbox = () => lightbox?.close();
+  document.querySelectorAll('[data-gallery-image]').forEach((trigger) => trigger.addEventListener('click', () => { if (!lightbox || !lightboxImage) return; lightboxImage.src = trigger.dataset.galleryImage || ''; lightboxImage.alt = trigger.querySelector('img')?.alt || ''; lightbox.showModal(); }));
+  lightbox?.querySelector('.gallery-close')?.addEventListener('click', closeLightbox); lightbox?.addEventListener('click', (event) => { if (event.target === lightbox) closeLightbox(); });
+</script>
+
+

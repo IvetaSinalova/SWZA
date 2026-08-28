@@ -1,0 +1,112 @@
+heading: SCHEDULE
+intro: A FULL WEEKEND OF IDEAS, TEAMWORK, MENTORSHIP AND PITCHING.
+utcOffset: "+02:00"
+days:
+  - name: FRIDAY
+    items:
+      - time: "16:00"
+        end: "16:30"
+        title: REGISTRATION
+        location: MAIN HALL
+      - time: "16:30"
+        end: "17:00"
+        title: REFRESHMENT AND NETWORKING
+        location: MAIN HALL
+      - time: "17:00"
+        end: "17:45"
+        title: WELCOME
+        location: MAIN HALL
+        access: OPEN TO PUBLIC
+      - time: "17:45"
+        end: "18:45"
+        title: PRESENTATION OF THE IDEAS
+        location: MAIN HALL
+        access: OPEN TO PUBLIC
+      - time: "18:45"
+        end: "19:00"
+        title: RATING OF THE IDEAS
+        location: MAIN HALL
+        access: OPEN TO PUBLIC
+      - time: "19:00"
+        end: "19:20"
+        title: FORMING OF THE TEAMS
+        location: MAIN HALL
+        access: OPEN TO PUBLIC
+      - time: "19:20"
+        end: "19:40"
+        title: LEAN CANVAS WORKSHOP
+        location: WORKSHOP
+      - time: "19:40"
+        end: "22:00"
+        title: START OF WORK
+        location: WORKSPACE
+      - time: "22:00"
+        end: "22:15"
+        title: VENUE CLOSING
+        location: MAIN HALL
+  - name: SATURDAY
+    items:
+      - time: "08:00"
+        end: "08:30"
+        title: BREAKFAST
+        location: MAIN HALL
+      - time: "08:30"
+        end: "12:00"
+        title: WORK ON THE PROJECT
+        location: WORKSPACE
+      - time: "12:00"
+        end: "12:45"
+        title: LUNCH
+        location: MAIN HALL
+      - time: "12:45"
+        end: "13:15"
+        title: WORKSHOP HOW TO PRESENT TO THE INVESTORS
+        location: WORKSHOP
+      - time: "13:15"
+        end: "17:00"
+        title: MENTORING / WORK ON THE PROJECT
+        location: WORKSPACE
+      - time: "17:00"
+        end: "17:30"
+        title: DINNER
+        location: MAIN HALL
+      - time: "17:30"
+        end: "22:00"
+        title: WORK ON THE PROJECT
+        location: WORKSPACE
+      - time: "22:00"
+        end: "22:15"
+        title: VENUE CLOSING
+        location: MAIN HALL
+  - name: SUNDAY
+    items:
+      - time: "08:00"
+        end: "08:30"
+        title: BREAKFAST
+        location: MAIN HALL
+      - time: "08:30"
+        end: "12:00"
+        title: WORK ON THE PROJECT
+        location: WORKSPACE
+      - time: "12:00"
+        end: "12:30"
+        title: LUNCH
+        location: MAIN HALL
+      - time: "12:30"
+        end: "14:00"
+        title: WORK ON THE PROJECT / SET UP OF THE PRESENTATION
+        location: WORKSPACE
+      - time: "14:00"
+        end: "17:00"
+        title: PRESENTATION OF THE IDEAS
+        location: MAIN HALL
+        access: OPEN TO PUBLIC
+      - time: "17:00"
+        end: "17:30"
+        title: JUDGING AND THE AWARD CEREMONY
+        location: MAIN HALL
+        access: OPEN TO PUBLIC
+      - time: "17:30"
+        end: "19:00"
+        title: DINNER
+        location: MAIN HALL

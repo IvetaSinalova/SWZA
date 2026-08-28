@@ -1,0 +1,4 @@
+---
+import { site } from '../data/site';
+---
+<header class="shell header"><a class="brand" href="#top">SW<span>ZA</span></a><nav>{site.navigation.map(([label,href])=><a href={href}>{label}</a>)}<a class="button small" href="#tickets">Registrácia ↗</a></nav></header>
