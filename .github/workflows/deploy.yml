@@ -14,31 +14,35 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-      - name: Install lftp
-        run: sudo apt-get update && sudo apt-get install -y lftp
       - name: Deploy via FTPS
         timeout-minutes: 5
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_SERVER_DIR: ${{ secrets.FTP_SERVER_DIR }}
         run: |
-          lftp <<EOF
-          debug 5
-          set cmd:fail-exit true
-          set dns:order "inet"
-          set net:timeout 10
-          set net:max-retries 3
-          set net:reconnect-interval-base 5
-          set net:reconnect-interval-max 30
-          set ftp:ssl-force true
-          set ftp:ssl-protect-data true
-          set ftp:ssl-protect-list true
-          set ftp:ssl-auth TLS
-          set ftp:passive-mode true
-          set ftp:use-feat false
-          set ftp:use-hftp false
-          set ssl:verify-certificate false
-          set ssl:check-hostname false
-          set ssl:priority "NORMAL:%COMPAT:%UNSAFE_RENEGOTIATION"
-          set xfer:log true
-          open -u "${{ secrets.FTP_USERNAME }}","${{ secrets.FTP_PASSWORD }}" "${{ secrets.FTP_SERVER }}"
-          mirror -R --verbose=3 --parallel=1 ./dist/ "${{ secrets.FTP_SERVER_DIR }}"
-          bye
+          cat > openssl.cnf <<'EOF'
+          openssl_conf = openssl_init
+
+          [openssl_init]
+          ssl_conf = ssl_sect
+
+          [ssl_sect]
+          system_default = system_default_sect
+
+          [system_default_sect]
+          Options = UnsafeLegacyRenegotiation
           EOF
+
+          export OPENSSL_CONF="$PWD/openssl.cnf"
+
+          cd dist
+          find . -type f -print0 | while IFS= read -r -d '' file; do
+            remote_path="${FTP_SERVER_DIR%/}/${file#./}"
+            echo "Uploading ${file#./}"
+            curl --fail --show-error --silent --ssl-reqd --insecure --ftp-create-dirs \
+              --user "$FTP_USERNAME:$FTP_PASSWORD" \
+              --upload-file "$file" \
+              "ftp://$FTP_SERVER/$remote_path"
+          done
