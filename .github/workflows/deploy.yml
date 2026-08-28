@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 jobs:
   deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -14,40 +14,14 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-      - name: Install WinSCP
-        run: choco install winscp --no-progress -y
       - name: Deploy to Websupport
-        shell: powershell
-        env:
-          FTP_SERVER: ${{ secrets.FTP_SERVER }}
-          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
-          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
-          FTP_SERVER_DIR: ${{ secrets.FTP_SERVER_DIR }}
-        run: |
-          $ErrorActionPreference = "Stop"
-
-          if (-not (Test-Path "dist/index.html")) {
-            throw "Build output is missing dist/index.html."
-          }
-
-          $remoteDir = $env:FTP_SERVER_DIR.Trim("/")
-          $passwordPath = Join-Path $env:RUNNER_TEMP "winscp-password.txt"
-          [System.IO.File]::WriteAllText($passwordPath, $env:FTP_PASSWORD, [System.Text.Encoding]::ASCII)
-
-          $script = @(
-            "option batch abort",
-            "option confirm off",
-            "open ftp://$($env:FTP_SERVER)/ -explicit -passive=on -certificate=* -username=`"$($env:FTP_USERNAME)`" -password=`"$passwordPath`" -passwordsfromfiles",
-            "synchronize remote -delete `"dist`" `"/$remoteDir`"",
-            "ls `"/$remoteDir`"",
-            "exit"
-          )
-
-          $scriptPath = Join-Path $env:RUNNER_TEMP "winscp-deploy.txt"
-          $script | Set-Content -Path $scriptPath -Encoding ASCII
-
-          & "C:\Program Files (x86)\WinSCP\WinSCP.com" /script="$scriptPath" /log="$env:RUNNER_TEMP\winscp.log"
-          if ($LASTEXITCODE -ne 0) {
-            Get-Content "$env:RUNNER_TEMP\winscp.log"
-            throw "WinSCP deploy failed with exit code $LASTEXITCODE."
-          }
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          local-dir: ./dist/
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}/
+          security: loose
