@@ -21,20 +21,22 @@ jobs:
         run: |
           lftp -u "${{ secrets.FTP_USERNAME }}","${{ secrets.FTP_PASSWORD }}" "${{ secrets.FTP_SERVER }}" <<EOF
           debug 5
+          set cmd:fail-exit true
           set dns:order "inet"
-          set net:timeout 30
-          set net:max-retries 5
+          set net:timeout 10
+          set net:max-retries 3
           set net:reconnect-interval-base 5
           set net:reconnect-interval-max 30
           set ftp:ssl-force true
           set ftp:ssl-protect-data true
+          set ftp:ssl-protect-list true
           set ftp:ssl-auth TLS
           set ftp:passive-mode true
-          set ftp:use-host false
+          set ftp:use-hftp false
           set ssl:verify-certificate false
           set ssl:check-hostname false
-          set ssl:priority-str "NORMAL:%RENEGOTIATION"
+          set ssl:priority "NORMAL:%COMPAT:%UNSAFE_RENEGOTIATION"
           set xfer:log true
-          mirror -R --verbose=3 --parallel=2 ./dist/ "${{ secrets.FTP_SERVER_DIR }}"
+          mirror -R --verbose=3 --parallel=1 ./dist/ "${{ secrets.FTP_SERVER_DIR }}"
           bye
           EOF
