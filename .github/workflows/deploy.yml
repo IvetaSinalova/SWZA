@@ -31,6 +31,7 @@ jobs:
           set ftp:ssl-auth TLS
           set ftp:passive-mode true
           set ssl:verify-certificate false
+          set ssl:priority-str "NORMAL:%RENEGOTIATION"
           set xfer:log true
           mirror -R --verbose=3 --parallel=2 ./dist/ "${{ secrets.FTP_SERVER_DIR }}"
           bye
