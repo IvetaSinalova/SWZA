@@ -1,3 +1,7 @@
+param(
+  [string] $TargetDirectory = ""
+)
+
 $ErrorActionPreference = "Stop"
 $PSNativeCommandUseErrorActionPreference = $true
 
@@ -32,9 +36,19 @@ function Read-RequiredValue {
 $ftpServer = Read-RequiredValue -Name "FTP_SERVER" -Prompt "FTP server" -DefaultValue "startupweekendzilina.sk"
 $ftpUsername = Read-RequiredValue -Name "FTP_USERNAME" -Prompt "FTP username"
 $ftpPassword = Read-RequiredValue -Name "FTP_PASSWORD" -Prompt "FTP password"
-$ftpServerDir = Read-RequiredValue -Name "FTP_SERVER_DIR" -Prompt "FTP target directory" -DefaultValue "/startupweekendzilina.sk/web/preview/"
 
-$ftpServerDir = $ftpServerDir.TrimEnd("/")
+if ([string]::IsNullOrWhiteSpace($TargetDirectory)) {
+  $ftpServerDir = Read-Host "FTP target directory [startupweekendzilina.sk/web/preview/]"
+  if ([string]::IsNullOrWhiteSpace($ftpServerDir)) {
+    $ftpServerDir = "startupweekendzilina.sk/web/preview/"
+  }
+} else {
+  $ftpServerDir = $TargetDirectory
+}
+
+$ftpServerDir = $ftpServerDir.Trim("/").TrimEnd("/")
+
+Write-Host "Deploy target: ftp://$ftpServer/$ftpServerDir/"
 
 Write-Host "Building Astro site..."
 npm run build

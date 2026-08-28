@@ -255,16 +255,25 @@ Skript sa spyta na:
 Pre preview pouzi cielovy priecinok:
 
 ```text
-/startupweekendzilina.sk/web/preview/
+startupweekendzilina.sk/web/preview/
 ```
 
 Pre produkciu pouzi:
 
 ```text
-/startupweekendzilina.sk/web/
+startupweekendzilina.sk/web/
 ```
 
 Skript najprv spusti `npm run build`, potom overi FTP prihlasenie a nahra obsah priecinka `dist/` na Websupport.
+
+Rychle skratky:
+
+```powershell
+npm run deploy:preview
+npm run deploy:production
+```
+
+`web` je nazov priecinka vo Websupport FTP, nie cast verejnej URL. Preview po nahrati otvor na `https://www.startupweekendzilina.sk/preview/`.
 
 Ak nechces zadavat udaje pri kazdom spusteni, mozes ich pred deployom nastavit iba v aktualnom terminali:
 
@@ -272,7 +281,7 @@ Ak nechces zadavat udaje pri kazdom spusteni, mozes ich pred deployom nastavit i
 $env:FTP_SERVER = "startupweekendzilina.sk"
 $env:FTP_USERNAME = "tvoje-ftp-meno"
 $env:FTP_PASSWORD = "tvoje-ftp-heslo"
-$env:FTP_SERVER_DIR = "/startupweekendzilina.sk/web/preview/"
+$env:FTP_SERVER_DIR = "startupweekendzilina.sk/web/preview/"
 npm run deploy
 ```
 
