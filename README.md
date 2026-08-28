@@ -222,20 +222,58 @@ npm run preview
 
 ## Nasadenie
 
-Push do branche `main` spusti GitHub Actions workflow. Ten vytvori staticky priecinok `dist/` a nahra ho cez FTP na Websupport.
+GitHub Actions je nastavene bezpecne iba na kontrolu buildu. Pri kazdom pushi do branche `main` sa spusti:
 
-V GitHub repozitari musia byt nastavene secrets:
+```powershell
+npm ci
+npm run build
+```
 
-- `FTP_SERVER`
-- `FTP_USERNAME`
-- `FTP_PASSWORD`
-- `FTP_SERVER_DIR`
+Samotne nahratie na Websupport sa spusta lokalne z tvojho PC. Je to bezpecnejsie ako self-hosted runner v public GitHub repozitari a zaroven to obchadza problem, ze Websupport FTP odmieta GitHub hosted runnery.
 
-Workflow pouziva klasicke FTP pripojenie:
+### Lokalny deploy na Websupport
 
-- protokol: `ftp`
-- port: `21`
-- `FTP_SERVER` zapis bez `ftp://`, `https://` alebo lomitok, napriklad iba nazov FTP servera
-- `FTP_SERVER_DIR` je cielovy priecinok na hostingu, napriklad `/startupweekendzilina.sk/`
+V terminali otvor projekt:
 
-Ak Websupport pristup funguje iba cez SFTP, tento workflow nebude stacit a treba vymenit deploy action za SFTP variant.
+```powershell
+cd C:\Users\GLOBESY\Desktop\SWZA
+```
+
+Spusti:
+
+```powershell
+npm run deploy
+```
+
+Skript sa spyta na:
+
+- `FTP server` - napriklad `startupweekendzilina.sk`
+- `FTP username` - FTP prihlasovacie meno z Websupportu
+- `FTP password` - aktualne FTP heslo
+- `FTP target directory` - cielovy priecinok na hostingu
+
+Pre preview pouzi cielovy priecinok:
+
+```text
+/startupweekendzilina.sk/web/preview/
+```
+
+Pre produkciu pouzi:
+
+```text
+/startupweekendzilina.sk/web/
+```
+
+Skript najprv spusti `npm run build`, potom overi FTP prihlasenie a nahra obsah priecinka `dist/` na Websupport.
+
+Ak nechces zadavat udaje pri kazdom spusteni, mozes ich pred deployom nastavit iba v aktualnom terminali:
+
+```powershell
+$env:FTP_SERVER = "startupweekendzilina.sk"
+$env:FTP_USERNAME = "tvoje-ftp-meno"
+$env:FTP_PASSWORD = "tvoje-ftp-heslo"
+$env:FTP_SERVER_DIR = "/startupweekendzilina.sk/web/preview/"
+npm run deploy
+```
+
+Tieto hodnoty sa ulozia iba pre otvorene terminalove okno, nie do projektu.

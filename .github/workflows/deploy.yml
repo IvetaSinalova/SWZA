@@ -1,11 +1,11 @@
-name: Build and deploy Astro
+name: Build Astro
 on:
   push:
     branches: [main]
   workflow_dispatch:
 jobs:
-  deploy:
-    runs-on: [self-hosted, Windows]
+  build:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -14,37 +14,3 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-      - name: Deploy via FTPS
-        timeout-minutes: 5
-        env:
-          FTP_SERVER: ${{ secrets.FTP_SERVER }}
-          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
-          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
-          FTP_SERVER_DIR: ${{ secrets.FTP_SERVER_DIR }}
-        shell: pwsh
-        run: |
-          $ErrorActionPreference = "Stop"
-          $PSNativeCommandUseErrorActionPreference = $true
-
-          $serverDir = $env:FTP_SERVER_DIR.TrimEnd("/")
-          $rootUrl = "ftp://$($env:FTP_SERVER)/"
-
-          curl.exe --version
-
-          Write-Host "Checking FTP login"
-          curl.exe --verbose --fail --show-error --ftp-ssl --insecure --ftp-pasv --disable-epsv `
-            --user "$($env:FTP_USERNAME):$($env:FTP_PASSWORD)" `
-            "$rootUrl"
-
-          $files = Get-ChildItem -Path "dist" -File -Recurse
-
-          foreach ($file in $files) {
-            $relativePath = [System.IO.Path]::GetRelativePath("dist", $file.FullName).Replace("\", "/")
-            $remoteUrl = "ftp://$($env:FTP_SERVER)/$serverDir/$relativePath"
-
-            Write-Host "Uploading $relativePath"
-            curl.exe --fail --show-error --ftp-ssl --insecure --ftp-pasv --disable-epsv --ftp-create-dirs `
-              --user "$($env:FTP_USERNAME):$($env:FTP_PASSWORD)" `
-              --upload-file "$($file.FullName)" `
-              "$remoteUrl"
-          }
