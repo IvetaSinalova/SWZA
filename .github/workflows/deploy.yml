@@ -24,17 +24,21 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
+          $PSNativeCommandUseErrorActionPreference = $true
 
           $serverDir = $env:FTP_SERVER_DIR.TrimEnd("/")
-          $files = Get-ChildItem -Path "dist" -File -Recurse
+          $remoteDirUrl = "ftp://$($env:FTP_SERVER)/$serverDir/"
+          $remoteIndexUrl = "ftp://$($env:FTP_SERVER)/$serverDir/index.html"
 
-          foreach ($file in $files) {
-            $relativePath = [System.IO.Path]::GetRelativePath("dist", $file.FullName).Replace("\", "/")
-            $remoteUrl = "ftp://$($env:FTP_SERVER)/$serverDir/$relativePath"
+          curl.exe --version
 
-            Write-Host "Uploading $relativePath"
-            curl.exe --fail --show-error --ssl-reqd --insecure --ftp-create-dirs `
-              --user "$($env:FTP_USERNAME):$($env:FTP_PASSWORD)" `
-              --upload-file "$($file.FullName)" `
-              "$remoteUrl"
-          }
+          Write-Host "Checking target directory"
+          curl.exe --verbose --fail --show-error --ssl-reqd --insecure `
+            --user "$($env:FTP_USERNAME):$($env:FTP_PASSWORD)" `
+            "$remoteDirUrl"
+
+          Write-Host "Uploading index.html"
+          curl.exe --verbose --fail --show-error --ssl-reqd --insecure --ftp-create-dirs `
+            --user "$($env:FTP_USERNAME):$($env:FTP_PASSWORD)" `
+            --upload-file "dist/index.html" `
+            "$remoteIndexUrl"
