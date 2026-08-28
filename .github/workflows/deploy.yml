@@ -32,8 +32,8 @@ jobs:
           set ftp:ssl-protect-list true
           set ftp:ssl-auth TLS
           set ftp:passive-mode true
+          set ftp:use-feat false
           set ftp:use-hftp false
-          set ftp:use-host false
           set ssl:verify-certificate false
           set ssl:check-hostname false
           set ssl:priority "NORMAL:%COMPAT:%UNSAFE_RENEGOTIATION"
