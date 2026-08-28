@@ -30,7 +30,9 @@ jobs:
           set ftp:ssl-protect-data true
           set ftp:ssl-auth TLS
           set ftp:passive-mode true
+          set ftp:use-host false
           set ssl:verify-certificate false
+          set ssl:check-hostname false
           set ssl:priority-str "NORMAL:%RENEGOTIATION"
           set xfer:log true
           mirror -R --verbose=3 --parallel=2 ./dist/ "${{ secrets.FTP_SERVER_DIR }}"
