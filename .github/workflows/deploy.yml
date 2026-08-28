@@ -31,10 +31,13 @@ jobs:
           }
 
           $remoteDir = $env:FTP_SERVER_DIR.Trim("/")
+          $passwordPath = Join-Path $env:RUNNER_TEMP "winscp-password.txt"
+          Set-Content -Path $passwordPath -Value $env:FTP_PASSWORD -Encoding UTF8
+
           $script = @(
             "option batch abort",
             "option confirm off",
-            "open ftpes://$($env:FTP_USERNAME):$($env:FTP_PASSWORD)@$($env:FTP_SERVER)/ -explicitssl -passive=on -certificate=*",
+            "open ftp://$($env:FTP_SERVER)/ -explicit -passive=on -certificate=* -username=`"$($env:FTP_USERNAME)`" -password=`"$passwordPath`" -passwordsfromfiles",
             "synchronize remote -delete `"dist`" `"/$remoteDir`"",
             "ls `"/$remoteDir`"",
             "exit"
