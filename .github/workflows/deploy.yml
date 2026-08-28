@@ -32,7 +32,7 @@ jobs:
 
           $remoteDir = $env:FTP_SERVER_DIR.Trim("/")
           $passwordPath = Join-Path $env:RUNNER_TEMP "winscp-password.txt"
-          Set-Content -Path $passwordPath -Value $env:FTP_PASSWORD -Encoding UTF8
+          [System.IO.File]::WriteAllText($passwordPath, $env:FTP_PASSWORD, [System.Text.Encoding]::ASCII)
 
           $script = @(
             "option batch abort",
