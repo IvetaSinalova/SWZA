@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Startup Weekend Preview"
+AuthUserFile /ABSOLUTE/SERVER/PATH/TO/startupweekendzilina.sk/.htpasswd-preview
+Require valid-user

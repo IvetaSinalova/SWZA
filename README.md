@@ -222,14 +222,59 @@ npm run preview
 
 ## Nasadenie
 
-GitHub Actions je nastavene bezpecne iba na kontrolu buildu. Pri kazdom pushi do branche `main` sa spusti:
+GitHub Actions je nastavene tak, aby po pushi do branche `main` spravilo build a nahralo stranku na Websupport cez FTPS.
 
-```powershell
+```text
 npm ci
 npm run build
+nahratie dist/ na Websupport
 ```
 
-Samotne nahratie na Websupport sa spusta lokalne z tvojho PC. Je to bezpecnejsie ako self-hosted runner v public GitHub repozitari a zaroven to obchadza problem, ze Websupport FTP odmieta GitHub hosted runnery.
+Secrets v GitHube:
+
+```text
+FTP_SERVER=startupweekendzilina.sk
+FTP_USERNAME=tvoje FTP meno
+FTP_PASSWORD=tvoje FTP heslo
+FTP_SERVER_DIR=startupweekendzilina.sk/web/preview
+```
+
+Preview URL po deployi:
+
+```text
+https://www.startupweekendzilina.sk/preview/
+```
+
+Ak GitHub Actions pada po prihlaseni na FTP, skontroluj vo Websupporte pri FTP ucte `Geo ochrana` a `IP ochrana`. GitHub runner nemusi bezat zo Slovenska, preto musi byt Geo ochrana vypnuta alebo povolena pre krajinu runnera.
+
+## Zaheslovanie preview
+
+Podklady pre HTTP Basic Auth su v:
+
+```text
+auth/
+```
+
+Skript `public/path.php` sluzi iba na zistenie absolutnej serverovej cesty. Po deployi ho otvor:
+
+```text
+https://www.startupweekendzilina.sk/preview/path.php
+```
+
+Vypise cestu k priecinku `preview`. Podla nej uprav `AuthUserFile` v:
+
+```text
+auth/.htaccess
+```
+
+Potom nahraj:
+
+```text
+auth/.htaccess -> startupweekendzilina.sk/web/preview/.htaccess
+.htpasswd-preview -> startupweekendzilina.sk/.htpasswd-preview
+```
+
+Subor `.htpasswd-preview` nechaj mimo `web` priecinka. Nevkladaj realne heslo do Gitu. Po zisteni cesty zmaz `public/path.php` z projektu aj zo servera.
 
 ### Lokalny deploy na Websupport
 
