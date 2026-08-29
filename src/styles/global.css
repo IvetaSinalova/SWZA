@@ -339,4 +339,5 @@ button,input,textarea,select{font-family:Manrope,sans-serif}
   .topbar{height:48px}
   .topbar nav{display:none}
   .hero-figma{padding-top:72px}
+  .ticker{min-height:54px;height:54px;padding:4px 0 8px;font-size:clamp(28px,8vw,40px);line-height:1.05}
 }
