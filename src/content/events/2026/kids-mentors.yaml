@@ -1,5 +1,7 @@
 heading: KIDS MENTORS
 intro: A SPECIAL MENTORING TEAM FOR YOUNG CREATORS WILL JOIN THE STARTUP WEEKEND EXPERIENCE.
-note: ANNOUNCING SOON.
-announcementStatus: partial
-announcementText: MORE ANNOUNCEMENTS SOON.
+introHtml: >-
+  A <strong>SPECIAL MENTORING TEAM</strong> FOR <strong>YOUNG
+  CREATORS</strong> WILL JOIN THE <strong>STARTUP WEEKEND
+  EXPERIENCE</strong>.
+announcementStatus: upcoming

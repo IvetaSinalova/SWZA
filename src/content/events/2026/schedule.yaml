@@ -1,5 +1,9 @@
 heading: SCHEDULE
 intro: A FULL WEEKEND OF IDEAS, TEAMWORK, MENTORSHIP AND PITCHING.
+introHtml: >-
+  A <strong>FULL WEEKEND</strong> OF <strong>IDEAS</strong>,
+  <strong>TEAMWORK</strong>, <strong>MENTORSHIP</strong> AND
+  <strong>PITCHING</strong>.
 utcOffset: "+02:00"
 days:
   - name: FRIDAY

@@ -1,5 +1,9 @@
 heading: FACILITATOR
 intro: MEET THE KEYNOTE SPEAKER, WORKSHOP FACILITATOR, AND CONFERENCE EMCEE WHO WILL HELP BRING THE WEEKEND TO LIFE.
+introHtml: >-
+  MEET THE <strong>KEYNOTE SPEAKER</strong>, <strong>WORKSHOP
+  FACILITATOR</strong>, AND <strong>CONFERENCE EMCEE</strong> WHO WILL
+  HELP BRING THE WEEKEND TO LIFE.
 announcementStatus: complete
 items:
   - name: Nathan Minns

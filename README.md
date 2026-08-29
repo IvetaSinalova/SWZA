@@ -18,6 +18,8 @@ Patria sem:
 - `about.yaml` - About sekcia
 - `essence.yaml` - hlavny text a doplnkovy text v Essence
 - `benefits.yaml` - Benefits / What we provide
+- `mentors.yaml` - spolocny bocny text pre sekciu Mentors
+- `announcements.yaml` - spolocne texty pre stavy `upcoming` a `partial`
 - `statement.yaml` - zaverecny text
 
 ### Udaje konkretneho rocnika
@@ -28,7 +30,7 @@ Udaje, ktore sa menia kazdy rok, su v:
 src/content/events/2026/
 ```
 
-- `location.yaml` - mesto, rok, datum zaciatku a konca eventu
+- `location.yaml` - mesto, nazov venuu (`venue`), text sekcie Location (`description`), datum zaciatku a konca eventu, link na mapu (`mapUrl`)
 - `tickets.yaml` - ticket / registracny odkaz
 - `mentors.yaml` - mentori
 - `kids-mentors.yaml` - kids mentori
@@ -53,7 +55,7 @@ Vsetky zobrazene roky na stranke sa odvadzaju z tejto hodnoty a z priecinka aktu
 1. Vytvor priecinok `src/content/events/2027/`.
 2. Vytvor priecinok `public/images/events/2027/` s podpriecinkami pre fotky ludi noveho rocnika.
 3. Skopiruj do noveho content priecinka `location.yaml`, `tickets.yaml`, `mentors.yaml`, `kids-mentors.yaml`, `judges.yaml`, `facilitator.yaml` a `schedule.yaml`.
-4. V `location.yaml` nastav nove datumy, mesto a rok.
+4. V `location.yaml` nastav nove datumy, mesto, `venue`, `description` a `mapUrl`.
 5. V `tickets.yaml` vloz novy ticket link.
 6. Aktualizuj ludi v prislusnych YAML suboroch.
 7. Aktualizuj program v `schedule.yaml`.
@@ -63,19 +65,23 @@ Komponenty a dizajn sa nemenia. Spolocne texty v `src/content/common/` netreba k
 
 ## Oznamy pri ludoch
 
-V YAML subore mozes nastavit:
+V YAML subore pri ludoch nastavuj iba:
 
 ```yaml
 announcementStatus: partial
-announcementText: MORE ANNOUNCEMENTS SOON.
 ```
 
 Pouzivane hodnoty:
 
+- `upcoming` - zatial nie su zadani ziadni ludia; zobrazi sa `ANNOUNCING SOON.`
 - `partial` - niektori ludia uz su zadani, dalsi budu doplneni; zobrazi sa `MORE ANNOUNCEMENTS SOON.`
-- `partial` bez ludi - zobrazi sa `ANNOUNCING SOON.`
-- `upcoming` - zatial nie su zadani ziadni ludia; oznam sa nezobrazi
 - `complete` - zoznam je kompletny a oznam sa nezobrazi
+
+Texty pre tieto stavy su spolocne pre vsetky people sekcie a menia sa v:
+
+```text
+src/content/common/announcements.yaml
+```
 
 Po skonceni eventu sa oznamy automaticky skryju a zobrazia sa ludia z posledneho rocnika spolu s hlaskou `SEE YOU NEXT YEAR!`.
 
@@ -89,6 +95,13 @@ end: "2026-10-11T22:00:00+02:00"
 ```
 
 Countdown sa aktualizuje automaticky. Po zaciatku eventu zostane vynulovany a zobrazi sa live hlaska s odkazom na schedule. Po skonceni eventu sa zobrazi podakovanie.
+
+Text sekcie `LOCATION` sa tiez meni v `src/content/events/2026/location.yaml`, konkretne cez:
+
+```yaml
+venue: AT Park
+description: "Event will take place in AT Park, a modern venue located just outside Žilina city center."
+```
 
 ## Ako upravit Schedule
 
@@ -222,83 +235,60 @@ npm run preview
 
 ## Nasadenie
 
-GitHub Actions je nastavene tak, aby po pushi do branche `main` spravilo build a nahralo stranku na Websupport cez FTPS.
+Hlavna cesta nasadenia je:
+
+```text
+git push -> GitHub Actions -> Websupport
+```
+
+Workflow je v:
+
+```text
+.github/workflows/deploy.yml
+```
+
+Po pushi do branche `main` GitHub Actions spravi:
 
 ```text
 npm ci
-npm run build
-nahratie dist/ na Websupport
+ASTRO_BASE_PATH=/preview/ npm run build
+nahratie dist/ na Websupport cez FTPS
 ```
 
-Secrets v GitHube:
+Pouzity deploy action:
 
 ```text
-FTP_SERVER=startupweekendzilina.sk
-FTP_USERNAME=tvoje FTP meno
-FTP_PASSWORD=tvoje FTP heslo
-FTP_SERVER_DIR=startupweekendzilina.sk/web/preview
+SamKirkland/FTP-Deploy-Action@v4.4.0
 ```
 
-Preview URL po deployi:
+Potrebne GitHub secrets:
+
+```text
+FTP_SERVER
+FTP_USERNAME
+FTP_PASSWORD
+FTP_SERVER_DIR
+```
+
+Pre preview ma byt `FTP_SERVER_DIR` nastavene na:
+
+```text
+startupweekendzilina.sk/web/preview
+```
+
+Preview URL:
 
 ```text
 https://www.startupweekendzilina.sk/preview/
 ```
 
-Ak GitHub Actions pada po prihlaseni na FTP, skontroluj vo Websupporte pri FTP ucte `Geo ochrana` a `IP ochrana`. GitHub runner nemusi bezat zo Slovenska, preto musi byt Geo ochrana vypnuta alebo povolena pre krajinu runnera.
-
-### Lokalny deploy na Websupport
-
-V terminali otvor projekt:
-
-```powershell
-cd C:\Users\GLOBESY\Desktop\SWZA
-```
-
-Spusti:
-
-```powershell
-npm run deploy
-```
-
-Skript sa spyta na:
-
-- `FTP server` - napriklad `startupweekendzilina.sk`
-- `FTP username` - FTP prihlasovacie meno z Websupportu
-- `FTP password` - aktualne FTP heslo
-- `FTP target directory` - cielovy priecinok na hostingu
-
-Pre preview pouzi cielovy priecinok:
+Astro je pripravene na deploy pod `/preview/` takto:
 
 ```text
-startupweekendzilina.sk/web/preview/
+ASTRO_BASE_PATH=/preview/
+base: process.env.ASTRO_BASE_PATH || '/'
 ```
 
-Pre produkciu pouzi:
+Ak workflow padne po FTP prihlaseni alebo tesne po `PASS`, skontroluj vo Websupporte pri FTP ucte `Geo ochrana`. GitHub runner nemusi bezat zo Slovenska, preto musi byt Geo ochrana vypnuta alebo povolena pre krajinu runnera. `IP ochrana` bola vypnuta.
 
-```text
-startupweekendzilina.sk/web/
-```
-
-Skript najprv spusti `npm run build`, potom overi FTP prihlasenie a nahra obsah priecinka `dist/` na Websupport.
-
-Rychle skratky:
-
-```powershell
-npm run deploy:preview
-npm run deploy:production
-```
-
-`web` je nazov priecinka vo Websupport FTP, nie cast verejnej URL. Preview po nahrati otvor na `https://www.startupweekendzilina.sk/preview/`.
-
-Ak nechces zadavat udaje pri kazdom spusteni, mozes ich pred deployom nastavit iba v aktualnom terminali:
-
-```powershell
-$env:FTP_SERVER = "startupweekendzilina.sk"
-$env:FTP_USERNAME = "tvoje-ftp-meno"
-$env:FTP_PASSWORD = "tvoje-ftp-heslo"
-$env:FTP_SERVER_DIR = "startupweekendzilina.sk/web/preview/"
-npm run deploy
-```
-
-Tieto hodnoty sa ulozia iba pre otvorene terminalove okno, nie do projektu.
+Lokalny deploy cez WinSCP alebo manualne nahravanie uz nie je odporucana hlavna cesta. Cielovy flow pre tento projekt je vzdy `git push` a nasledny deploy cez GitHub Actions.

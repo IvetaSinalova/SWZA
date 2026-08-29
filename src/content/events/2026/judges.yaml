@@ -1,8 +1,10 @@
 heading: JUDGES
 intro: EXPERIENCED FOUNDERS AND INVESTORS HELPING TEAMS SHARPEN THEIR IDEAS, VALIDATE THEIR VALUE, AND TELL A STORY THAT STANDS OUT.
-note: MORE ANNOUNCEMENTS SOON.
+introHtml: >-
+  <strong>EXPERIENCED FOUNDERS AND INVESTORS</strong> HELPING TEAMS
+  <strong>SHARPEN THEIR IDEAS</strong>, <strong>VALIDATE THEIR
+  VALUE</strong>, AND TELL A <strong>STORY THAT STANDS OUT</strong>.
 announcementStatus: partial
-announcementText: MORE ANNOUNCEMENTS SOON.
 items:
   - name: Miroslava Šáchová
     company: Asociácia AI, ASAI
