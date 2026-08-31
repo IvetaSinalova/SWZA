@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { parse } from 'yaml';
 import rawSite from '../content/site.yaml?raw';
@@ -28,6 +28,9 @@ const essence = commonContent('essence.yaml');
 const benefits = commonContent('benefits.yaml');
 const mentorsCommon = commonContent('mentors.yaml');
 const announcements = commonContent('announcements.yaml');
+const faqContent = commonContent('faq.yaml');
+const faqText = (html) => html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+const faqPreviewText = (text) => text.length > 100 ? `${text.slice(0, 100).trimEnd()}...` : text;
 const formatLocationDate = (value) => {
   const date = new Date(value);
   const months = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
@@ -42,6 +45,9 @@ const locationSection = {
   mapUrl: location.mapUrl,
   mapEmbedUrl: `${location.mapUrl}${location.mapUrl.includes('?') ? '&' : '?'}output=embed`,
 };
+const footerYearLabel = `SWZA${eventYear.slice(-2)}`;
+const calendarDate = (value) => new Date(value).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(site.title)}&dates=${calendarDate(location.start)}/${calendarDate(location.end)}&details=${encodeURIComponent(`${site.description}\n\nVenue: ${location.venue}\nMap: ${location.mapUrl}`)}&location=${encodeURIComponent(`${location.venue}, ${location.city}`)}`;
 const withAnnouncement = (data) => {
   if (data.announcementStatus === 'upcoming') {
     return { ...data, note: announcements.upcoming };
@@ -57,6 +63,23 @@ const judges = withAnnouncement(withEventImages(eventContent('judges.yaml'), 'ju
 const facilitator = withAnnouncement(withEventImages(eventContent('facilitator.yaml'), 'facilitator'));
 const statement = commonContent('statement.yaml');
 const tickets = eventContent('tickets.yaml');
+const memoriesContent = commonContent('memories.yaml');
+const youtubeEmbedUrl = (url) => {
+  const parsedUrl = new URL(url);
+  const id = parsedUrl.hostname.includes('youtu.be') ? parsedUrl.pathname.slice(1) : parsedUrl.searchParams.get('v');
+  return `https://www.youtube.com/embed/${id}`;
+};
+const memories = {
+  ...memoriesContent,
+  years: memoriesContent.years.map((item) => ({ ...item, embedUrl: youtubeEmbedUrl(item.url) })),
+};
+const faq = {
+  ...faqContent,
+  items: faqContent.items.map((item) => {
+    const answerText = item.answerText ?? faqText(item.answerHtml);
+    return { ...item, answerText, previewText: faqPreviewText(answerText) };
+  }),
+};
 const formatScheduleLabel = (date) => {
   const months = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
   return `${String(date.getUTCDate()).padStart(2, '0')} ${months[date.getUTCMonth()]}`;
@@ -79,42 +102,120 @@ const schedule = {
 const galleryImages = readdirSync(join(process.cwd(), 'public/images/home/about/gallery'))
   .filter((file) => /\.(jpe?g|png|webp|avif|gif)$/i.test(file))
   .map((file) => `${sharedImageRoot}/about/gallery/${encodeURIComponent(file)}`);
+const partnerRoot = join(process.cwd(), `public/images/events/${eventYear}/partners`);
+const partnerPriority = ['main', 'gold', 'silver', 'price', 'prize'];
+const partners = existsSync(partnerRoot)
+  ? readdirSync(partnerRoot, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .sort((a, b) => {
+      const aRank = partnerPriority.indexOf(a.name.toLowerCase());
+      const bRank = partnerPriority.indexOf(b.name.toLowerCase());
+      return (aRank < 0 ? partnerPriority.length : aRank) - (bRank < 0 ? partnerPriority.length : bRank) || a.name.localeCompare(b.name);
+    })
+    .flatMap((tier) => readdirSync(join(partnerRoot, tier.name))
+      .filter((file) => /\.(jpe?g|png|webp|avif|gif)$/i.test(file))
+      .sort((a, b) => a.localeCompare(b))
+      .map((file) => ({
+        tier: tier.name.toLowerCase(),
+        format: file.split('.').pop()?.toLowerCase() ?? '',
+        name: file.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' '),
+        image: `${assetPath(`/images/events/${eventYear}/partners`)}/${encodeURIComponent(tier.name)}/${encodeURIComponent(file)}`,
+      })))
+  : [];
 ---
 <BaseLayout title={site.title} description={site.description}>
   <header class="topbar"><a class="mini-logo" href="#top"><span>techstars</span><strong>Startup Weekend</strong><b>{hero.city}</b></a><nav><a href="#top">HOME</a><a href="#about">ABOUT</a><a href="#mentors">MENTORS</a><a href="#faq">FAQ</a><a href="#schedule">SCHEDULE</a><a href="#location">LOCATION</a><a href="#partners">PARTNERS</a><a href="#contact">CONTACT</a></nav><a class="buy" href={tickets.buyUrl} target="_blank" rel="noopener noreferrer">BUY TICKETS <img src={assetPath('/images/tickets.png')} alt="" aria-hidden="true" /></a></header>
   <main id="top">
-    <section class="hero-figma"><h1>{hero.title} <em>{hero.city}</em></h1><div class="hero-lower"><div class="welcome-collage" aria-label={`${site.title} community`}><img src={`${sharedImageRoot}/welcome/speaker.jpg`} alt="Speaker addressing the Startup Weekend audience"/><img src={`${sharedImageRoot}/welcome/collaboration.jpg`} alt="Startup Weekend participants collaborating"/><img src={`${sharedImageRoot}/welcome/team.jpg`} alt="Startup Weekend team"/><img src={`${sharedImageRoot}/welcome/workshop.jpg`} alt="Workshop speaker presenting"/><strong aria-hidden="true">S</strong></div><div class="hero-signup"><div class="event-status" data-start={hero.start} data-end={hero.end} data-next-start={hero.nextStart || ""} data-year={hero.currentYear} data-live-title={hero.liveTitle} data-live-text={hero.liveText} data-past-title={hero.pastTitle} data-past-text={hero.pastText}><div class="digits" data-countdown><span><b data-unit="days">00</b><small>Days</small></span><span><b data-unit="hours">00</b><small>Hours</small></span><span><b data-unit="minutes">00</b><small>Minutes</small></span><span><b data-unit="seconds">00</b><small>Seconds</small></span></div><div class="event-message" hidden><strong data-message-title></strong><p data-message-text></p></div></div></div></div><div class="hero-notes"><span>{hero.cornerNote}</span><span>{hero.weekendNote}</span></div></section>
+    <section class="hero-figma"><h1>{hero.title} <em>{hero.city}</em></h1><div class="hero-lower"><div class="welcome-collage" aria-label={`${site.title} community`}><img src={`${sharedImageRoot}/welcome/speaker.jpg`} alt="Speaker addressing the Startup Weekend audience"/><img src={`${sharedImageRoot}/welcome/collaboration.jpg`} alt="Startup Weekend participants collaborating"/><img src={`${sharedImageRoot}/welcome/team.jpg`} alt="Startup Weekend team"/><img src={`${sharedImageRoot}/welcome/workshop.jpg`} alt="Workshop speaker presenting"/><strong aria-hidden="true">S</strong></div><div class="hero-signup"><div class="event-status" data-start={hero.start} data-end={hero.end} data-next-start={hero.nextStart || ""} data-year={hero.currentYear} data-live-title={hero.liveTitle} data-live-text={hero.liveText} data-past-title={hero.pastTitle} data-past-text={hero.pastText}><div class="digits" data-countdown><span><b data-unit="days">00</b><small>Days</small></span><span><b data-unit="hours">00</b><small>Hours</small></span><span><b data-unit="minutes">00</b><small>Minutes</small></span><span><b data-unit="seconds">00</b><small>Seconds</small></span></div><div class="event-message" hidden><strong data-message-title></strong><p data-message-text></p></div></div><a class="footer-calendar hero-calendar" href={calendarUrl} target="_blank" rel="noopener noreferrer"><span aria-hidden="true">▰</span> ADD THIS EVENT INTO YOUR CALENDAR</a></div></div><div class="hero-notes"><span>{hero.cornerNote}</span><span>{hero.weekendNote}</span></div></section>
     <div class="ticker"><div class="ticker-track"><span>{hero.ticker}</span><span>{hero.ticker}</span><span>{hero.ticker}</span><span>{hero.ticker}</span></div></div>
     <section class="about-figma shell" id="about"><div class="section-head"><h2>{about.heading}</h2><p set:html={about.introHtml ?? about.intro}></p></div><div class="green-rule"><span class="s-solid-green">S</span> <span class="s-solid-green">S</span></div><div class="about-photos"><img src={`${sharedImageRoot}/about/participant.jpg`} alt="Startup Weekend participant working"/><img src={`${sharedImageRoot}/about/audience.jpg`} alt="Startup Weekend audience"/></div><div class="photo-caption"><span>{about.photoCredit}</span><span>{about.photoYear}</span></div></section>
     <section class="essence shell"><div class="essence-label">{essence.label} <b class="s-black">S</b></div><p set:html={essence.textHtml ?? essence.text}></p><div class="thumb-row"><div class="essence-gallery">{galleryImages.slice(0, 4).map((image, index) => <button type="button" class="gallery-thumb" data-gallery-image={image} aria-label={`Open gallery image ${index + 1}`}><img src={image} alt={`Startup Weekend moment ${index + 1}`}/></button>)}</div><small set:html={essence.noteHtml ?? essence.note}></small></div></section>
     <dialog class="gallery-lightbox" aria-label="Startup Weekend photo gallery"><button type="button" class="gallery-close" aria-label="Close image">×</button><img data-lightbox-image src="" alt=""/></dialog>
-    <section class="benefits-figma shell" id="partners"><div class="section-head"><h2>{benefits.heading}</h2><p set:html={benefits.introHtml ?? benefits.intro}></p></div><div class="green-rule"><span class="s-outline-green">S</span> <span class="s-outline-green">S</span></div><div class="benefit-grid">{benefits.items.map((item) => <article><h3>{item.title}</h3><p set:html={item.textHtml ?? item.text}></p></article>)}</div></section>
-      <section class="mentors-figma shell" id="mentors"><div class="section-head mentor-head"><h2>{mentors.heading} <em>{mentors.year}</em></h2><p set:html={mentors.introHtml ?? mentors.intro}></p></div><p class="section-note">{mentors.note}</p><div class="green-rule"></div><div class="mentor-carousel"><button class="mentor-arrow mentor-prev" type="button" aria-label="Previous mentors"><span aria-hidden="true">←</span></button><div class="mentor-viewport"><div class="mentor-cards">{[...mentors.items, ...mentors.items].map((mentor, index) => <article class="mentor-card" aria-hidden={index >= mentors.items.length}><div class="mentor-meta"><span>{mentor.name}</span>{mentor.country && <span>{mentor.country}</span>}</div>{mentor.role && <span class="mentor-role">{mentor.role}</span>}<img src={mentor.image} alt={mentor.name}/>{mentor.text && <p>{mentor.text}</p>}</article>)}</div></div><button class="mentor-arrow mentor-next" type="button" aria-label="Next mentors"><span aria-hidden="true">→</span></button></div></section>
+    <section class="benefits-figma shell"><div class="section-head"><h2>{benefits.heading}</h2><p set:html={benefits.introHtml ?? benefits.intro}></p></div><div class="green-rule"><span class="s-outline-green">S</span> <span class="s-outline-green">S</span></div><div class="benefit-grid">{benefits.items.map((item) => <article><h3>{item.title}</h3><p set:html={item.textHtml ?? item.text}></p></article>)}</div></section>
+      <section class="mentors-figma shell" id="mentors"><div class="section-head mentor-head"><h2>{mentors.heading} <em>{mentors.year}</em></h2></div><p class="section-note">{mentors.note}</p><div class="green-rule"></div><div class="mentor-carousel"><button class="mentor-arrow mentor-prev" type="button" aria-label="Previous mentors"><span aria-hidden="true">←</span></button><div class="mentor-viewport"><div class="mentor-cards">{[...mentors.items, ...mentors.items].map((mentor, index) => <article class="mentor-card" aria-hidden={index >= mentors.items.length}><div class="mentor-meta"><span>{mentor.name}</span>{mentor.country && <span>{mentor.country}</span>}</div>{mentor.role && <span class="mentor-role">{mentor.role}</span>}<img src={mentor.image} alt={mentor.name}/>{mentor.text && <p>{mentor.text}</p>}</article>)}</div></div><button class="mentor-arrow mentor-next" type="button" aria-label="Next mentors"><span aria-hidden="true">→</span></button></div></section>
     <section class="children-mentors-figma shell"><div class="section-head mentor-head"><h2>{childrenMentors.heading} <em>{childrenMentors.year}</em></h2><p set:html={childrenMentors.introHtml ?? childrenMentors.intro}></p></div><p class="section-note">{childrenMentors.note}</p><div class="green-rule"></div></section>
     <section class="judges-figma shell" id="judges"><div class="section-head mentor-head"><h2>{judges.heading} <em>{judges.year}</em></h2><p set:html={judges.introHtml ?? judges.intro}></p></div><p class="section-note">{judges.note}</p><div class="green-rule"></div><div class="judges-cards">{judges.items.map((judge) => <article class="mentor-card judge-card"><div class="mentor-meta"><span>{judge.name}</span><span>{judge.company}</span></div><span class="mentor-role">{judge.role}</span><img src={judge.image} alt={judge.name}/><p>{judge.text}</p></article>)}</div></section>
-    <section class="facilitator-figma shell" id="facilitator"><div class="section-head mentor-head"><h2>{facilitator.heading} <em>{facilitator.year}</em></h2><p set:html={facilitator.introHtml ?? facilitator.intro}></p></div><div class="green-rule"></div><div class="facilitator-card-wrap">{facilitator.items.map((person) => <article class="mentor-card judge-card facilitator-card"><div class="mentor-meta"><span>{person.name}</span><span>{person.country}</span></div><span class="mentor-role">{person.role}</span><img src={person.image} alt={person.name}/><p>{person.text}</p></article>)}</div></section>
+      <section class="facilitator-figma shell" id="facilitator"><div class="section-head mentor-head"><h2>{facilitator.heading} <em>{facilitator.year}</em></h2><p set:html={facilitator.introHtml ?? facilitator.intro}></p></div><div class="green-rule"></div><div class="facilitator-card-wrap">{facilitator.items.map((person) => <article class="mentor-card judge-card facilitator-card"><div class="mentor-meta"><span>{person.name}</span><span>{person.country}</span></div><span class="mentor-role">{person.role}</span><img src={person.image} alt={person.name}/><p>{person.text}</p></article>)}</div></section>
+      <section class="mentor-editorial-section shell"><div class="mentor-editorial"><p class="mentor-story">{statement.text}</p><div class="mentor-sidecopy"><p>{mentors.featureLeft}</p><p>{mentors.featureRight}</p></div><div class="mentor-stars" aria-hidden="true">{Array.from({ length: 7 }, (_, row) => <div class={`mentor-stars-row${row % 2 ? ' is-offset' : ''}`}>{Array.from({ length: 32 }, (_, star) => <img src={assetPath('/Star.png')} alt="" data-star={star}/>)}</div>)}</div></div></section>
+      <section class="partner-showcase shell" id="partners"><div class="partner-heading"><h2>TOGETHER,<br/>WE DO GREAT THINGS.</h2><img src={assetPath('/star-sponsor.png')} alt="" aria-hidden="true"/></div><div class="partner-rule"></div><div class="partner-grid">{partners.map((partner) => <article class={`partner-card partner-card--${partner.tier}`}><img src={partner.image} alt={partner.name} loading="lazy" data-logo-format={partner.format}/></article>)}</div></section>
+      <section class="memories-section shell" id="memories"><div class="memories-head"><h2>{memories.heading}</h2><p set:html={memories.introHtml ?? memories.intro}></p></div><div class="memory-years" role="tablist" aria-label="Memory videos by year">{memories.years.map((item, index) => <button type="button" class={`memory-year${index === memories.years.length - 1 ? ' is-active' : ''}`} data-memory-year data-video-src={item.embedUrl} aria-pressed={index === memories.years.length - 1 ? 'true' : 'false'}>{item.year}</button>)}</div><div class="memory-video"><iframe data-memory-video src={memories.years[memories.years.length - 1].embedUrl} title={`Startup Weekend Zilina ${memories.years[memories.years.length - 1].year} memory video`} loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></section>
+      <section class="faq-section shell" id="faq"><div class="faq-head"><h2>{faq.heading}</h2><p set:html={faq.introHtml ?? faq.intro}></p></div><div class="faq-list">{faq.items.map((item) => <details class="faq-item"><summary><span class="faq-question">{item.question}</span><span class="faq-preview"><span class="faq-preview-short">{item.previewText}</span><span class="faq-preview-full">{item.answerText}</span></span><span class="faq-plus" aria-hidden="true"></span></summary></details>)}</div></section>
       <section class="schedule-figma shell" id="schedule"><div class="section-head schedule-head"><h2>{schedule.heading} <em>{schedule.year}</em></h2><p set:html={schedule.introHtml ?? schedule.intro}></p></div><div class="schedule-days">{schedule.days.map((day, dayIndex) => <section class="schedule-day" data-schedule-day><header><span class="schedule-day-number">{String(dayIndex + 1).padStart(2, '0')}</span><h3>{day.name}</h3><time datetime={day.date}>{day.label}</time><span class="schedule-day-live">LIVE TODAY</span></header><div class="schedule-list">{day.items.map((item) => <article class="schedule-item" data-schedule-item data-start={`${day.date}T${item.time}:00${schedule.utcOffset}`} data-end={`${day.date}T${item.end}:00${schedule.utcOffset}`}><time datetime={`${day.date}T${item.time}:00${schedule.utcOffset}`}>{item.time}</time><div class="schedule-title"><strong>{item.title}</strong>{item.access && <span>{item.access}</span>}</div><span class="schedule-now"><i></i>HAPPENING NOW</span></article>)}</div></section>)}</div></section>
       <section class="location-figma shell" id="location"><div class="section-head"><h2>{locationSection.heading}</h2></div><div class="green-rule"></div><div class="location-panel"><div class="location-map-frame"><iframe src={locationSection.mapEmbedUrl} title={`Google Maps for ${locationSection.city}`} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div><aside class="location-card"><div><span class="location-eyebrow">VENUE / {locationSection.city.toUpperCase()}</span><h3 class="location-venue"><span>AT</span> PARK</h3><p class="location-description">{locationSection.description}</p></div><div class="location-card-footer"><a href={locationSection.mapUrl} target="_blank" rel="noopener noreferrer">OPEN IN GOOGLE MAPS <span aria-hidden="true">↗</span></a></div></aside></div></section>
-      <section class="statement shell" id="contact">{statement.text}</section>
+      <section class="contact-anchor" id="contact" aria-hidden="true"></section>
   </main>
+  <footer class="site-footer"><div class="footer-top"><div class="footer-cta"><h2>DON'T MISS <span>{footerYearLabel}</span>!</h2><div class="event-status" data-start={hero.start} data-end={hero.end} data-next-start={hero.nextStart || ""} data-year={hero.currentYear} data-live-title={hero.liveTitle} data-live-text={hero.liveText} data-past-title={hero.pastTitle} data-past-text={hero.pastText}><div class="digits footer-digits" data-countdown><span><b data-unit="days">00</b><small>Days</small></span><span><b data-unit="hours">00</b><small>Hours</small></span><span><b data-unit="minutes">00</b><small>Minutes</small></span><span><b data-unit="seconds">00</b><small>Seconds</small></span></div><div class="event-message" hidden><strong data-message-title></strong><p data-message-text></p></div></div><a class="footer-calendar" href={calendarUrl} target="_blank" rel="noopener noreferrer"><span aria-hidden="true">▰</span> ADD THIS EVENT INTO YOUR CALENDAR</a><nav class="footer-socials" aria-label="Startup Weekend Žilina social profiles"><a href="https://www.facebook.com/profile.php?id=61592256595334" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.2 8.1V6.4c0-.8.5-1 1-1h2.1V2.1L14.4 2c-3.2 0-4.8 1.9-4.8 5.1v1H6.4v3.7h3.2V22h4.1V11.8h3.1l.5-3.7h-3.1Z"/></svg></a><a href="https://www.instagram.com/startupweekendzilina/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M7.2 2h9.6A5.2 5.2 0 0 1 22 7.2v9.6a5.2 5.2 0 0 1-5.2 5.2H7.2A5.2 5.2 0 0 1 2 16.8V7.2A5.2 5.2 0 0 1 7.2 2Zm0 2A3.2 3.2 0 0 0 4 7.2v9.6A3.2 3.2 0 0 0 7.2 20h9.6a3.2 3.2 0 0 0 3.2-3.2V7.2A3.2 3.2 0 0 0 16.8 4H7.2Zm9.9 2.3a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4ZM12 7.2a4.8 4.8 0 1 0 0 9.6 4.8 4.8 0 0 0 0-9.6Zm0 2a2.8 2.8 0 1 1 0 5.6 2.8 2.8 0 0 1 0-5.6Z" clip-rule="evenodd"/></svg></a><a href="https://www.linkedin.com/company/startup-weekend-%C5%BEilina/posts/?feedView=all" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.8 8.9H3V21h3.8V8.9ZM4.9 3a2.2 2.2 0 1 0 0 4.4 2.2 2.2 0 0 0 0-4.4Zm6.3 5.9H7.6V21h3.8v-6.3c0-1.7.3-3.3 2.4-3.3 2 0 2 1.9 2 3.4V21h3.8v-7c0-3.4-.7-5.9-4.6-5.9-1.8 0-3.1 1-3.6 2h-.1V8.9Z"/></svg></a><a href="https://x.com/SWZilina" target="_blank" rel="noopener noreferrer" aria-label="X"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.2 10.4 22.1 2h-2.7l-6.5 6.9L7.7 2H1.9l8 10.6L1.5 22h2.7l7-7.8 5.8 7.8h5.7l-8.5-11.6Zm-2 2.2-1.2-1.7L5.6 4h1.2l13 16h-1.2l-6.4-7.4Z"/></svg></a><a href="https://www.youtube.com/channel/UCh7F5i8Cx28FEMAT6CHMvuQ" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M21.6 7.2s-.2-1.6-.9-2.3c-.9-.9-1.8-.9-2.2-1C15.4 3.7 12 3.7 12 3.7s-3.4 0-6.5.2c-.4.1-1.3.1-2.2 1-.7.7-.9 2.3-.9 2.3S2.2 9.1 2.2 11v1.8c0 1.9.2 3.8.2 3.8s.2 1.6.9 2.3c.9.9 2 .9 2.5 1 1.8.2 6.2.2 6.2.2s3.4 0 6.5-.3c.4 0 1.3-.1 2.2-.9.7-.7.9-2.3.9-2.3s.2-1.9.2-3.8V11c0-1.9-.2-3.8-.2-3.8ZM9.9 15.1V8.5l6.4 3.3-6.4 3.3Z" clip-rule="evenodd"/></svg></a></nav></div><img class="footer-star" src={assetPath('/footer-star.png')} alt="" aria-hidden="true"/><div class="footer-countdown"><p>OUR PRESTIGIOUS TRADITION EMPOWERS THE <b>NEXT GENERATION OF CREATORS AND THINKERS.</b> CONNECT WITH MASTERS, ELEVATE YOUR CRAFT, AND SHAPE TOMORROW'S IMPACT.</p></div></div><div class="footer-wordmark">Startup Weekend <span>Žilina</span></div></footer>
 </BaseLayout>
 <script>
   const topbar = document.querySelector('.topbar');
   const updateTopbarState = () => topbar?.classList.toggle('is-scrolled', window.scrollY > 4);
   updateTopbarState(); window.addEventListener('scroll', updateTopbarState, { passive: true });
-  const status = document.querySelector('[data-start]');
-  const countdown = status?.querySelector('[data-countdown]');
-  const message = status?.querySelector('.event-message');
-  const setMessage = (title, text, isLive = false, keepCountdown = false) => { countdown.hidden = !keepCountdown; message.hidden = false; message.classList.toggle('during-event', keepCountdown); const messageText = message.querySelector('[data-message-text]'); message.querySelector('[data-message-title]').textContent = title; messageText.textContent = text; if (isLive) { const link = document.createElement('a'); link.href = '#schedule'; link.textContent = ' VIEW SCHEDULE'; link.className = 'message-link'; messageText.append(link); } };
-  const updateEventState = () => {
+  const footerWordmark = document.querySelector('.footer-wordmark');
+  const fitFooterWordmark = () => {
+    if (!footerWordmark) return;
+    footerWordmark.style.setProperty('--footer-wordmark-scale', 1);
+    const availableWidth = footerWordmark.parentElement?.clientWidth ?? window.innerWidth;
+    const textWidth = footerWordmark.scrollWidth;
+    const scale = textWidth ? Math.min(1, availableWidth / textWidth) : 1;
+    footerWordmark.style.setProperty('--footer-wordmark-scale', scale);
+  };
+  fitFooterWordmark();
+  window.addEventListener('resize', fitFooterWordmark, { passive: true });
+  const mentorStarPatterns = [...document.querySelectorAll('.mentor-stars')];
+  const fitMentorStars = () => {
+    mentorStarPatterns.forEach((pattern) => {
+      const styles = getComputedStyle(pattern);
+      const width = pattern.clientWidth;
+      const maxSize = parseFloat(styles.getPropertyValue('--mentor-star-max'));
+      const targetGap = parseFloat(styles.getPropertyValue('--mentor-star-gap-target'));
+      let starSize = maxSize;
+      let count = Math.floor((width + targetGap) / (starSize + targetGap));
+      if (count < 2) {
+        count = 2;
+        const gap = Math.min(targetGap, width / 3);
+        starSize = Math.max(1, (width - gap) / count);
+      }
+      const gap = (width - count * starSize) / (count - 1);
+      const pitch = starSize + gap;
+      pattern.style.setProperty('--mentor-star-size', `${starSize}px`);
+      pattern.style.setProperty('--mentor-star-gap', `${gap}px`);
+      pattern.style.setProperty('--mentor-star-pitch', `${pitch}px`);
+      pattern.style.setProperty('--mentor-star-inset', `${pitch / 2}px`);
+      pattern.querySelectorAll('.mentor-stars-row').forEach((row) => {
+        const visibleStars = row.classList.contains('is-offset') ? count - 1 : count;
+        const stars = [...row.querySelectorAll('img')];
+        const source = stars[0]?.src;
+        while (stars.length < visibleStars && source) {
+          const star = document.createElement('img');
+          star.src = source;
+          star.alt = '';
+          star.setAttribute('aria-hidden', 'true');
+          row.append(star);
+          stars.push(star);
+        }
+        stars.forEach((star, index) => { star.hidden = index >= visibleStars; });
+      });
+      pattern.classList.add('is-ready');
+    });
+  };
+  fitMentorStars();
+  const mentorStarObserver = new ResizeObserver(fitMentorStars);
+  mentorStarPatterns.forEach((pattern) => mentorStarObserver.observe(pattern));
+  window.addEventListener('resize', fitMentorStars, { passive: true });
+  const eventStatuses = [...document.querySelectorAll('[data-start]')];
+  const setMessage = (status, countdown, message, title, text, isLive = false, keepCountdown = false) => { countdown.hidden = !keepCountdown; message.hidden = false; message.classList.toggle('during-event', keepCountdown); const messageText = message.querySelector('[data-message-text]'); message.querySelector('[data-message-title]').textContent = title; messageText.textContent = text; if (isLive) { const link = document.createElement('a'); link.href = '#schedule'; link.textContent = ' VIEW SCHEDULE'; link.className = 'message-link'; messageText.append(link); } };
+  const updateEventStatus = (status) => {
+    const countdown = status?.querySelector('[data-countdown]');
+    const message = status?.querySelector('.event-message');
     if (!status || !countdown || !message) return;
     const now = Date.now(); const start = new Date(status.dataset.start).getTime(); const end = new Date(status.dataset.end).getTime(); const nextStart = status.dataset.nextStart ? new Date(status.dataset.nextStart).getTime() : null; document.body.classList.toggle('event-past', now >= end);
-    if (now >= start && now < end) { countdown.querySelectorAll('[data-unit]').forEach((element) => { element.textContent = '00'; }); setMessage(status.dataset.liveTitle, status.dataset.liveText, true, true); return; }
-    if (now >= end) { setMessage(`${status.dataset.pastTitle} ${status.dataset.year}`, status.dataset.pastText); return; }
+    if (now >= start && now < end) { countdown.querySelectorAll('[data-unit]').forEach((element) => { element.textContent = '00'; }); setMessage(status, countdown, message, status.dataset.liveTitle, status.dataset.liveText, true, true); return; }
+    if (now >= end) { setMessage(status, countdown, message, `${status.dataset.pastTitle} ${status.dataset.year}`, status.dataset.pastText); return; }
     const target = now < start ? start : nextStart; countdown.hidden = false; message.hidden = true;
     const remaining = Math.max(0, target - now); const values = { days: Math.floor(remaining / 86400000), hours: Math.floor(remaining / 3600000) % 24, minutes: Math.floor(remaining / 60000) % 60, seconds: Math.floor(remaining / 1000) % 60 };
     Object.entries(values).forEach(([unit, value]) => { const element = countdown.querySelector(`[data-unit="${unit}"]`); if (element) element.textContent = String(value).padStart(2, '0'); });
   };
+  const updateEventState = () => eventStatuses.forEach(updateEventStatus);
   updateEventState(); window.setInterval(updateEventState, 1000);
   const scheduleItems = [...document.querySelectorAll('[data-schedule-item]')];
   const updateScheduleState = () => {
@@ -144,6 +245,77 @@ const galleryImages = readdirSync(join(process.cwd(), 'public/images/home/about/
     mentorViewport.addEventListener('pointerup', finishDrag); mentorViewport.addEventListener('pointercancel', finishDrag);
     window.setInterval(() => { if (!paused && !dragging) { mentorViewport.scrollLeft += 0.55; keepLooping(); } }, 30);
   }
+  const trimPartnerLogo = (image) => {
+    if (image.dataset.trimmed || !image.naturalWidth || !image.naturalHeight) return;
+    const source = document.createElement('canvas');
+    source.width = image.naturalWidth;
+    source.height = image.naturalHeight;
+    const sourceContext = source.getContext('2d', { willReadFrequently: true });
+    sourceContext.drawImage(image, 0, 0);
+    const pixels = sourceContext.getImageData(0, 0, source.width, source.height);
+    const background = new Uint8Array(source.width * source.height);
+    const isWhiteOrTransparent = (x, y) => {
+      const index = (y * source.width + x) * 4;
+      return pixels.data[index + 3] < 10 || (pixels.data[index] > 240 && pixels.data[index + 1] > 240 && pixels.data[index + 2] > 240);
+    };
+    const queue = [];
+    const addBackgroundPixel = (x, y) => {
+      const position = y * source.width + x;
+      if (background[position] || !isWhiteOrTransparent(x, y)) return;
+      background[position] = 1;
+      queue.push(position);
+    };
+    for (let x = 0; x < source.width; x += 1) { addBackgroundPixel(x, 0); addBackgroundPixel(x, source.height - 1); }
+    for (let y = 0; y < source.height; y += 1) { addBackgroundPixel(0, y); addBackgroundPixel(source.width - 1, y); }
+    for (let cursor = 0; cursor < queue.length; cursor += 1) {
+      const position = queue[cursor];
+      const x = position % source.width;
+      const y = Math.floor(position / source.width);
+      if (x > 0) addBackgroundPixel(x - 1, y);
+      if (x < source.width - 1) addBackgroundPixel(x + 1, y);
+      if (y > 0) addBackgroundPixel(x, y - 1);
+      if (y < source.height - 1) addBackgroundPixel(x, y + 1);
+    }
+    let left = source.width; let top = source.height; let right = -1; let bottom = -1;
+    for (let y = 0; y < source.height; y += 1) {
+      for (let x = 0; x < source.width; x += 1) {
+        const index = (y * source.width + x) * 4;
+        if (background[y * source.width + x]) {
+          pixels.data[index + 3] = 0;
+          continue;
+        }
+        if (pixels.data[index + 3] < 10) continue;
+        left = Math.min(left, x); top = Math.min(top, y); right = Math.max(right, x); bottom = Math.max(bottom, y);
+      }
+    }
+    if (right < left || bottom < top) return;
+    sourceContext.putImageData(pixels, 0, 0);
+    const padding = Math.max(2, Math.round(Math.max(right - left, bottom - top) * 0.04));
+    left = Math.max(0, left - padding); top = Math.max(0, top - padding);
+    right = Math.min(source.width - 1, right + padding); bottom = Math.min(source.height - 1, bottom + padding);
+    const cropped = document.createElement('canvas');
+    cropped.width = right - left + 1;
+    cropped.height = bottom - top + 1;
+    cropped.getContext('2d').putImageData(sourceContext.getImageData(left, top, cropped.width, cropped.height), 0, 0);
+    image.dataset.trimmed = 'true';
+    image.src = cropped.toDataURL('image/png');
+  };
+  document.querySelectorAll('.partner-card img').forEach((image) => {
+    if (image.complete) trimPartnerLogo(image);
+    else image.addEventListener('load', () => trimPartnerLogo(image), { once: true });
+  });
+  const memoryVideo = document.querySelector('[data-memory-video]');
+  document.querySelectorAll('[data-memory-year]').forEach((button) => {
+    button.addEventListener('click', () => {
+      if (!memoryVideo || !button.dataset.videoSrc) return;
+      document.querySelectorAll('[data-memory-year]').forEach((item) => {
+        const isActive = item === button;
+        item.classList.toggle('is-active', isActive);
+        item.setAttribute('aria-pressed', String(isActive));
+      });
+      memoryVideo.src = button.dataset.videoSrc;
+    });
+  });
   const lightbox = document.querySelector('.gallery-lightbox'); const lightboxImage = lightbox?.querySelector('[data-lightbox-image]'); const closeLightbox = () => lightbox?.close();
   document.querySelectorAll('[data-gallery-image]').forEach((trigger) => trigger.addEventListener('click', () => { if (!lightbox || !lightboxImage) return; lightboxImage.src = trigger.dataset.galleryImage || ''; lightboxImage.alt = trigger.querySelector('img')?.alt || ''; lightbox.showModal(); }));
   lightbox?.querySelector('.gallery-close')?.addEventListener('click', closeLightbox); lightbox?.addEventListener('click', (event) => { if (event.target === lightbox) closeLightbox(); });

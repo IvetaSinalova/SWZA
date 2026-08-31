@@ -1,0 +1,58 @@
+heading: FAQ
+introHtml: We've gathered common inquiries about registration, program details, venue, and more to help ensure you have <b>all the information needed</b> for a seamless Startup Weekend experience.
+items:
+  - question: Is the event just for technical ideas?
+    answerHtml: |
+      <p>You can come up with any idea. We had many non-technical projects. Eco, fashion recycling, bakery, design of a work table and often these projects were successful because they were different.</p>
+  - question: I don't have an idea to pitch, should I come?
+    answerHtml: |
+      <p>Definitely. An idea is one thing, execution is another. If you want to learn a lot of new things, please come. You can find an idea that you like the most and join it. Maybe you will become a co-founder of another successful business... : )</p>
+  - question: It is OK to come to the event even if I don't have my own team?
+    answerHtml: |
+      <p>Absolutely. If you manage to excite people for your idea, Startup Weekend is just the place where you can get a team. If you don't have an idea, you can join the idea that appeals to you the most or where you can find greatest use for yoursef. In addition, you will get to know a lot of awesome people.</p>
+  - question: We have a project, part of which is already finished. Can we participate?
+    answerHtml: |
+      <p>Certainly yes. You can make another big progress on your project. Find smart people for the team, get feedback from mentors and new contacts. The jury evaluates the progress over the weekend and the initial state is taken into account in order to maintain fairness.</p>
+  - question: What should I bring for an in-person event?
+    answerHtml: |
+      <ul>
+        <li>Laptop/Notepad</li>
+        <li>Power cord for Laptop</li>
+        <li>Your phone - feel free to take pictures or video of the event</li>
+        <li>Optional: Whatever helps you to be most productive (keyboard, mouse, etc.)</li>
+        <li>Lots of energy</li>
+      </ul>
+  - question: Is there a deadline for registration? I'm still undecided / I don't know if I'll make it.
+    answerHtml: |
+      <p>The event is limited only by capacity. I.e. if tickets are available, you can also register on the spot. We recommend buying tickets in advance, precisely because of capacity limits - also because of the time management.</p>
+  - question: What happens on Friday, Saturday and Sunday?
+    answerText: |
+      Friday: Participants typically arrive between 5-7 p.m., begin networking, and have dinner. After an ice-breaking game and an introduction by the Facilitator, there will typically be a short talk with a speaker. Then, the "Pitchfire" will commence: anyone intending to pitch will have 60 seconds to give their best pitch. No presentations are needed for Friday, it will just be you and a mic. After pitches are finished, all participants will vote on their favorites, and using these votes, the top ideas will be selected to be worked on over the weekend. The Facilitator will provide guidance on team formation. Then teams will form organically, consolidate, and get to know each other and begin working.
+      Saturday: Teams will work all day, with the occasional breaks to eat, listen to short talks, or attend a short workshop. Breakfast, lunch, dinner and snacks will be provided at an in-person event. In the afternoon mentors will be circulating to provide advice in the field of their expertise for those teams that want it. There will usually be a mentor sign-up sheet available where you can sign up for mentorship from someone with the industry experience that can support your team.
+      Sunday: Breakfast, lunch and dinner also will be provided on Sunday at in-person events. Teams will work uninterrupted from morning until mid-afternoon. They'll begin wrapping up their product/prototype and presentation around 3 PM to do tech-checks and practice their presentation. After all judges have arrived, presentations will begin. Each team typically has five minutes plus around a three to five minute Q&A from the judges (this varies occasionally). The judges will select the top teams, who will be awarded prizes (if applicable), and the event usually ends with a small celebratory get-together.
+    answerHtml: |
+      <p><strong>Friday</strong>: Participants typically arrive between 5-7 p.m., begin networking, and have dinner. After an ice-breaking game and an introduction by the Facilitator, there will typically be a short talk with a speaker. Then, the "Pitchfire" will commence: anyone intending to pitch will have 60 seconds to give their best pitch. No presentations are needed for Friday, it will just be you and a mic. After pitches are finished, all participants will vote on their favorites, and using these votes, the top ideas will be selected to be worked on over the weekend. The Facilitator will provide guidance on team formation. Then teams will form organically, consolidate, and get to know each other and begin working.</p>
+      <p><strong>Saturday</strong>: Teams will work all day, with the occasional breaks to eat, listen to short talks, or attend a short workshop. Breakfast, lunch, dinner and snacks will be provided at an in-person event. In the afternoon mentors will be circulating to provide advice in the field of their expertise for those teams that want it. There will usually be a mentor sign-up sheet available where you can sign up for mentorship from someone with the industry experience that can support your team.</p>
+      <p><strong>Sunday</strong>: Breakfast, lunch and dinner also will be provided on Sunday at in-person events. Teams will work uninterrupted from morning until mid-afternoon. They'll begin wrapping up their product/prototype and presentation around 3 PM to do tech-checks and practice their presentation. After all judges have arrived, presentations will begin. Each team typically has five minutes plus around a three to five minute Q&A from the judges (this varies occasionally). The judges will select the top teams, who will be awarded prizes (if applicable), and the event usually ends with a small celebratory get-together.</p>
+  - question: It is also provided as part of the event accommodation?
+    answerHtml: |
+      <p>Accommodation is not part of the event. For accommodation, it is possible to use e.g. university dormitories Velky Diel. If you are interested -> please contact us.</p>
+  - question: Is the event open to the general public?
+    answerHtml: |
+      <p>The parts accessible to the public are on Friday approx. from 5PM., when registration, introduction to the event format, presentation of ideas and team formation take place. Also, the final presentations and evaluation of the jury are accessible to the general public on Sunday from 3PM. Due to the limited capacity for teams and the capacity of mentors, participation in the entire event is only available to registered participants who want to actively participate in the event. Registration will be suspended in case of capacity strain.</p>
+  - question: What is included in the ticket price?
+    answerHtml: |
+      <p>The ticket price includes:</p>
+      <ul>
+        <li>Space and place to work for the whole weekend</li>
+        <li>Food for the whole weekend (2x dinner, 2x breakfast, 2x lunch)</li>
+        <li>Professional mentoring</li>
+        <li>T-shirt</li>
+        <li>Office supplies</li>
+        <li>Coffee, tea and energy drinks</li>
+        <li>Good mood (Capacity is limited. Please also try to bring your own good mood. Otherwise we'll have to tell you jokes and that's exhausting.)</li>
+        <li>Merch from our Partners</li>
+      </ul>
+  - question: What are the prizes for the winners?
+    answerHtml: |
+      <p>More or less useful advertising items, merch from our partners, after event mentoring, tickets for next events, software licences and subscription plans... But ask yourself! Are you really going to the SWZA for some ordinary stuff you can buy on the internet? Nah... You're comming for the better stuff. Contacts, good time, new friendships, professional mentoring, feedback from judges... See Ya in October!</p>
