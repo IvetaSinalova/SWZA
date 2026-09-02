@@ -103,8 +103,27 @@ const galleryImages = readdirSync(join(process.cwd(), 'public/images/home/about/
   .filter((file) => /\.(jpe?g|png|webp|avif|gif)$/i.test(file))
   .map((file) => `${sharedImageRoot}/about/gallery/${encodeURIComponent(file)}`);
 const partnerRoot = join(process.cwd(), `public/images/events/${eventYear}/partners`);
-const partnerPriority = ['main', 'gold', 'silver', 'price', 'prize'];
-const partners = existsSync(partnerRoot)
+const partnerPriority = ['main', 'platinum', 'gold', 'golden', 'silver', 'price', 'prize'];
+const partnerGroupKey = (tier) => ['main', 'platinum'].includes(tier) ? 'featured' : tier;
+const normalizePartnerName = (value) => value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+const partnerLinkRules = [
+  { keywords: ['inovia'], url: 'https://inovia.sk/' },
+  { keywords: ['nn group'], url: 'https://www.nn.sk/zivotne-poistenie-od-nn/' },
+  { keywords: ['kros'], url: 'https://www.kros.sk/uctovne-softvery/?gclid_backup=Cj0KCQjw79nUBhCgARIsADSHka1etdr6F1YEfERseulKfQLGNXEaeOvd-r0cEAbWDjheJFwtiRni-U0aAi7vEALw_wcB' },
+  { keywords: ['goodrequest'], url: 'https://www.goodrequest.com/sk/sluzby?utm_campaign=' },
+  { keywords: ['zsk'], url: 'https://www.zilinskazupa.sk/' },
+  { keywords: ['visitero'], url: 'https://visitero.sk/' },
+  { keywords: ['hroncek', 'color 2 eva winter'], url: 'https://www.legalfirm.sk/sk' },
+  { keywords: ['infotech'], url: 'https://infotech.sk/en/' },
+  { keywords: ['habesh'], url: 'https://habesh.sk/' },
+  { keywords: ['aceon'], url: 'https://www.aceon.io/' },
+  { keywords: ['tootoot'], url: 'https://tootoot.fm/en' },
+];
+const partnerUrlFor = (file, name) => {
+  const haystack = normalizePartnerName(`${file} ${name}`);
+  return partnerLinkRules.find((rule) => rule.keywords.some((keyword) => haystack.includes(normalizePartnerName(keyword))))?.url ?? '';
+};
+const partnerGroups = existsSync(partnerRoot)
   ? readdirSync(partnerRoot, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
     .sort((a, b) => {
@@ -112,15 +131,30 @@ const partners = existsSync(partnerRoot)
       const bRank = partnerPriority.indexOf(b.name.toLowerCase());
       return (aRank < 0 ? partnerPriority.length : aRank) - (bRank < 0 ? partnerPriority.length : bRank) || a.name.localeCompare(b.name);
     })
-    .flatMap((tier) => readdirSync(join(partnerRoot, tier.name))
-      .filter((file) => /\.(jpe?g|png|webp|avif|gif)$/i.test(file))
-      .sort((a, b) => a.localeCompare(b))
-      .map((file) => ({
-        tier: tier.name.toLowerCase(),
-        format: file.split('.').pop()?.toLowerCase() ?? '',
-        name: file.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' '),
-        image: `${assetPath(`/images/events/${eventYear}/partners`)}/${encodeURIComponent(tier.name)}/${encodeURIComponent(file)}`,
-      })))
+    .map((tier) => ({
+      tier: tier.name.toLowerCase(),
+      partners: readdirSync(join(partnerRoot, tier.name))
+        .filter((file) => /\.(jpe?g|png|webp|avif|gif)$/i.test(file))
+        .sort((a, b) => a.localeCompare(b))
+        .map((file) => ({
+          tier: tier.name.toLowerCase(),
+          format: file.split('.').pop()?.toLowerCase() ?? '',
+          name: file.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' '),
+          url: partnerUrlFor(file, file.replace(/\.[^.]+$/, '')),
+          image: `${assetPath(`/images/events/${eventYear}/partners`)}/${encodeURIComponent(tier.name)}/${encodeURIComponent(file)}`,
+        })),
+    }))
+    .filter((group) => group.partners.length)
+    .reduce((groups, group) => {
+      const tier = partnerGroupKey(group.tier);
+      const existingGroup = groups.find((item) => item.tier === tier);
+      if (existingGroup) {
+        existingGroup.partners.push(...group.partners);
+      } else {
+        groups.push({ tier, partners: group.partners });
+      }
+      return groups;
+    }, [])
   : [];
 ---
 <BaseLayout title={site.title} description={site.description}>
@@ -139,7 +173,7 @@ const partners = existsSync(partnerRoot)
       <section class="mentor-editorial-section shell"><div class="mentor-editorial"><p class="mentor-story">{statement.text}</p><div class="mentor-sidecopy"><p>{mentors.featureLeft}</p><p>{mentors.featureRight}</p></div><div class="mentor-stars" aria-hidden="true">{Array.from({ length: 7 }, (_, row) => <div class={`mentor-stars-row${row % 2 ? ' is-offset' : ''}`}>{Array.from({ length: 32 }, (_, star) => <img src={assetPath('/Star.png')} alt="" data-star={star}/>)}</div>)}</div></div></section>
       <section class="faq-section shell" id="faq"><div class="faq-head"><h2>{faq.heading}</h2><p set:html={faq.introHtml ?? faq.intro}></p></div><div class="faq-list">{faq.items.map((item) => <details class="faq-item"><summary><span class="faq-question">{item.question}</span><span class="faq-preview"><span class="faq-preview-short">{item.previewText}</span><span class="faq-preview-full">{item.answerText}</span></span><span class="faq-plus" aria-hidden="true"></span></summary></details>)}</div></section>
       <section class="memories-section shell" id="memories"><div class="memories-head"><h2>{memories.heading}</h2><p set:html={memories.introHtml ?? memories.intro}></p></div><div class="memory-years" role="tablist" aria-label="Memory videos by year">{memories.years.map((item, index) => <button type="button" class={`memory-year${index === memories.years.length - 1 ? ' is-active' : ''}`} data-memory-year data-video-src={item.embedUrl} aria-pressed={index === memories.years.length - 1 ? 'true' : 'false'}>{item.year}</button>)}</div><div class="memory-video"><iframe data-memory-video src={memories.years[memories.years.length - 1].embedUrl} title={`Startup Weekend Zilina ${memories.years[memories.years.length - 1].year} memory video`} loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></section>
-      <section class="partner-showcase shell" id="partners"><div class="partner-heading"><h2>TOGETHER,<br/>WE DO GREAT THINGS.</h2><img src={assetPath('/star-sponsor.png')} alt="" aria-hidden="true"/></div><div class="partner-rule"></div><div class="partner-grid">{partners.map((partner) => <article class={`partner-card partner-card--${partner.tier}`}><img src={partner.image} alt={partner.name} loading="lazy" data-logo-format={partner.format}/></article>)}</div></section>
+      <section class="partner-showcase shell" id="partners"><div class="partner-heading"><h2>TOGETHER,<br/>WE DO GREAT THINGS.</h2><img src={assetPath('/star-sponsor.png')} alt="" aria-hidden="true"/></div><div class="partner-rule"></div><div class="partner-groups">{partnerGroups.map((group) => <div class={`partner-tier-grid partner-tier-grid--${group.tier}`}>{group.partners.map((partner) => partner.url ? <a class={`partner-card partner-card--${partner.tier}`} href={partner.url} target="_blank" rel="noopener noreferrer" aria-label={`Open ${partner.name} website`}><img src={partner.image} alt={partner.name} loading="lazy" data-logo-format={partner.format}/></a> : <article class={`partner-card partner-card--${partner.tier}`}><img src={partner.image} alt={partner.name} loading="lazy" data-logo-format={partner.format}/></article>)}</div>)}</div><a class="partner-cta" href="https://docs.google.com/forms/d/e/1FAIpQLSegoeznHg89Lp7US8lx1hByZuF83Lmw4WQZWDiQoAw_CzKqqg/viewform" target="_blank" rel="noopener noreferrer"><span class="partner-cta-label">WANT TO BECOME A PARTNER?</span><span class="partner-build-row"><i class="partner-cta-star" aria-hidden="true"></i><strong>LET'S BUILD {footerYearLabel} TOGETHER</strong><i class="partner-cta-star" aria-hidden="true"></i></span></a></section>
       <section class="schedule-figma shell" id="schedule"><div class="section-head schedule-head"><h2>{schedule.heading} <em>{schedule.year}</em></h2><p set:html={schedule.introHtml ?? schedule.intro}></p></div><div class="schedule-days">{schedule.days.map((day, dayIndex) => <section class="schedule-day" data-schedule-day><header><span class="schedule-day-number">{String(dayIndex + 1).padStart(2, '0')}</span><h3>{day.name}</h3><time datetime={day.date}>{day.label}</time><span class="schedule-day-live">LIVE TODAY</span></header><div class="schedule-list">{day.items.map((item) => <article class="schedule-item" data-schedule-item data-start={`${day.date}T${item.time}:00${schedule.utcOffset}`} data-end={`${day.date}T${item.end}:00${schedule.utcOffset}`}><time datetime={`${day.date}T${item.time}:00${schedule.utcOffset}`}>{item.time}</time><div class="schedule-title"><strong>{item.title}</strong>{item.access && <span>{item.access}</span>}</div><span class="schedule-now"><i></i>HAPPENING NOW</span></article>)}</div></section>)}</div></section>
       <section class="location-figma shell" id="location"><div class="section-head"><h2>{locationSection.heading}</h2></div><div class="green-rule"></div><div class="location-panel"><div class="location-map-frame"><iframe src={locationSection.mapEmbedUrl} title={`Google Maps for ${locationSection.city}`} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div><aside class="location-card"><div><span class="location-eyebrow">VENUE / {locationSection.city.toUpperCase()}</span><h3 class="location-venue"><span>AT</span> PARK</h3><p class="location-description">{locationSection.description}</p></div><div class="location-card-footer"><a href={locationSection.mapUrl} target="_blank" rel="noopener noreferrer">OPEN IN GOOGLE MAPS <span aria-hidden="true">↗</span></a></div></aside></div></section>
       <section class="contact-anchor" id="contact" aria-hidden="true"></section>

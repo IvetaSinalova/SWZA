@@ -260,6 +260,7 @@ Partneri sa nenastavuju v YAML. Stranka automaticky nacita vsetky obrazky z prie
 
 ```text
 public/images/events/2026/partners/main/
+public/images/events/2026/partners/platinum/
 public/images/events/2026/partners/gold/
 public/images/events/2026/partners/silver/
 public/images/events/2026/partners/price/
@@ -268,17 +269,21 @@ public/images/events/2026/partners/price/
 Loga sa zobrazia v tomto poradi:
 
 - `main` - hlavny partner
-- `gold` - gold partneri
+- `platinum` - platinum partneri, zobrazia sa hned po `main`
+- `gold` alebo `golden` - gold partneri
 - `silver` - silver partneri
 - `price` - price partneri
 - ine priecinky - ostatni partneri, vzdy az za prioritnymi kategoriami
 
 Priecinok `prize` funguje rovnako ako `price`. V ramci jednej kategorie sa loga zoradia podla nazvu suboru. Mozes pouzit `png`, `jpg`, `jpeg`, `webp`, `avif` alebo `gif`; dizajn ich automaticky zobrazi cierobielo a pri nepriehladnom obrazku vizualne potlaci biele pozadie.
 
+Preklik na web partnera sa nastavuje v `src/pages/index.astro` v poli `partnerLinkRules`. Pravidlo sa sparuje podla casti nazvu suboru loga, napriklad `inovia`, `kros`, `goodrequest`, `aceon` alebo `tootoot`. Ak partner nema nastavenu URL, logo sa zobrazi ako neklikatelna dlazdica.
+
 Pre novy rocnik vytvor rovnaku strukturu, napriklad:
 
 ```text
 public/images/events/2027/partners/main/
+public/images/events/2027/partners/platinum/
 public/images/events/2027/partners/gold/
 public/images/events/2027/partners/silver/
 public/images/events/2027/partners/price/
