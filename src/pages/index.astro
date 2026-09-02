@@ -45,7 +45,7 @@ const locationSection = {
   mapUrl: location.mapUrl,
   mapEmbedUrl: `${location.mapUrl}${location.mapUrl.includes('?') ? '&' : '?'}output=embed`,
 };
-const footerYearLabel = `SWZA${eventYear.slice(-2)}`;
+const footerYearLabel = `SWZA ${eventYear}`;
 const calendarDate = (value) => new Date(value).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
 const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(site.title)}&dates=${calendarDate(location.start)}/${calendarDate(location.end)}&details=${encodeURIComponent(`${site.description}\n\nVenue: ${location.venue}\nMap: ${location.mapUrl}`)}&location=${encodeURIComponent(`${location.venue}, ${location.city}`)}`;
 const withAnnouncement = (data) => {
