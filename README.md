@@ -291,6 +291,27 @@ public/images/events/2027/partners/price/
 
 Hviezdicka pri nadpise partnerov je spolocna pre vsetky rocniky a nachadza sa v `public/star-sponsor.png`.
 
+### Rocna obnova partnerskeho formulara
+
+Partnersky Google Formular a jeho odpovede treba pripravit nanovo pre kazdy rocnik. Pri prechode na novy rocnik, napriklad na 2027:
+
+1. V Google Forms vytvor kopiu formulara z predchadzajuceho roka alebo vytvor novy formular.
+2. V nazve a popise formulara zmen rok na `2027`.
+3. Skontroluj, ze formular obsahuje aktualne typy partnerstva a kontaktny suhlas.
+4. V zalozke `Responses` pripoj formular k novej Google Sheets tabulke, napriklad `SWZA 2027 - Partneri`.
+5. Nepripajaj novy formular k tabulke z roku 2026. Kazdy rocnik ma mat vlastnu tabulku, aby sa odpovede partnerov nemiesali medzi rokmi.
+6. Zapni e-mailove upozornenia na nove odpovede a otestuj formular v anonymnom okne prehliadaca.
+7. Verejny odkaz na novy formular vloz do `partnerFormUrl` v `src/content/site.yaml`. Button v `src/pages/index.astro` tuto hodnotu nacita automaticky.
+8. V `src/content/site.yaml` zmen `activeYear` na `2027`, aby sa rok na stranke a v partnerskom CTA aktualizoval automaticky.
+
+Aktualny odkaz formulara je ulozeny v `src/content/site.yaml`:
+
+```yaml
+partnerFormUrl: https://docs.google.com/forms/d/e/...
+```
+
+Po vytvoreni formulara pre novy rok treba vymenit iba tuto URL; text `LET'S BUILD SWZA2027 TOGETHER` sa na stranke vytvori automaticky z hodnoty `activeYear`.
+
 ## Lokalne spustenie
 
 V terminali otvor priecinok projektu:

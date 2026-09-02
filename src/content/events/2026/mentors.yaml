@@ -1,6 +1,26 @@
 heading: MENTORS
 announcementStatus: partial
 items:
+  - name: Jakub Hrušovský
+    country: Birne
+    role: Co-Founder & Strategist
+    image: jakub-hrušovský.jpg
+    text: Brand strategist and AI marketing expert helping companies clarify their brand, strategy, and communication.
+  - name: Adrián Frič
+    country: Visitero
+    role: CEO Visitero & Co-founder seenode
+    image: adrián-frič.jpg
+    text: Entrepreneur and technology leader with experience in e-commerce, automation, data, and AI-driven business growth.
+  - name: Miroslav Dreveňák
+    country: KROS a.s.
+    role: Business Owner
+    image: miroslav-dreveňák.jpg
+    text: Product manager at KROS focused on digital economic solutions, ERP systems, automation, and product development.
+  - name: Juraj Majera
+    country: Freelance
+    role: Startup consultant
+    image: juraj-majer.png
+    text: Startup consultant and former Porsche development engineer helping innovators build impactful solutions and reach their customers.
   - name: Lucia Lebedová
     country: Freelance
     role: Marketing Manager
