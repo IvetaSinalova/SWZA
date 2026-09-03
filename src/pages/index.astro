@@ -273,23 +273,29 @@ const partnerGroups = existsSync(partnerRoot)
     const refreshLoop = () => {
       track.querySelectorAll('[data-carousel-clone]').forEach((clone) => clone.remove());
       if (track.scrollWidth <= viewport.clientWidth + 1) { viewport.scrollLeft = 0; return; }
-      cards.forEach((card) => {
+      const cloneCard = (card, position) => {
         const clone = card.cloneNode(true);
         clone.setAttribute('aria-hidden', 'true');
-        clone.dataset.carouselClone = 'true';
-        track.append(clone);
-      });
+        clone.dataset.carouselClone = position;
+        return clone;
+      };
+      cards.slice().reverse().forEach((card) => track.prepend(cloneCard(card, 'before')));
+      cards.forEach((card) => track.append(cloneCard(card, 'after')));
+      viewport.scrollLeft = cards[0]?.offsetLeft ?? 0;
     };
     refreshLoop();
     let paused = false; let dragging = false; let startX = 0; let startScroll = 0; let resumeTimer;
-    const loopPoint = () => track.querySelector('[data-carousel-clone]')?.offsetLeft ?? 0;
-    const canScroll = () => loopPoint() > viewport.clientWidth + 1;
+    const originalStart = () => cards[0]?.offsetLeft ?? 0;
+    const loopDistance = () => (track.querySelector('[data-carousel-clone="after"]')?.offsetLeft ?? 0) - originalStart();
+    const canScroll = () => loopDistance() > viewport.clientWidth + 1;
     const continueFromStart = () => {
-      const point = loopPoint();
-      if (point && viewport.scrollLeft >= point) viewport.scrollLeft -= point;
+      const start = originalStart(); const distance = loopDistance();
+      if (!distance) return;
+      if (viewport.scrollLeft >= start + distance) viewport.scrollLeft -= distance;
+      else if (viewport.scrollLeft <= 0) viewport.scrollLeft += distance;
     };
     const resumeSoon = () => { window.clearTimeout(resumeTimer); resumeTimer = window.setTimeout(() => { paused = false; }, 450); };
-    const move = (direction) => { if (!canScroll()) return; paused = true; if (direction < 0 && viewport.scrollLeft <= 1) viewport.scrollLeft = loopPoint(); viewport.scrollBy({ left: direction * viewport.clientWidth * 0.72, behavior: 'smooth' }); resumeSoon(); };
+    const move = (direction) => { if (!canScroll()) return; paused = true; viewport.scrollBy({ left: direction * viewport.clientWidth * 0.72, behavior: 'smooth' }); resumeSoon(); };
     previous?.addEventListener('click', () => move(-1));
     next?.addEventListener('click', () => move(1));
     viewport.addEventListener('mouseenter', () => { paused = true; });
@@ -306,8 +312,9 @@ const partnerGroups = existsSync(partnerRoot)
     const viewport = carousel.querySelector('.mentor-viewport');
     const track = carousel.querySelector('.mentor-cards');
     if (!viewport || !track) return;
-    const clone = track.querySelector('[data-carousel-clone]');
-    const canScroll = (clone?.offsetLeft ?? track.scrollWidth) > viewport.clientWidth + 1;
+    const original = Array.from(track.children).find((card) => !card.hasAttribute('data-carousel-clone'));
+    const clone = track.querySelector('[data-carousel-clone="after"]');
+    const canScroll = ((clone?.offsetLeft ?? track.scrollWidth) - (original?.offsetLeft ?? 0)) > viewport.clientWidth + 1;
     carousel.querySelectorAll('.mentor-arrow').forEach((arrow) => { arrow.hidden = !canScroll; });
   };
   const updateAllCarouselControls = () => document.querySelectorAll('.mentor-carousel').forEach(updateCarouselControls);
