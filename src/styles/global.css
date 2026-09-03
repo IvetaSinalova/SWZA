@@ -21,14 +21,16 @@
 /* Keep mentor copy editable in YAML while preserving the Figma card layout. */
 .mentor-card{display:flex;flex-direction:column;justify-content:flex-start}.mentor-card img{position:absolute;inset:48px 0 52px;width:100%;height:auto;min-height:0;object-fit:cover;object-position:center top}.mentor-card .mentor-meta,.mentor-card .mentor-role{display:flex;position:relative;z-index:1}.mentor-card .mentor-role{display:block}.mentor-card p{display:block;z-index:1}
 @media(max-width:760px){.mentor-card img{inset:36px 0 42px}.mentor-card .mentor-meta,.mentor-card .mentor-role{display:flex}.mentor-card .mentor-role{display:block}.mentor-card p{display:block}}
-.mentor-carousel{position:relative}.mentor-viewport{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;cursor:grab}.mentor-viewport::-webkit-scrollbar{display:none}.mentor-viewport:active{cursor:grabbing}.mentor-arrow{position:absolute;z-index:3;top:50%;display:flex;align-items:center;justify-content:center;width:42px;height:42px;padding:0;border:1px solid #fff;border-radius:50%;background:#000;color:#fff;font-size:22px;line-height:1;cursor:pointer;transform:translateY(-50%);appearance:none;-webkit-appearance:none}.mentor-arrow span{display:block;line-height:1;transform:translate(-.5px,-1px)}.mentor-arrow:hover{background:var(--green);color:#000}.mentor-prev{left:12px}.mentor-next{right:12px}.mentor-cards{pointer-events:none}
+.mentor-carousel{position:relative}.mentor-viewport{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;cursor:grab}.mentor-viewport::-webkit-scrollbar{display:none}.mentor-viewport:active{cursor:grabbing}.mentor-arrow{position:absolute;z-index:3;top:50%;display:flex;align-items:center;justify-content:center;width:42px;height:42px;padding:0;border:1px solid #fff;border-radius:50%;background:#000;color:#fff;font-size:22px;line-height:1;cursor:pointer;transform:translateY(-50%);appearance:none;-webkit-appearance:none}.mentor-arrow[hidden]{display:none}.mentor-arrow span{display:block;line-height:1;transform:translate(-.5px,-1px)}.mentor-arrow:hover{background:var(--green);color:#000}.mentor-prev{left:12px}.mentor-next{right:12px}.mentor-cards{pointer-events:none}
+.mentor-carousel[data-static-carousel] .mentor-viewport{scroll-behavior:smooth;scroll-snap-type:x proximity}
+.mentor-carousel[data-static-carousel] .mentor-card{scroll-snap-align:start}
 @media(max-width:760px){.mentor-arrow{width:34px;height:34px;font-size:18px}.mentor-prev{left:7px}.mentor-next{right:7px}}
 /* Full-bleed mentor photography with editable YAML copy layered on top. */
 .mentor-card{padding:0;background:transparent;border:0}.mentor-card:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,transparent 28%,transparent 58%,rgba(0,0,0,.8) 100%);pointer-events:none}.mentor-card img{inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0}.mentor-card .mentor-meta{position:absolute;top:16px;left:16px;right:16px;color:#fff;font-size:14px}.mentor-card .mentor-meta span:last-child{text-align:right;max-width:52%;overflow-wrap:anywhere}.mentor-card .mentor-role{position:absolute;top:40px;left:16px;color:#ddd;font-size:11px}.mentor-card p{left:16px;right:16px;bottom:16px;color:#fff;font-size:12px;line-height:1.25}.mentor-card .mentor-meta,.mentor-card .mentor-role,.mentor-card p{z-index:1}
 @media(max-width:760px){.mentor-card .mentor-meta{top:10px;left:10px;right:10px;font-size:11px}.mentor-card .mentor-role{top:30px;left:10px;font-size:9px}.mentor-card p{left:10px;right:10px;bottom:10px;font-size:10px}}
 /* Current mentor cards use the original high-resolution photos edge to edge. */
 .mentor-card img{inset:0!important}
-.judges-figma{padding:0 24px 112px}.judges-cards{display:flex;gap:18px;margin-top:64px;overflow-x:auto;scrollbar-width:none}.judges-cards::-webkit-scrollbar{display:none}.judge-card{flex:0 0 clamp(330px,28vw,420px);height:548px}.judge-card .mentor-meta{position:absolute}.judge-card .mentor-role{position:absolute}.judge-card p{position:absolute;display:block}.judge-card img{position:absolute!important}
+.judges-figma{padding:0 24px 112px}.judges-cards{display:flex;gap:18px;margin-top:64px;scrollbar-width:none}.judges-cards::-webkit-scrollbar{display:none}.judge-card{flex:0 0 clamp(330px,28vw,420px);height:548px}.judge-card .mentor-meta{position:absolute}.judge-card .mentor-role{position:absolute}.judge-card p{position:absolute;display:block}.judge-card img{position:absolute!important}
 .section-note{display:block;margin:28px 0 0;padding:14px 16px;border-top:2px solid var(--green);border-bottom:2px solid var(--green);color:#050505;font-size:clamp(16px,1.35vw,22px);font-weight:800;letter-spacing:.025em;line-height:1.1}
 @media(max-width:760px){.section-note{margin-top:16px;padding:10px 9px;font-size:13px}.judges-figma{padding:0 7px 58px}.judges-cards{gap:9px;margin-top:34px}.judge-card{flex-basis:calc(100vw - 62px);height:375px}.judge-card .mentor-meta{font-size:11px}.judge-card .mentor-role{font-size:9px}.judge-card p{font-size:10px}}
 .facilitator-figma{padding:0 24px 112px}.facilitator-card-wrap{display:flex;justify-content:center;gap:18px;margin-top:64px}.facilitator-card{flex:0 0 clamp(330px,28vw,420px);height:548px}
@@ -71,6 +73,7 @@
 .essence{padding-left:24px;padding-right:24px}
 @media(max-width:760px){.shell{width:100%;padding-left:7px;padding-right:7px}.essence{padding-left:7px;padding-right:7px}}
 .facilitator-figma .mentor-head h2{white-space:nowrap;font-size:clamp(38px,7.2vw,104px)}
+.facilitator-card img{object-position:50% 50%}
 .digits b{font-family:Manrope,sans-serif;font-weight:600;letter-spacing:-.025em}
 .digits small{order:-1;margin-top:0;margin-bottom:10px}
 @media(max-width:760px){.facilitator-figma .mentor-head h2{font-size:clamp(28px,10vw,48px)}.digits small{margin-bottom:7px}}
@@ -387,10 +390,10 @@ button,input,textarea,select{font-family:Manrope,sans-serif}
 .partner-card--silver img{width:60%;height:50%}
 .partner-card--price img,.partner-card--prize img{width:50%;height:40%}
 .partner-cta{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:none;margin:36px 0 0;background:#050505;padding:clamp(24px,3vw,44px);gap:24px;font-family:Manrope,Arial,sans-serif;text-transform:uppercase;color:#fff;transition:background .2s,color .2s,transform .2s}
-.partner-build-row{display:flex;align-items:center;justify-content:center;gap:clamp(8px,1.2vw,18px);min-width:0;color:var(--green)}
+.partner-build-row{display:flex;align-items:center;justify-content:center;gap:4px;min-width:0;color:var(--green)}
 .partner-cta-star{display:block;flex:0 0 clamp(14px,1.7vw,24px);width:clamp(14px,1.7vw,24px);aspect-ratio:1;background:currentColor;mask:url('/star-sponsor.png') center/contain no-repeat;-webkit-mask:url('/star-sponsor.png') center/contain no-repeat}
-.partner-cta-label{font-size:clamp(28px,4vw,64px);font-weight:800;line-height:.9;letter-spacing:-.07em;white-space:nowrap}
-.partner-cta strong{max-width:clamp(180px,16vw,290px);font-size:clamp(13px,1.05vw,18px);font-weight:800;line-height:1.02;letter-spacing:-.04em;text-align:right;color:var(--green);transition:color .2s}
+.partner-cta-label{font-size:clamp(26px,3.5vw,56px);font-weight:800;line-height:.9;letter-spacing:-.07em;white-space:nowrap}
+.partner-cta strong{max-width:none;font-size:clamp(14px,1.2vw,21px);font-weight:800;line-height:1.02;letter-spacing:-.04em;text-align:center;color:var(--green);transition:color .2s}
 .partner-cta:hover{background:var(--green);color:#050505;transform:translateY(-2px)}
 .partner-cta:hover .partner-build-row{color:#050505}
 .partner-cta:hover strong{color:#050505}
@@ -440,9 +443,9 @@ button,input,textarea,select{font-family:Manrope,sans-serif}
   .partner-card--price,.partner-card--prize{flex-basis:calc((100% - 6px) / 2);height:116px}
   .partner-card img{min-height:0}
   .partner-cta{align-items:center;flex-direction:column;margin-top:24px;padding:22px;gap:12px;text-align:center}
-  .partner-cta-label{font-size:clamp(24px,8vw,36px);white-space:normal;text-align:center}
+  .partner-cta-label{font-size:clamp(22px,7.5vw,34px);white-space:normal;text-align:center}
   .partner-build-row{width:100%;gap:8px}
-  .partner-cta strong{max-width:none;font-size:12px;text-align:center}
+  .partner-cta strong{max-width:none;font-size:13px;text-align:center;white-space:normal}
   .memories-section{padding-bottom:56px}
   .memories-head{grid-template-columns:1fr;gap:18px;padding-bottom:30px}
   .memories-head h2{font-size:56px}

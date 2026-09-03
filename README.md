@@ -310,7 +310,7 @@ Aktualny odkaz formulara je ulozeny v `src/content/site.yaml`:
 partnerFormUrl: https://docs.google.com/forms/d/e/...
 ```
 
-Po vytvoreni formulara pre novy rok treba vymenit iba tuto URL; text `LET'S BUILD SWZA2027 TOGETHER` sa na stranke vytvori automaticky z hodnoty `activeYear`.
+Po vytvoreni formulara pre novy rok treba vymenit iba tuto URL; text `LET'S BUILD SWZA 2027 TOGETHER` sa na stranke vytvori automaticky z hodnoty `activeYear`.
 
 ## Lokalne spustenie
 
