@@ -166,9 +166,9 @@ const partnerGroups = existsSync(partnerRoot)
     <section class="essence shell"><div class="essence-label">{essence.label} <b class="s-black">S</b></div><p set:html={essence.textHtml ?? essence.text}></p><div class="thumb-row"><div class="essence-gallery">{galleryImages.slice(0, 4).map((image, index) => <button type="button" class="gallery-thumb" data-gallery-image={image} aria-label={`Open gallery image ${index + 1}`}><img src={image} alt={`Startup Weekend moment ${index + 1}`}/></button>)}</div><small set:html={essence.noteHtml ?? essence.note}></small></div></section>
     <dialog class="gallery-lightbox" aria-label="Startup Weekend photo gallery"><button type="button" class="gallery-close" aria-label="Close image">×</button><img data-lightbox-image src="" alt=""/></dialog>
     <section class="benefits-figma shell"><div class="section-head"><h2>{benefits.heading}</h2><p set:html={benefits.introHtml ?? benefits.intro}></p></div><div class="green-rule"><span class="s-outline-green">S</span> <span class="s-outline-green">S</span></div><div class="benefit-grid">{benefits.items.map((item) => <article><h3>{item.title}</h3><p set:html={item.textHtml ?? item.text}></p></article>)}</div></section>
-      <section class="mentors-figma shell" id="mentors"><div class="section-head mentor-head"><h2>{mentors.heading} <em>{mentors.year}</em></h2></div><p class="section-note">{mentors.note}</p><div class="green-rule"></div><div class="mentor-carousel" data-loop-carousel><button class="mentor-arrow mentor-prev" type="button" aria-label="Previous mentors"><span aria-hidden="true">←</span></button><div class="mentor-viewport"><div class="mentor-cards">{[...mentors.items, ...mentors.items].map((mentor, index) => <article class="mentor-card" aria-hidden={index >= mentors.items.length}><div class="mentor-meta"><span>{mentor.name}</span>{mentor.country && <span>{mentor.country}</span>}</div>{mentor.role && <span class="mentor-role">{mentor.role}</span>}<img src={mentor.image} alt={mentor.name}/>{mentor.text && <p>{mentor.text}</p>}</article>)}</div></div><button class="mentor-arrow mentor-next" type="button" aria-label="Next mentors"><span aria-hidden="true">→</span></button></div></section>
-      <section class="children-mentors-figma shell"><div class="section-head mentor-head"><h2>{childrenMentors.heading} <em>{childrenMentors.year}</em></h2><p set:html={childrenMentors.introHtml ?? childrenMentors.intro}></p></div><p class="section-note">{childrenMentors.note}</p><div class="green-rule"></div>{childrenMentors.items?.length ? <div class="mentor-carousel" data-static-carousel><button class="mentor-arrow mentor-prev" type="button" aria-label="Previous kids mentors"><span aria-hidden="true">←</span></button><div class="mentor-viewport"><div class="mentor-cards">{childrenMentors.items.map((mentor) => <article class="mentor-card"><div class="mentor-meta"><span>{mentor.name}</span>{(mentor.country || mentor.company) && <span>{mentor.country || mentor.company}</span>}</div>{mentor.role && <span class="mentor-role">{mentor.role}</span>}<img src={mentor.image} alt={mentor.name}/>{mentor.text && <p>{mentor.text}</p>}</article>)}</div></div><button class="mentor-arrow mentor-next" type="button" aria-label="Next kids mentors"><span aria-hidden="true">→</span></button></div> : null}</section>
-      <section class="judges-figma shell" id="judges"><div class="section-head mentor-head"><h2>{judges.heading} <em>{judges.year}</em></h2><p set:html={judges.introHtml ?? judges.intro}></p></div><p class="section-note">{judges.note}</p><div class="green-rule"></div><div class="mentor-carousel" data-static-carousel><button class="mentor-arrow mentor-prev" type="button" aria-label="Previous judges"><span aria-hidden="true">←</span></button><div class="mentor-viewport"><div class="mentor-cards judges-cards">{judges.items.map((judge) => <article class="mentor-card judge-card"><div class="mentor-meta"><span>{judge.name}</span><span>{judge.company}</span></div><span class="mentor-role">{judge.role}</span><img src={judge.image} alt={judge.name}/><p>{judge.text}</p></article>)}</div></div><button class="mentor-arrow mentor-next" type="button" aria-label="Next judges"><span aria-hidden="true">→</span></button></div></section>
+      <section class="mentors-figma shell" id="mentors"><div class="section-head mentor-head"><h2>{mentors.heading} <em>{mentors.year}</em></h2></div><p class="section-note">{mentors.note}</p><div class="green-rule"></div><div class="mentor-carousel" data-auto-carousel><button class="mentor-arrow mentor-prev" type="button" aria-label="Previous mentors"><span aria-hidden="true">←</span></button><div class="mentor-viewport"><div class="mentor-cards">{mentors.items.map((mentor) => <article class="mentor-card"><div class="mentor-meta"><span>{mentor.name}</span>{mentor.country && <span>{mentor.country}</span>}</div>{mentor.role && <span class="mentor-role">{mentor.role}</span>}<img src={mentor.image} alt={mentor.name}/>{mentor.text && <p>{mentor.text}</p>}</article>)}</div></div><button class="mentor-arrow mentor-next" type="button" aria-label="Next mentors"><span aria-hidden="true">→</span></button></div></section>
+      <section class="children-mentors-figma shell"><div class="section-head mentor-head"><h2>{childrenMentors.heading} <em>{childrenMentors.year}</em></h2><p set:html={childrenMentors.introHtml ?? childrenMentors.intro}></p></div><p class="section-note">{childrenMentors.note}</p><div class="green-rule"></div>{childrenMentors.items?.length ? <div class="mentor-carousel" data-auto-carousel><button class="mentor-arrow mentor-prev" type="button" aria-label="Previous kids mentors"><span aria-hidden="true">←</span></button><div class="mentor-viewport"><div class="mentor-cards">{childrenMentors.items.map((mentor) => <article class="mentor-card"><div class="mentor-meta"><span>{mentor.name}</span>{(mentor.country || mentor.company) && <span>{mentor.country || mentor.company}</span>}</div>{mentor.role && <span class="mentor-role">{mentor.role}</span>}<img src={mentor.image} alt={mentor.name}/>{mentor.text && <p>{mentor.text}</p>}</article>)}</div></div><button class="mentor-arrow mentor-next" type="button" aria-label="Next kids mentors"><span aria-hidden="true">→</span></button></div> : null}</section>
+      <section class="judges-figma shell" id="judges"><div class="section-head mentor-head"><h2>{judges.heading} <em>{judges.year}</em></h2><p set:html={judges.introHtml ?? judges.intro}></p></div><p class="section-note">{judges.note}</p><div class="green-rule"></div><div class="mentor-carousel" data-auto-carousel><button class="mentor-arrow mentor-prev" type="button" aria-label="Previous judges"><span aria-hidden="true">←</span></button><div class="mentor-viewport"><div class="mentor-cards judges-cards">{judges.items.map((judge) => <article class="mentor-card judge-card"><div class="mentor-meta"><span>{judge.name}</span><span>{judge.company}</span></div><span class="mentor-role">{judge.role}</span><img src={judge.image} alt={judge.name}/><p>{judge.text}</p></article>)}</div></div><button class="mentor-arrow mentor-next" type="button" aria-label="Next judges"><span aria-hidden="true">→</span></button></div></section>
       <section class="facilitator-figma shell" id="facilitator"><div class="section-head mentor-head"><h2>{facilitator.heading} <em>{facilitator.year}</em></h2><p set:html={facilitator.introHtml ?? facilitator.intro}></p></div><div class="green-rule"></div><div class="facilitator-card-wrap">{facilitator.items.map((person) => <article class="mentor-card judge-card facilitator-card"><div class="mentor-meta"><span>{person.name}</span><span>{person.country}</span></div><span class="mentor-role">{person.role}</span><img src={person.image} alt={person.name}/><p>{person.text}</p></article>)}</div></section>
       <section class="mentor-editorial-section shell"><div class="mentor-editorial"><p class="mentor-story">{statement.text}</p><div class="mentor-sidecopy"><p>{mentors.featureLeft}</p><p>{mentors.featureRight}</p></div><div class="mentor-stars" aria-hidden="true">{Array.from({ length: 7 }, (_, row) => <div class={`mentor-stars-row${row % 2 ? ' is-offset' : ''}`}>{Array.from({ length: 32 }, (_, star) => <img src={assetPath('/Star.png')} alt="" data-star={star}/>)}</div>)}</div></div></section>
       <section class="faq-section shell" id="faq"><div class="faq-head"><h2>{faq.heading}</h2><p set:html={faq.introHtml ?? faq.intro}></p></div><div class="faq-list">{faq.items.map((item) => <details class="faq-item"><summary><span class="faq-question">{item.question}</span><span class="faq-preview"><span class="faq-preview-short">{item.previewText}</span><span class="faq-preview-full">{item.answerText}</span></span><span class="faq-plus" aria-hidden="true"></span></summary></details>)}</div></section>
@@ -263,37 +263,51 @@ const partnerGroups = existsSync(partnerRoot)
     });
   };
   updateScheduleState(); window.setInterval(updateScheduleState, 30000);
-  const mentorViewport = document.querySelector('.mentor-viewport'); const mentorTrack = document.querySelector('.mentor-cards'); const previousMentors = document.querySelector('.mentor-prev'); const nextMentors = document.querySelector('.mentor-next');
-  if (mentorViewport && mentorTrack) {
-    let paused = false; let dragging = false; let startX = 0; let startScroll = 0; let resumeTimer;
-    const loopPoint = () => mentorTrack.scrollWidth / 2;
-    const keepLooping = () => { if (mentorViewport.scrollLeft >= loopPoint()) mentorViewport.scrollLeft -= loopPoint(); if (mentorViewport.scrollLeft <= 0) mentorViewport.scrollLeft += loopPoint(); };
-    const resumeSoon = () => { window.clearTimeout(resumeTimer); resumeTimer = window.setTimeout(() => { paused = false; }, 450); };
-    const moveMentors = (direction) => { paused = true; mentorViewport.scrollBy({ left: direction * mentorViewport.clientWidth * 0.72, behavior: 'smooth' }); resumeSoon(); };
-    previousMentors?.addEventListener('click', () => moveMentors(-1)); nextMentors?.addEventListener('click', () => moveMentors(1));
-    mentorViewport.addEventListener('mouseenter', () => { paused = true; });
-    mentorViewport.addEventListener('mouseleave', () => { paused = false; });
-    mentorViewport.addEventListener('pointerdown', (event) => { dragging = true; paused = true; startX = event.clientX; startScroll = mentorViewport.scrollLeft; mentorViewport.setPointerCapture(event.pointerId); });
-    mentorViewport.addEventListener('pointermove', (event) => { if (dragging) mentorViewport.scrollLeft = startScroll - (event.clientX - startX); });
-    const finishDrag = () => { dragging = false; paused = false; keepLooping(); };
-    mentorViewport.addEventListener('pointerup', finishDrag); mentorViewport.addEventListener('pointercancel', finishDrag);
-    window.setInterval(() => { if (!paused && !dragging) { mentorViewport.scrollLeft += 0.55; keepLooping(); } }, 30);
-  }
-  document.querySelectorAll('[data-static-carousel]').forEach((carousel) => {
+  document.querySelectorAll('[data-auto-carousel]').forEach((carousel) => {
     const viewport = carousel.querySelector('.mentor-viewport');
+    const track = carousel.querySelector('.mentor-cards');
     const previous = carousel.querySelector('.mentor-prev');
     const next = carousel.querySelector('.mentor-next');
-    if (!viewport) return;
-    const move = (direction) => viewport.scrollBy({ left: direction * viewport.clientWidth * 0.72, behavior: 'smooth' });
+    if (!viewport || !track) return;
+    const cards = Array.from(track.children);
+    const refreshLoop = () => {
+      track.querySelectorAll('[data-carousel-clone]').forEach((clone) => clone.remove());
+      if (track.scrollWidth <= viewport.clientWidth + 1) { viewport.scrollLeft = 0; return; }
+      cards.forEach((card) => {
+        const clone = card.cloneNode(true);
+        clone.setAttribute('aria-hidden', 'true');
+        clone.dataset.carouselClone = 'true';
+        track.append(clone);
+      });
+    };
+    refreshLoop();
+    let paused = false; let dragging = false; let startX = 0; let startScroll = 0; let resumeTimer;
+    const loopPoint = () => track.querySelector('[data-carousel-clone]')?.offsetLeft ?? 0;
+    const canScroll = () => loopPoint() > viewport.clientWidth + 1;
+    const continueFromStart = () => {
+      const point = loopPoint();
+      if (point && viewport.scrollLeft >= point) viewport.scrollLeft -= point;
+    };
+    const resumeSoon = () => { window.clearTimeout(resumeTimer); resumeTimer = window.setTimeout(() => { paused = false; }, 450); };
+    const move = (direction) => { if (!canScroll()) return; paused = true; if (direction < 0 && viewport.scrollLeft <= 1) viewport.scrollLeft = loopPoint(); viewport.scrollBy({ left: direction * viewport.clientWidth * 0.72, behavior: 'smooth' }); resumeSoon(); };
     previous?.addEventListener('click', () => move(-1));
     next?.addEventListener('click', () => move(1));
+    viewport.addEventListener('mouseenter', () => { paused = true; });
+    viewport.addEventListener('mouseleave', () => { paused = false; });
+    viewport.addEventListener('pointerdown', (event) => { if (!canScroll()) return; dragging = true; paused = true; startX = event.clientX; startScroll = viewport.scrollLeft; viewport.setPointerCapture(event.pointerId); });
+    viewport.addEventListener('pointermove', (event) => { if (dragging) viewport.scrollLeft = startScroll - (event.clientX - startX); });
+    const finishDrag = () => { dragging = false; paused = false; };
+    viewport.addEventListener('pointerup', finishDrag); viewport.addEventListener('pointercancel', finishDrag);
+    viewport.addEventListener('scroll', continueFromStart);
+    window.setInterval(() => { if (paused || dragging || !canScroll()) return; viewport.scrollLeft += 0.55; continueFromStart(); }, 30);
+    window.addEventListener('resize', refreshLoop);
   });
   const updateCarouselControls = (carousel) => {
     const viewport = carousel.querySelector('.mentor-viewport');
     const track = carousel.querySelector('.mentor-cards');
     if (!viewport || !track) return;
-    const contentWidth = carousel.hasAttribute('data-loop-carousel') ? track.scrollWidth / 2 : track.scrollWidth;
-    const canScroll = contentWidth > viewport.clientWidth + 1;
+    const clone = track.querySelector('[data-carousel-clone]');
+    const canScroll = (clone?.offsetLeft ?? track.scrollWidth) > viewport.clientWidth + 1;
     carousel.querySelectorAll('.mentor-arrow').forEach((arrow) => { arrow.hidden = !canScroll; });
   };
   const updateAllCarouselControls = () => document.querySelectorAll('.mentor-carousel').forEach(updateCarouselControls);
