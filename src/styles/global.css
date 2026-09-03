@@ -138,9 +138,9 @@ button,input,textarea,select{font-family:Manrope,sans-serif}
 .section-head p{font-weight:500;letter-spacing:-.015em}
 .section-head p strong{color:var(--green);font-weight:800}
 .green-rule{border-top-color:#d9d9d5;color:var(--green)}
-.benefit-grid article{background:transparent;border-color:rgba(41,200,100,.6)}
+.benefit-grid article{min-height:233px;background:transparent;border-color:rgba(41,200,100,.6)}
 .benefit-grid h3{letter-spacing:-.045em}
-.benefit-grid p{font-weight:500;letter-spacing:-.015em}
+.benefit-grid p{max-width:none;font-weight:500;letter-spacing:-.015em}
 .essence>p strong,.thumb-row small strong{font-weight:800}
 .photo-caption{color:#888}
 .message-link{display:inline-block;margin-top:8px;color:var(--green);font-weight:800;text-decoration:underline}
@@ -155,6 +155,8 @@ button,input,textarea,select{font-family:Manrope,sans-serif}
 @media(max-width:760px){.green-rule{font-size:18px;-webkit-text-stroke:1px var(--green)}.essence-label b{font-size:18px}}
 .green-rule{font-size:36px;color:var(--green);-webkit-text-fill-color:var(--green);-webkit-text-stroke:1px var(--green)}
 @media(max-width:760px){.green-rule{font-size:24px;-webkit-text-fill-color:var(--green);-webkit-text-stroke:.8px var(--green)}}
+.benefits-figma .green-rule{padding-block:18px}
+@media(max-width:760px){.benefits-figma .green-rule{padding-block:12px}}
 .topbar .buy{display:inline-flex;align-items:center;gap:8px;font-family:Manrope,sans-serif;font-size:14px;font-weight:800;line-height:1.5;letter-spacing:-.01em;text-transform:uppercase}
 .topbar .buy img{display:block;width:18px;height:18px;object-fit:contain}
 @media(max-width:760px){.topbar .buy{font-size:10px}.topbar .buy img{width:14px;height:14px}}
