@@ -4,4 +4,25 @@ introHtml: >-
   A <strong>SPECIAL MENTORING TEAM</strong> FOR <strong>YOUNG
   CREATORS</strong> WILL JOIN THE <strong>STARTUP WEEKEND
   EXPERIENCE</strong>.
-announcementStatus: upcoming
+announcementStatus: partial
+items:
+  - name: Jana Valova
+    company: INOVIA
+    role: Innovation Manager
+    image: Bussiness_portrety_web_019 (1) - Jana Valova.jpg
+    text: Innovation manager at INOVIA leading student entrepreneurship and helping young people turn their first ideas into real projects.
+  - name: Michaela Kocúrová
+    company: gt12 Košice
+    role: Student
+    image: Michaela-Kocurova.jpeg
+    text: Bilingual high-school student from Košice who enjoys photography, the outdoors, and staying active through fitness.
+  - name: Renáta Fogeltonová
+    company: Cesty k podnikaniu
+    role: Mentor, Lecturer & Teacher
+    image: Renata-Fogeltonova.png
+    text: Mentor and educator connecting formal and informal learning, bringing practical business inspiration to young people and schools.
+  - name: Monika Urdová
+    company: Cesty k podnikaniu
+    role: Teacher & Mentor
+    image: Monika-Urdová.jpeg
+    text: Secondary-school teacher and mentor dedicated to creating safe, inspiring learning environments where young people can grow.

@@ -1,6 +1,26 @@
 heading: MENTORS
-announcementStatus: partial
+announcementStatus: complete
 items:
+  - name: Michal Suster
+    country: Kobi&Siriuzz
+    role: CSO
+    image: Micha-Suster.jpg
+    text: Commercial strategist with experience in go-to-market, sales, and business development across leading technology companies.
+  - name: Eduard Kesely
+    country: Resco
+    role: Principal Product Manager
+    image: eduard-kesely.jpeg
+    text: Product leader with 17+ years in tech, passionate about AI, product building, experimentation, and turning ideas into launched products.
+  - name: Pavol Čobirka
+    country: Kobi & Siriuzz
+    role: CEO
+    image: Pavol-čobirka.jpeg
+    text: Entrepreneur, investor, and startup advisor helping founders validate ideas, sharpen go-to-market strategy, scale sales, and raise funding.
+  - name: Kristián Briška
+    country: Henkel Slovensko
+    role: Team Manager Commercial Excellence
+    image: Kristián-Briška.jpeg
+    text: International analytics team leader connecting business, data, and technology while helping teams turn unclear ideas into practical next steps.
   - name: Jakub Hrušovský
     country: Birne
     role: Co-Founder & Strategist
@@ -56,3 +76,8 @@ items:
     role: Marketing Consultant
     image: Tony-Dúbravec.jpg
     text: Marketing consultant and founder of Wild Cards specializing in social media, content marketing, and communication strategy.
+  - name: Dusan Koutny
+    country: BiteBerry
+    role: CEO
+    image: Dusan-Koutny.png
+    text: CEO of BiteBerry and former CEO/CTO of OrderLord, with 15+ years of experience building technology products from early ideas to scalable businesses.
