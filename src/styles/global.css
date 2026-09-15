@@ -218,37 +218,27 @@ button,input,textarea,select{font-family:Manrope,sans-serif}
   .essence-gallery .gallery-thumb:nth-child(3){display:none}
   .gallery-thumb img{height:116px}
 }
-.schedule-figma{padding-top:clamp(70px,9vw,150px);padding-bottom:clamp(70px,9vw,150px);overflow:hidden}
-.schedule-head{align-items:flex-start}
-.schedule-head h2{display:flex;align-items:flex-start;gap:14px;font-family:Manrope,sans-serif;font-size:clamp(64px,10vw,160px);font-weight:600;line-height:1;letter-spacing:-4%;text-transform:uppercase}
-.schedule-head h2 em{display:inline-block;margin-top:.08em;font-size:.3em;font-style:normal;color:var(--green);vertical-align:top;letter-spacing:-1%}
-.schedule-head p{max-width:440px}
-.schedule-days{margin-top:clamp(44px,6vw,90px);border-top:2px solid #050505}
-.schedule-day{margin:0;border-bottom:2px solid #050505}
-.schedule-day>header{display:grid;grid-template-columns:110px 1fr auto auto;gap:20px;align-items:baseline;padding:30px 18px 26px;background:#fff;transition:background-color .25s,color .25s}
-.schedule-day-number{color:var(--green);font-size:16px;font-weight:800}
-.schedule-day h3{margin:0;font-size:clamp(38px,4vw,72px);font-weight:600;letter-spacing:-4%;line-height:.9;text-transform:uppercase}
-.schedule-day>header>time{font-size:clamp(16px,1.3vw,22px);font-weight:600;text-transform:uppercase}
-.schedule-day-live{display:none;color:#050505;font-size:12px;font-weight:800;letter-spacing:-1%;text-transform:uppercase}
-.schedule-day.is-live>header{background:#e7f7ed}
-.schedule-day.is-live .schedule-day-number{color:#050505}
-.schedule-day.is-live .schedule-day-live{display:inline}
-.schedule-item{position:relative;display:grid;grid-template-columns:110px minmax(0,1fr) 180px;gap:20px;align-items:center;border-top:1px solid #d7d7d7;padding:23px 18px;min-height:82px;transition:background-color .2s,color .2s,padding .2s}
-.schedule-item>time{font-size:clamp(20px,1.5vw,28px);font-weight:600;line-height:1}
-.schedule-item>time small{display:block;margin-top:7px;color:#777;font-size:10px;font-weight:600}
-.schedule-title{display:flex;align-items:center;gap:14px;min-width:0}
-.schedule-title strong{font-size:clamp(19px,1.65vw,30px);font-weight:600;letter-spacing:-2%;line-height:1.1;text-transform:uppercase}
-.schedule-title>span{flex:none;border:1px solid var(--green);padding:5px 8px;color:var(--green);font-size:10px;font-weight:800;line-height:1;text-transform:uppercase}
-.schedule-location{font-size:13px;font-weight:700;letter-spacing:-1%;text-align:right;text-transform:uppercase}
-.schedule-now{display:none;align-items:center;gap:8px;color:#050505;font-size:11px;font-weight:800;text-transform:uppercase}
-.schedule-now i{width:8px;height:8px;border-radius:50%;background:#050505;animation:schedule-pulse 1.3s ease-in-out infinite}
-.schedule-item.is-live{grid-template-columns:110px minmax(0,1fr) 180px auto;background:#ddf4e6;padding-left:28px;padding-right:28px}
-.schedule-item.is-live>time small{color:#174d2c}
-.schedule-item.is-live .schedule-title>span{border-color:#050505;color:#050505}
-.schedule-item.is-live .schedule-now{display:flex}
+.schedule-figma{padding-top:clamp(35px,4.5vw,75px);padding-bottom:clamp(70px,9vw,150px);overflow:hidden}
+.schedule-head{align-items:flex-start}.schedule-head h2{display:flex;align-items:flex-start;gap:14px;font-family:Manrope,sans-serif;font-size:clamp(64px,10vw,160px);font-weight:600;line-height:1;letter-spacing:-.06em;text-transform:uppercase}.schedule-head h2 em{display:inline-block;margin-top:.08em;font-size:.3em;font-style:normal;color:var(--green);vertical-align:top;letter-spacing:-.03em}.schedule-head p{max-width:440px}
+.schedule-tabs{display:flex;gap:4px;margin-top:clamp(44px,6vw,76px);border-bottom:2px solid #050505}
+.schedule-tab{display:flex;align-items:center;gap:18px;min-width:205px;padding:23px 34px 21px;border:0;border-radius:0;background:#050505;color:#fff;cursor:pointer;transition:background-color .2s,color .2s}
+.schedule-tab strong,.schedule-tab time{font-size:16px;font-weight:800;letter-spacing:.05em;line-height:1;text-transform:uppercase}
+.schedule-tab.is-active{background:var(--green);color:#050505}
+.schedule-days{background:#fff}
+.schedule-day{overflow:hidden}
+.schedule-list-header,.schedule-item{display:grid;grid-template-columns:124px minmax(0,1fr) 195px;align-items:center}
+.schedule-list-header{min-height:48px;border-bottom:1px solid #dcdcd8;color:#111;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+.schedule-list-header span{padding:0 14px}.schedule-list-header span+span{border-left:1px solid #e2e2de}
+.schedule-item{position:relative;min-height:70px;border-bottom:1px solid #dfdfda;transition:background-color .2s,color .2s}
+.schedule-item>time{padding:0 14px;font-variant-numeric:tabular-nums}.schedule-item>time b{font-size:20px;font-weight:800;letter-spacing:-.03em}.schedule-item>time small{display:none}
+.schedule-title{min-width:0;border-left:1px solid #e2e2de;padding:0 26px}.schedule-title strong{font-size:20px;font-weight:500;letter-spacing:-.025em;line-height:1.1;text-transform:none}
+.schedule-access{justify-self:stretch;margin-left:0;border-left:1px solid #e2e2de;padding:0 14px;color:#090909;font-size:12px;font-weight:700;letter-spacing:.03em;line-height:1;text-align:center;text-transform:uppercase;white-space:nowrap}
+.schedule-access:not(.is-empty){justify-self:center;margin:0;border:1px solid var(--green);border-radius:999px;padding:6px 11px;color:#087932;font-size:10px}
+.schedule-now{display:none;position:absolute;right:10px;bottom:5px;align-items:center;gap:4px;color:var(--green);font-size:7px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}.schedule-now i{width:5px;height:5px;border-radius:50%;background:currentColor;animation:schedule-pulse 1.3s ease-in-out infinite}
+.schedule-item.is-live{background:#effcf3}.schedule-item.is-live>time b{color:var(--green)}.schedule-item.is-live .schedule-now{display:flex}
 @keyframes schedule-pulse{50%{opacity:.25;transform:scale(.7)}}
-@media (hover:hover){.schedule-item:not(.is-live):hover{background:#f4fff7;padding-left:28px;padding-right:28px}}
-@media (max-width:750px){.schedule-figma{padding-top:70px;padding-bottom:70px}.schedule-head h2{gap:8px;font-size:clamp(52px,16vw,92px)}.schedule-head p{font-size:10px}.schedule-days{margin-top:42px}.schedule-day>header{grid-template-columns:42px 1fr;padding:22px 7px 18px;gap:4px 10px}.schedule-day-number{grid-row:1/3;font-size:13px}.schedule-day h3{font-size:32px}.schedule-day>header>time{font-size:12px}.schedule-day-live{grid-column:2;font-size:9px}.schedule-item,.schedule-item.is-live{grid-template-columns:62px minmax(0,1fr);gap:8px 12px;min-height:76px;padding:16px 7px}.schedule-item.is-live{padding-left:12px;padding-right:12px}.schedule-item>time{font-size:16px}.schedule-title{align-items:flex-start;flex-direction:column;gap:7px}.schedule-title strong{font-size:16px}.schedule-title>span{padding:4px 6px;font-size:8px}.schedule-location{grid-column:2;text-align:left;font-size:9px}.schedule-now{grid-column:2;font-size:9px}}
+@media (hover:hover){.schedule-tab:not(.is-active):hover{background:#252525}.schedule-item:not(.is-live):hover{background:#f8fbf9}}
+@media (max-width:750px){.schedule-figma{padding-top:35px;padding-bottom:70px}.schedule-head h2{gap:8px;font-size:clamp(52px,16vw,92px)}.schedule-head p{font-size:10px}.schedule-tabs{margin-top:42px}.schedule-tab{flex:1;justify-content:center;gap:7px;min-width:0;padding:17px 5px 15px;border-radius:0}.schedule-tab strong,.schedule-tab time{font-size:10px}.schedule-list-header,.schedule-item{grid-template-columns:62px minmax(0,1fr) 82px}.schedule-list-header{min-height:36px;font-size:7px}.schedule-list-header span,.schedule-item>time{padding:0 6px}.schedule-title{padding:0 9px}.schedule-title strong{font-size:14px}.schedule-access{padding:0 4px;font-size:8px;white-space:normal}.schedule-access:not(.is-empty){padding:5px 6px;font-size:7px}.schedule-item{min-height:64px}.schedule-now{right:5px;bottom:3px;font-size:5px}}
 /* Final heading pass aligned to the Figma typography references. */
 .section-head h2{font-family:Manrope,Arial,sans-serif;font-size:40px;font-weight:700;line-height:1.1;letter-spacing:-.04em;text-transform:uppercase}
 .benefit-grid h3{font-family:Manrope,Arial,sans-serif;font-size:28px;font-weight:700;line-height:1.1;letter-spacing:-.04em}
@@ -403,7 +393,7 @@ button,input,textarea,select{font-family:Manrope,sans-serif}
 .partner-cta:hover{background:var(--green);color:#050505;transform:translateY(-2px)}
 .partner-cta:hover .partner-build-row{color:#050505}
 .partner-cta:hover strong{color:#050505}
-.memories-section{padding-top:0;padding-bottom:clamp(140px,14vw,240px)}
+.memories-section{padding-top:0;padding-bottom:clamp(70px,7vw,120px)}
 .memories-head{display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:36px;align-items:start;border-bottom:1px solid var(--line);padding-bottom:48px}
 .memories-head h2{margin:0;font-family:Manrope,Arial,sans-serif;font-size:128px;font-weight:600;line-height:.9;letter-spacing:0;text-transform:uppercase}
 .memories-head p{margin:0;padding-top:10px;font-size:16px;font-weight:600;line-height:1.3;text-align:right;text-transform:uppercase}
@@ -455,7 +445,7 @@ button,input,textarea,select{font-family:Manrope,sans-serif}
   .partner-cta-label{font-size:clamp(22px,7.5vw,34px);white-space:normal;text-align:center}
   .partner-build-row{width:100%;gap:8px}
   .partner-cta strong{max-width:none;font-size:13px;text-align:center;white-space:normal}
-  .memories-section{padding-bottom:56px}
+  .memories-section{padding-bottom:28px}
   .memories-head{grid-template-columns:1fr;gap:18px;padding-bottom:30px}
   .memories-head h2{font-size:56px}
   .memories-head p{padding-top:0;font-size:10px;text-align:left}
