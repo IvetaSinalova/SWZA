@@ -241,7 +241,7 @@ const eventPartnerGroups = partnerGroups.filter((group) => group.tier !== 'grant
   mentorStarPatterns.forEach((pattern) => mentorStarObserver.observe(pattern));
   window.addEventListener('resize', fitMentorStars, { passive: true });
   const eventStatuses = [...document.querySelectorAll('[data-start]')];
-  const setMessage = (status, countdown, message, title, text, isLive = false, keepCountdown = false) => { countdown.hidden = !keepCountdown; message.hidden = false; message.classList.toggle('during-event', keepCountdown); const messageText = message.querySelector('[data-message-text]'); message.querySelector('[data-message-title]').textContent = title; messageText.textContent = text; if (isLive) { const link = document.createElement('a'); link.href = '#schedule'; link.textContent = ' VIEW SCHEDULE'; link.className = 'message-link'; messageText.append(link); } };
+  const setMessage = (status, countdown, message, title, text, isLive = false, keepCountdown = false) => { countdown.hidden = !keepCountdown; message.hidden = false; message.classList.toggle('during-event', keepCountdown); const messageText = message.querySelector('[data-message-text]'); message.querySelector('[data-message-title]').textContent = title; messageText.textContent = isLive ? '' : text; if (isLive) { const link = document.createElement('a'); link.href = '#schedule'; link.textContent = 'VIEW SCHEDULE'; link.className = 'message-link'; messageText.append(link); } };
   const updateEventStatus = (status) => {
     const countdown = status?.querySelector('[data-countdown]');
     const message = status?.querySelector('.event-message');

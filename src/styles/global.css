@@ -143,7 +143,7 @@ button,input,textarea,select{font-family:Manrope,sans-serif}
 .benefit-grid p{max-width:none;font-weight:500;letter-spacing:-.015em}
 .essence>p strong,.thumb-row small strong{font-weight:800}
 .photo-caption{color:#888}
-.message-link{display:inline-block;margin-top:8px;color:var(--green);font-weight:800;text-decoration:underline}
+.message-link{display:inline-block;margin-top:0;color:var(--green);font-size:20px;font-weight:800;letter-spacing:-.025em;text-decoration:underline}
 .event-past .section-note{display:none}
 .essence{padding-top:120px;padding-bottom:120px}
 .essence>p{margin-top:72px;margin-bottom:58px}
