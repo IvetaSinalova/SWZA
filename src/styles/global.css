@@ -467,8 +467,10 @@ button,input,textarea,select{font-family:Manrope,sans-serif}
 .site-footer{width:100%;margin:0;background:#000;color:#fff;padding:0;overflow:hidden}
 .footer-top{position:relative;display:grid;grid-template-columns:minmax(320px,1fr) minmax(160px,.55fr) minmax(360px,1fr);gap:54px;align-items:start;margin:0 38px;padding:40px 0 72px;border-bottom:1px solid rgba(255,255,255,.16)}
 .footer-cta h2{margin:24px 0 32px;font-size:32px;font-weight:800;line-height:1;letter-spacing:-.04em;text-transform:uppercase}
+.footer-cta h2[hidden]{display:none!important}
 .footer-cta h2 span,.footer-countdown b,.footer-wordmark span{color:var(--green)}
 .footer-calendar{display:inline-flex;align-items:center;gap:16px;margin-top:0;font-size:13px;font-weight:800;text-decoration:underline;text-transform:uppercase}
+.footer-calendar[hidden]{display:none!important}
 .footer-calendar img{display:block;width:16px;height:16px;object-fit:contain;filter:brightness(0) invert(1)}
 .hero-calendar{display:inline-flex!important;margin-top:28px;color:#fff}
 .footer-socials{position:absolute;right:0;bottom:34px;display:flex;align-items:center;gap:18px;margin-top:0}

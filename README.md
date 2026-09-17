@@ -154,7 +154,11 @@ Pri zmene datumov programu aktualizuj `start` a `end` v `location.yaml`, aby spr
 
 ## Welcome sekcia
 
-Welcome sekcia obsahuje navbar, titulok, kolaz fotografii, odpočet a automaticke hlasky pre upcoming, live a past stav eventu. Waitlist formular, avatary, pocet prihlasenych ani calendar link sa na stranke nepouzivaju.
+Welcome sekcia obsahuje navbar, titulok, kolaz fotografii, odpočet a automaticke hlasky pre upcoming, live a past stav eventu. Waitlist formular, avatary ani pocet prihlasenych sa na stranke nepouzivaju.
+
+Odkazy **ADD THIS EVENT INTO YOUR CALENDAR** v hero sekcii a footeri sa zobrazia pred eventom a pocas neho. Po skonceni eventu sa automaticky skryju, ak v `src/content/events/<rok>/location.yaml` nie je nastavene `nextStart`. Po potvrdeni dalsieho rocnika aktualizuj `start`, `end`, `countdownTarget` a `nextStart`.
+
+Po spusteni eventu sa vo footeri namiesto titulku **DON'T MISS SWZA ...** zobrazuje rovnaka aktualna hlaska ako v hero sekcii. Po jeho skonceni sa zobrazia podakovanie a informacia o dalsom rocniku.
 
 ## Fotografie
 

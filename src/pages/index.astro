@@ -241,12 +241,14 @@ const eventPartnerGroups = partnerGroups.filter((group) => group.tier !== 'grant
   mentorStarPatterns.forEach((pattern) => mentorStarObserver.observe(pattern));
   window.addEventListener('resize', fitMentorStars, { passive: true });
   const eventStatuses = [...document.querySelectorAll('[data-start]')];
+  const calendarLinks = [...document.querySelectorAll('.footer-calendar')];
+  const footerCtaHeadings = [...document.querySelectorAll('.footer-cta h2')];
   const setMessage = (status, countdown, message, title, text, isLive = false, keepCountdown = false) => { countdown.hidden = !keepCountdown; message.hidden = false; message.classList.toggle('during-event', keepCountdown); const messageText = message.querySelector('[data-message-text]'); message.querySelector('[data-message-title]').textContent = title; messageText.textContent = isLive ? '' : text; if (isLive) { const link = document.createElement('a'); link.href = '#schedule'; link.textContent = 'VIEW SCHEDULE'; link.className = 'message-link'; messageText.append(link); } };
   const updateEventStatus = (status) => {
     const countdown = status?.querySelector('[data-countdown]');
     const message = status?.querySelector('.event-message');
     if (!status || !countdown || !message) return;
-    const now = Date.now(); const start = new Date(status.dataset.start).getTime(); const end = new Date(status.dataset.end).getTime(); const nextStart = status.dataset.nextStart ? new Date(status.dataset.nextStart).getTime() : null; document.body.classList.toggle('event-past', now >= end);
+    const now = Date.now(); const start = new Date(status.dataset.start).getTime(); const end = new Date(status.dataset.end).getTime(); const nextStart = status.dataset.nextStart ? new Date(status.dataset.nextStart).getTime() : null; calendarLinks.forEach((link) => { link.hidden = now >= end && !nextStart; }); footerCtaHeadings.forEach((heading) => { heading.hidden = now >= start; }); document.body.classList.toggle('event-past', now >= end);
     if (now >= start && now < end) { countdown.querySelectorAll('[data-unit]').forEach((element) => { element.textContent = '00'; }); setMessage(status, countdown, message, status.dataset.liveTitle, status.dataset.liveText, true, true); return; }
     if (now >= end) { setMessage(status, countdown, message, `${status.dataset.pastTitle} ${status.dataset.year}`, status.dataset.pastText); return; }
     const target = now < start ? start : nextStart; countdown.hidden = false; message.hidden = true;
