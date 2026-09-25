@@ -11,106 +11,130 @@ days:
       - time: "16:00"
         end: "16:30"
         title: REGISTRATION
+        description: Check in, collect your badge, and get ready for the weekend.
         location: MAIN HALL
       - time: "16:30"
         end: "17:00"
         title: REFRESHMENT AND NETWORKING
+        description: Grab a refreshment, meet the other participants, and start making connections.
         location: MAIN HALL
       - time: "17:00"
         end: "17:45"
         title: WELCOME
+        description: Organisers kick off the weekend and explain how it all works.
         location: MAIN HALL
         access: OPEN TO PUBLIC
       - time: "17:45"
         end: "18:45"
         title: PRESENTATION OF THE IDEAS
+        description: Got an idea? Pitch it on stage in 60 seconds and say who you need on your team.
         location: MAIN HALL
         access: OPEN TO PUBLIC
       - time: "18:45"
         end: "19:00"
         title: RATING OF THE IDEAS
+        description: Everyone votes on the pitches. The best ideas move on.
         location: MAIN HALL
         access: OPEN TO PUBLIC
       - time: "19:00"
         end: "19:20"
         title: FORMING OF THE TEAMS
+        description: Join the idea you believe in, or build a team around your own.
         location: MAIN HALL
         access: OPEN TO PUBLIC
       - time: "19:20"
         end: "19:40"
         title: LEAN CANVAS WORKSHOP
+        description: A quick crash course to map your business idea on a single page.
         location: WORKSHOP
       - time: "19:40"
         end: "22:00"
         title: START OF WORK
+        description: Teams get going with roles, a first plan, and initial research.
         location: WORKSPACE
       - time: "22:00"
         end: "22:15"
         title: VENUE CLOSING
+        description: Wrap up your first day, save your progress, and recharge for Saturday.
         location: MAIN HALL
   - name: SATURDAY
     items:
       - time: "08:00"
         end: "08:30"
         title: BREAKFAST
+        description: Start the day with breakfast and a quick team catch-up.
         location: MAIN HALL
       - time: "08:30"
         end: "12:00"
         title: WORK ON THE PROJECT
+        description: Validate your idea, talk to real customers, and build a prototype.
         location: WORKSPACE
       - time: "12:00"
         end: "12:45"
         title: LUNCH
+        description: Take a break, refuel, and exchange ideas with the other teams.
         location: MAIN HALL
       - time: "12:45"
         end: "13:15"
         title: WORKSHOP HOW TO PRESENT TO THE INVESTORS
+        description: Learn how to turn your project into a pitch that convinces the jury.
         location: WORKSHOP
       - time: "13:15"
         end: "17:00"
         title: MENTORING / WORK ON THE PROJECT
+        description: Experienced mentors visit teams to give feedback and help you get unstuck.
         location: WORKSPACE
       - time: "17:00"
         end: "17:30"
         title: DINNER
+        description: Pause for dinner before the final work session of the day.
         location: MAIN HALL
       - time: "17:30"
         end: "22:00"
         title: WORK ON THE PROJECT
+        description: Use the feedback you received and keep building, testing, and refining your solution.
         location: WORKSPACE
       - time: "22:00"
         end: "22:15"
         title: VENUE CLOSING
+        description: Save your work and get some rest before the final day.
         location: MAIN HALL
   - name: SUNDAY
     items:
       - time: "08:00"
         end: "08:30"
         title: BREAKFAST
+        description: Fuel up, check the final plan, and prepare for the last push.
         location: MAIN HALL
       - time: "08:30"
         end: "12:00"
         title: WORK ON THE PROJECT
+        description: Continue building and testing while preparing your key presentation points.
         location: WORKSPACE
       - time: "12:00"
         end: "12:30"
         title: LUNCH
+        description: Take a short break before the final preparation session.
         location: MAIN HALL
       - time: "12:30"
         end: "14:00"
         title: WORK ON THE PROJECT / SET UP OF THE PRESENTATION
+        description: Add the final touches to your prototype and pitch deck.
         location: WORKSPACE
       - time: "14:00"
         end: "17:00"
         title: PRESENTATION OF THE IDEAS
+        description: Each team presents its startup to the jury and the audience.
         location: MAIN HALL
         access: OPEN TO PUBLIC
       - time: "17:00"
         end: "17:30"
         title: JUDGING AND THE AWARD CEREMONY
+        description: The jury picks the winners and the prizes are handed out.
         location: MAIN HALL
         access: OPEN TO PUBLIC
       - time: "17:30"
         end: "19:00"
         title: DINNER
+        description: Celebrate the weekend, meet the teams, and enjoy dinner together.
         location: MAIN HALL

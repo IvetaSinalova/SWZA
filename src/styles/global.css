@@ -266,19 +266,26 @@ button,input,textarea,select{font-family:Manrope,sans-serif}
 .schedule-tab.is-active{background:var(--green);color:#050505}
 .schedule-days{background:#fff}
 .schedule-day{overflow:hidden}
-.schedule-list-header,.schedule-item{display:grid;grid-template-columns:124px minmax(0,1fr) 195px;align-items:center}
+.schedule-list-header,.schedule-item>summary{display:grid;grid-template-columns:124px minmax(0,1fr);align-items:center}
 .schedule-list-header{min-height:48px;border-bottom:1px solid #dcdcd8;color:#111;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
 .schedule-list-header span{padding:0 14px}.schedule-list-header span+span{border-left:1px solid #e2e2de}
-.schedule-item{position:relative;min-height:70px;border-bottom:1px solid #dfdfda;transition:background-color .2s,color .2s}
-.schedule-item>time{padding:0 14px;font-variant-numeric:tabular-nums}.schedule-item>time b{font-size:20px;font-weight:800;letter-spacing:-.03em}.schedule-item>time small{display:none}
-.schedule-title{min-width:0;border-left:1px solid #e2e2de;padding:0 26px}.schedule-title strong{font-size:20px;font-weight:500;letter-spacing:-.025em;line-height:1.1;text-transform:none}
-.schedule-access{justify-self:stretch;margin-left:0;border-left:1px solid #e2e2de;padding:0 14px;color:#090909;font-size:12px;font-weight:700;letter-spacing:.03em;line-height:1;text-align:center;text-transform:uppercase;white-space:nowrap}
-.schedule-access:not(.is-empty){justify-self:center;margin:0;border:1px solid var(--green);border-radius:999px;padding:6px 11px;color:#087932;font-size:10px}
+.schedule-item{position:relative;border-bottom:1px solid #dfdfda;transition:background-color .2s,color .2s}
+.schedule-item>summary{position:relative;min-height:70px;cursor:pointer;list-style:none}
+.schedule-item>summary::-webkit-details-marker{display:none}
+.schedule-item>summary>time{padding:0 14px;font-variant-numeric:tabular-nums}.schedule-item>summary>time b{font-size:20px;font-weight:800;letter-spacing:-.03em}.schedule-item>summary>time small{display:none}
+.schedule-title{display:flex;align-items:center;justify-content:space-between;gap:18px;min-width:0;border-left:1px solid #e2e2de;padding:12px 18px 12px 26px}.schedule-title-copy{display:flex;align-items:center;flex-wrap:wrap;gap:9px;min-width:0}.schedule-title strong{font-size:20px;font-weight:500;letter-spacing:-.025em;line-height:1.1;text-transform:none}
+.schedule-title>i{position:relative;width:14px;height:14px;flex:0 0 14px}
+.schedule-title>i:before,.schedule-title>i:after{content:"";position:absolute;left:0;top:6px;width:14px;height:1px;background:#050505;transition:transform .2s}
+.schedule-title>i:after{transform:rotate(90deg)}
+.schedule-item[open] .schedule-title>i:after{transform:rotate(0)}
+.schedule-item-detail{padding:0 26px 22px 150px;background:#fff}
+.schedule-item-detail p{max-width:760px;margin:0;padding-top:16px;color:#3e3e3a;font-size:14px;line-height:1.45}
+.schedule-access{display:inline-flex;align-items:center;border:1px solid var(--green);border-radius:999px;padding:5px 9px;color:#087932;font-size:9px;font-weight:700;letter-spacing:.03em;line-height:1;text-transform:uppercase;white-space:nowrap}
 .schedule-now{display:none;position:absolute;right:10px;bottom:5px;align-items:center;gap:4px;color:var(--green);font-size:7px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}.schedule-now i{width:5px;height:5px;border-radius:50%;background:currentColor;animation:schedule-pulse 1.3s ease-in-out infinite}
-.schedule-item.is-live{background:#effcf3}.schedule-item.is-live>time b{color:var(--green)}.schedule-item.is-live .schedule-now{display:flex}
+.schedule-item.is-live{background:#effcf3}.schedule-item.is-live>summary>time b{color:var(--green)}.schedule-item.is-live .schedule-now{display:flex}
 @keyframes schedule-pulse{50%{opacity:.25;transform:scale(.7)}}
 @media (hover:hover){.schedule-tab:not(.is-active):hover{background:#252525}.schedule-item:not(.is-live):hover{background:#f8fbf9}}
-@media (max-width:750px){.schedule-figma{padding-top:35px;padding-bottom:70px}.schedule-head h2{gap:8px;font-size:clamp(52px,16vw,92px)}.schedule-head p{font-size:10px}.schedule-tabs{margin-top:42px}.schedule-tab{flex:1;justify-content:center;gap:7px;min-width:0;padding:17px 5px 15px;border-radius:0}.schedule-tab strong,.schedule-tab time{font-size:10px}.schedule-list-header,.schedule-item{grid-template-columns:62px minmax(0,1fr) 82px}.schedule-list-header{min-height:36px;font-size:7px}.schedule-list-header span,.schedule-item>time{padding:0 6px}.schedule-title{padding:0 9px}.schedule-title strong{font-size:14px}.schedule-access{padding:0 4px;font-size:8px;white-space:normal}.schedule-access:not(.is-empty){padding:5px 6px;font-size:7px}.schedule-item{min-height:64px}.schedule-now{right:5px;bottom:3px;font-size:5px}}
+@media (max-width:750px){.schedule-figma{padding-top:35px;padding-bottom:70px}.schedule-head h2{gap:8px;font-size:clamp(52px,16vw,92px)}.schedule-head p{font-size:10px}.schedule-tabs{margin-top:42px}.schedule-tab{flex:1;justify-content:center;gap:7px;min-width:0;padding:17px 5px 15px;border-radius:0}.schedule-tab strong,.schedule-tab time{font-size:10px}.schedule-list-header,.schedule-item>summary{grid-template-columns:62px minmax(0,1fr)}.schedule-list-header{min-height:36px;font-size:7px}.schedule-list-header span,.schedule-item>summary>time{padding:0 6px}.schedule-item>summary{min-height:64px}.schedule-title{padding:10px 8px 10px 9px}.schedule-title-copy{gap:5px}.schedule-title strong{font-size:14px}.schedule-title>i{width:10px;height:10px;flex-basis:10px}.schedule-title>i:before,.schedule-title>i:after{top:4px;width:10px}.schedule-item-detail{padding:0 12px 17px 71px}.schedule-item-detail p{padding-top:12px;font-size:11px}.schedule-access{padding:4px 6px;font-size:7px}.schedule-now{right:24px;bottom:3px;font-size:5px}}
 /* Final heading pass aligned to the Figma typography references. */
 .section-head h2{font-family:Manrope,Arial,sans-serif;font-size:40px;font-weight:700;line-height:1.1;letter-spacing:-.04em;text-transform:uppercase}
 .benefit-grid h3{font-family:Manrope,Arial,sans-serif;font-size:28px;font-weight:700;line-height:1.1;letter-spacing:-.04em}
