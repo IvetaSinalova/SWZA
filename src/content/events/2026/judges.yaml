@@ -16,3 +16,8 @@ items:
     role: Board Member
     image: Miroslava-Šáchová.jpg
     text: Miroslava is a communication, education, and AI implementation expert who helps teams turn good ideas into clear, valuable, and compelling stories.
+  - name: Pavol Halpert
+    company: NN
+    role: AI transformation lead
+    image: pavol-halpert.png
+    text: Pavol drives practical AI adoption in a regulated environment across technology, business, and management, with a background co-founding startups.
