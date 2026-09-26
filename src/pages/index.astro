@@ -108,6 +108,7 @@ const partnerPriority = ['main', 'platinum', 'gold', 'golden', 'silver', 'price'
 const partnerGroupKey = (tier) => ['main', 'platinum'].includes(tier) ? 'featured' : tier;
 const normalizePartnerName = (value) => value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
 const partnerNames = [
+  { keywords: ['birne'], name: 'Birne' },
   { keywords: ['logo svg'], name: 'Birne' },
   { keywords: ['kobi siriuzz'], name: 'Kobi & Siriuzz' },
   { keywords: ['tv raj'], name: 'Televízia Raj' },
@@ -134,6 +135,7 @@ const partnerLinkRules = [
   { keywords: ['habesh'], url: 'https://habesh.sk/' },
   { keywords: ['aceon'], url: 'https://www.aceon.io/' },
   { keywords: ['tootoot'], url: 'https://tootoot.fm/en' },
+  { keywords: ['birne'], url: 'https://www.birne.sk/' },
   { keywords: ['logo svg'], url: 'https://www.birne.sk/' },
   { keywords: ['kobi siriuzz'], url: 'https://kobinsiriuzz.com/' },
   { keywords: ['tv raj'], url: 'https://www.tvraj.sk/' },
