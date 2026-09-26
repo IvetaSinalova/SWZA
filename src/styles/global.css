@@ -553,3 +553,5 @@ button,input,textarea,select{font-family:Manrope,sans-serif}
   .footer-digits b{font-size:36px}
   .footer-wordmark{display:block;margin-top:14px;font-size:52px;white-space:nowrap;transform:scaleX(var(--footer-wordmark-scale,1));transform-origin:left bottom}
 }
+
+@media(max-width:900px){.warmup-inner.shell{min-height:0}}
