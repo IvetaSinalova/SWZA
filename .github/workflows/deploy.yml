@@ -27,4 +27,14 @@ jobs:
           local-dir: ./dist/
           server-dir: ${{ secrets.FTP_SERVER_DIR }}/
           security: loose
-          dangerous-clean-slate: true
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/web-old/**
+            **/preview/**
+            **/*backup*/**
+            **/*.zip
+            **/installer.php
+          log-level: verbose
+          dry-run: false
