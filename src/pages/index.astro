@@ -107,6 +107,19 @@ const partnerRoot = join(process.cwd(), `public/images/events/${eventYear}/partn
 const partnerPriority = ['main', 'platinum', 'gold', 'golden', 'silver', 'price', 'prize'];
 const partnerGroupKey = (tier) => ['main', 'platinum'].includes(tier) ? 'featured' : tier;
 const normalizePartnerName = (value) => value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+const partnerNames = [
+  { keywords: ['logo svg'], name: 'Birne' },
+  { keywords: ['kobi siriuzz'], name: 'Kobi & Siriuzz' },
+  { keywords: ['tv raj'], name: 'Televízia Raj' },
+  { keywords: ['zilinsky samospravny kraj'], name: 'Žilinský samosprávny kraj' },
+  { keywords: ['at park'], name: 'AT Park, s. r. o.' },
+  { keywords: ['she explores'], name: 'SHE EXPLORES AI' },
+];
+const partnerNameFor = (file) => {
+  const haystack = normalizePartnerName(file);
+  return partnerNames.find((rule) => rule.keywords.some((keyword) => haystack.includes(normalizePartnerName(keyword))))?.name
+    ?? file.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ');
+};
 const partnerLinkRules = [
   { keywords: ['28602'], url: 'https://www.minedu.sk/' },
   { keywords: ['nivam'], url: 'https://nivam.sk/' },
@@ -121,6 +134,12 @@ const partnerLinkRules = [
   { keywords: ['habesh'], url: 'https://habesh.sk/' },
   { keywords: ['aceon'], url: 'https://www.aceon.io/' },
   { keywords: ['tootoot'], url: 'https://tootoot.fm/en' },
+  { keywords: ['logo svg'], url: 'https://www.birne.sk/' },
+  { keywords: ['kobi siriuzz'], url: 'https://kobinsiriuzz.com/' },
+  { keywords: ['tv raj'], url: 'https://www.tvraj.sk/' },
+  { keywords: ['zilinsky samospravny kraj'], url: 'https://www.zilinskazupa.sk/' },
+  { keywords: ['at park'], url: 'https://www.atpark.eu/' },
+  { keywords: ['she explores'], url: 'https://www.sheexploresai.com/' },
 ];
 const partnerUrlFor = (file, name) => {
   const haystack = normalizePartnerName(`${file} ${name}`);
@@ -142,7 +161,7 @@ const partnerGroups = existsSync(partnerRoot)
         .map((file) => ({
           tier: tier.name.toLowerCase(),
           format: file.split('.').pop()?.toLowerCase() ?? '',
-          name: file.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' '),
+          name: partnerNameFor(file),
           url: partnerUrlFor(file, file.replace(/\.[^.]+$/, '')),
           image: `${assetPath(`/images/events/${eventYear}/partners`)}/${encodeURIComponent(tier.name)}/${encodeURIComponent(file)}`,
         })),
@@ -184,7 +203,7 @@ const eventPartnerGroups = partnerGroups.filter((group) => group.tier !== 'grant
         <div class="schedule-tabs" role="tablist" aria-label="Startup Weekend schedule days">{schedule.days.map((day, dayIndex) => <button type="button" class={`schedule-tab${dayIndex === 0 ? ' is-active' : ''}`} role="tab" id={`schedule-tab-${dayIndex}`} aria-controls={`schedule-panel-${dayIndex}`} aria-selected={dayIndex === 0 ? 'true' : 'false'} data-schedule-tab data-day-index={dayIndex}><strong>{day.name.slice(0, 3)}</strong><time datetime={day.date}>{day.label}</time></button>)}</div>
         <div class="schedule-days">{schedule.days.map((day, dayIndex) => <section class={`schedule-day${dayIndex === 0 ? ' is-active' : ''}`} id={`schedule-panel-${dayIndex}`} role="tabpanel" aria-labelledby={`schedule-tab-${dayIndex}`} data-schedule-day data-day-index={dayIndex} hidden={dayIndex !== 0}><div class="schedule-list"><div class="schedule-list-header"><span>TIME</span><span>EVENT</span></div>{day.items.map((item) => <details class="schedule-item" data-schedule-item data-start={`${day.date}T${item.time}:00${schedule.utcOffset}`} data-end={`${day.date}T${item.end}:00${schedule.utcOffset}`}><summary><time datetime={`${day.date}T${item.time}:00${schedule.utcOffset}`}><b>{item.time}</b><small>UNTIL {item.end}</small></time><div class="schedule-title"><div class="schedule-title-copy"><strong>{item.title}</strong>{item.access && <span class="schedule-access">{item.access}</span>}</div><i aria-hidden="true"></i></div><span class="schedule-now"><i></i>HAPPENING NOW</span></summary><div class="schedule-item-detail"><p>{item.description}</p></div></details>)}</div></section>)}</div>
       </section>
-      <section class="location-figma shell" id="location"><div class="section-head"><h2>{locationSection.heading}</h2></div><div class="green-rule"></div><div class="location-panel"><div class="location-map-frame"><iframe src={locationSection.mapEmbedUrl} title={`Google Maps for ${locationSection.city}`} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div><aside class="location-card"><div><span class="location-eyebrow">VENUE / {locationSection.city.toUpperCase()}</span><h3 class="location-venue"><span>AT</span> PARK</h3><p class="location-description">{locationSection.description}</p></div><div class="location-card-footer"><a href={locationSection.mapUrl} target="_blank" rel="noopener noreferrer">OPEN IN GOOGLE MAPS <span aria-hidden="true">↗</span></a></div></aside></div></section>
+      <section class="location-figma shell" id="location"><div class="section-head"><h2>{locationSection.heading}</h2></div><div class="green-rule"></div><div class="location-panel"><div class="location-map-frame"><img src={`${eventImageRoot}/location/at-park.jpg`} alt={`${locationSection.venue} in ${locationSection.city}`} loading="lazy"/></div><aside class="location-card"><div><span class="location-eyebrow">VENUE / {locationSection.city.toUpperCase()}</span><h3 class="location-venue"><span>AT</span> PARK</h3><p class="location-description">{locationSection.description}</p></div><div class="location-card-footer"><a href={locationSection.mapUrl} target="_blank" rel="noopener noreferrer">OPEN IN GOOGLE MAPS <span aria-hidden="true">↗</span></a></div></aside></div></section>
       <section class="contact-anchor" id="contact" aria-hidden="true"></section>
       <section class="partner-showcase shell" id="partners"><div class="partner-heading"><h2>TOGETHER,<br/>WE DO GREAT THINGS.</h2><img src={assetPath('/star-sponsor.png')} alt="" aria-hidden="true"/></div><div class="partner-rule"></div>{grantPartners && <div class="partner-grant"><article class="partner-grant-note"><p>Toto podujatie bolo podporené z dotácie Ministerstva školstva, výskumu, vývoja a mládeže SR v oblasti práce s mládežou, ktoré administruje NIVAM – Národný inštitút vzdelávania a mládeže.</p></article><div class="partner-grant-logos">{grantPartners.partners.map((partner) => partner.url ? <a class={`partner-card partner-card--grant`} href={partner.url} target="_blank" rel="noopener noreferrer" aria-label={`Open ${partner.name} website`}><img src={partner.image} alt={partner.name} loading="lazy" data-logo-format={partner.format}/></a> : <article class="partner-card partner-card--grant"><img src={partner.image} alt={partner.name} loading="lazy" data-logo-format={partner.format}/></article>)}</div></div>}<div class="partner-groups">{eventPartnerGroups.map((group) => <div class={`partner-tier-grid partner-tier-grid--${group.tier}`}>{group.partners.map((partner) => partner.url ? <a class={`partner-card partner-card--${partner.tier}`} href={partner.url} target="_blank" rel="noopener noreferrer" aria-label={`Open ${partner.name} website`}><img src={partner.image} alt={partner.name} loading="lazy" data-logo-format={partner.format}/></a> : <article class={`partner-card partner-card--${partner.tier}`}><img src={partner.image} alt={partner.name} loading="lazy" data-logo-format={partner.format}/></article>)}</div>)}</div><a class="partner-cta" href={site.partnerFormUrl} target="_blank" rel="noopener noreferrer"><span class="partner-cta-label">WANT TO BECOME A PARTNER?</span><span class="partner-build-row"><i class="partner-cta-star" aria-hidden="true"></i><strong>LET'S BUILD {footerYearLabel} TOGETHER</strong><i class="partner-cta-star" aria-hidden="true"></i></span></a></section>
   </main>
