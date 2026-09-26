@@ -2,5 +2,7 @@
 import '../styles/global.css';
 const { title, description } = Astro.props;
 const assetPath = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
+const socialImage = new URL(assetPath('/logo.jpg'), Astro.site).href;
 ---
-<!doctype html><html lang="sk"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content={description}/><link rel="icon" type="image/png" href={assetPath('/favicon.png')}/><title>{title}</title></head><body><slot/></body></html>
+<!doctype html><html lang="sk"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content={description}/><link rel="canonical" href={canonicalUrl}/><link rel="icon" type="image/png" href={assetPath('/favicon.png')}/><meta property="og:type" content="website"/><meta property="og:site_name" content="Startup Weekend Žilina"/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:url" content={canonicalUrl}/><meta property="og:image" content={socialImage}/><meta property="og:image:alt" content="Techstars Startup Weekend Žilina"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content={title}/><meta name="twitter:description" content={description}/><meta name="twitter:image" content={socialImage}/><title>{title}</title></head><body><slot/></body></html>
