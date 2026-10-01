@@ -4,7 +4,7 @@ introHtml: >-
   <strong>EXPERIENCED FOUNDERS AND INVESTORS</strong> HELPING TEAMS
   <strong>SHARPEN THEIR IDEAS</strong>, <strong>VALIDATE THEIR
   VALUE</strong>, AND TELL A <strong>STORY THAT STANDS OUT</strong>.
-announcementStatus: partial
+announcementStatus: complete
 items:
   - name: Tatiana Ondrejková
     company: Pelikan.sk
@@ -21,3 +21,8 @@ items:
     role: AI transformation lead
     image: pavol-halpert.png
     text: Pavol drives practical AI adoption in a regulated environment across technology, business, and management, with a background co-founding startups.
+  - name: Michal Porubän
+    company: INOVIA
+    role: Startup Lead - Innovation Manager
+    image: Michal-Poruban.jpg
+    text: Startup lead at INOVIA helping founders access expert support, grow across the CEE region, and connect with investors.
