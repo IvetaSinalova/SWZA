@@ -555,3 +555,13 @@ button,input,textarea,select{font-family:Manrope,sans-serif}
 }
 
 @media(max-width:900px){.warmup-inner.shell{min-height:0}}
+
+/* Reserve space for names and organisations that wrap to two lines. */
+.mentor-card .mentor-header{position:absolute;top:16px;left:16px;right:16px;z-index:1}
+.mentor-card .mentor-header .mentor-meta{position:static;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;line-height:1.2}
+.mentor-card .mentor-person{min-width:0}
+.mentor-card .mentor-person>span:first-child{display:block;overflow-wrap:anywhere}
+.mentor-card .mentor-company{justify-self:end;align-self:start;min-width:max-content;max-width:none;text-align:right;white-space:nowrap}
+.mentor-card .mentor-header .mentor-role{position:static;display:block;margin-top:4px;color:#ddd}
+.mentor-card .mentor-person .mentor-role{max-width:none;text-align:left!important}
+@media(max-width:760px){.mentor-card .mentor-header{top:10px;left:10px;right:10px}}
