@@ -123,7 +123,7 @@ days:
         location: WORKSPACE
       - time: "14:00"
         end: "17:00"
-        title: PRESENTATION OF THE IDEAS
+        title: PRESENTATION OF THE FINAL IDEAS
         description: Each team presents its startup to the jury and the audience.
         location: MAIN HALL
         access: OPEN TO PUBLIC
