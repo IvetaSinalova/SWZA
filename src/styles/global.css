@@ -413,7 +413,7 @@ button,input,textarea,select{font-family:Manrope,sans-serif}
 .partner-heading>img{width:clamp(56px,6vw,89px);height:auto;flex:none}
 .partner-rule{margin:clamp(36px,5vw,72px) 0;border-top:1px solid var(--line)}
 .partner-groups{display:grid;gap:8px}
-.partner-tier-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.partner-tier-grid,.partner-grant-logos{display:grid;grid-template-columns:repeat(var(--partner-columns, 1),minmax(0,1fr));gap:8px}
 .partner-card{display:flex;flex:1 1 calc((100% - 40px) / 6);justify-content:center;align-items:center;isolation:isolate;min-width:0;height:clamp(90px,calc(12vw - 30px),150px);overflow:hidden;background:#f2f2f2;padding:clamp(14px,1.8vw,28px)}
 .partner-card img{display:block;margin:0 auto;width:42%;height:70%;max-width:100%;max-height:100%;min-height:0;object-fit:contain;object-position:center;filter:grayscale(1) contrast(1.6);mix-blend-mode:multiply}
 .partner-card--main{flex:1 1 calc((100% - 16px) / 3);height:clamp(120px,calc(20vw - 35px),250px)}
@@ -427,7 +427,6 @@ button,input,textarea,select{font-family:Manrope,sans-serif}
 .partner-card--silver img{width:60%;height:70%}
 .partner-card--price img,.partner-card--prize img{width:50%;height:70%}
 .partner-grant{display:grid;gap:8px;margin:0 0 8px}
-.partner-grant-logos{display:flex;flex-wrap:wrap;gap:8px}
 .partner-card--grant{flex:1 1 calc((100% - 16px) / 3);height:clamp(120px,calc(20vw - 35px),250px)}
 .partner-card--grant img{width:80%;height:70%}
 .partner-grant-note{display:flex;flex:1 1 100%;flex-direction:column;align-items:center;justify-content:center;min-height:clamp(88px,7vw,112px);padding:clamp(14px,1.5vw,24px);background:#f2f2f2;text-align:center}
@@ -476,7 +475,7 @@ button,input,textarea,select{font-family:Manrope,sans-serif}
   .partner-heading>img{width:52px}
   .partner-rule{margin:32px 0}
   .partner-groups{gap:6px}
-  .partner-tier-grid{gap:6px}
+  .partner-tier-grid,.partner-grant-logos{gap:6px}
   .partner-card{padding:14px}
   .partner-card{height:90px}
   .partner-card--main,.partner-card--platinum,.partner-card--grant{flex-basis:100%;height:150px}
@@ -485,7 +484,6 @@ button,input,textarea,select{font-family:Manrope,sans-serif}
   .partner-card--price,.partner-card--prize{flex:1 1 calc((100% - 6px) / 2);height:105px}
   .partner-card img{min-height:0}
   .partner-grant{gap:6px;margin:0 0 6px}
-  .partner-grant-logos{gap:6px}
   .partner-grant-note{min-height:110px;padding:16px}
   .partner-grant-note p{font-size:15px;line-height:1.45}
   .partner-cta{align-items:center;flex-direction:column;margin-top:24px;padding:22px;gap:12px;text-align:center}

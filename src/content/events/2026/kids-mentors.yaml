@@ -26,3 +26,13 @@ items:
     role: Teacher & Mentor
     image: Monika-Urdová.jpeg
     text: Secondary-school teacher and mentor dedicated to creating safe, inspiring learning environments where young people can grow.
+  - name: Martina Ďurčová
+    company: KROS a.s.
+    role: Digitalization Specialist
+    image: Martina-Ďurčová.jpg
+    text: Digitalization specialist at KROS with extensive experience in customer care, project leadership, and community initiatives for children and adults.
+  - name: Juraj Kováč
+    company: INOVIA
+    role: Innovation Manager
+    image: juraj-kovac.jpg
+    text: Innovation manager on a mission to help 100,000 young people discover entrepreneurship and turn their ideas into action.
