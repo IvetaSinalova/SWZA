@@ -407,14 +407,21 @@ button,input,textarea,select{font-family:Manrope,sans-serif}
   .mentor-stars{--mentor-star-max:25.34px;--mentor-star-gap-target:16px;margin-top:0;padding-top:56px;padding-bottom:56px}
 }
 
-.partner-showcase{padding-top:0;padding-bottom:clamp(140px,14vw,240px)}
+.partner-showcase{--partner-section-gap:clamp(36px,4vw,64px);padding-top:0;padding-bottom:clamp(140px,14vw,240px)}
 .partner-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:32px}
 .partner-heading h2{margin:0;font-size:clamp(40px,4.8vw,72px);font-weight:700;line-height:.94;letter-spacing:-.075em}
 .partner-heading>img{width:clamp(56px,6vw,89px);height:auto;flex:none}
 .partner-rule{margin:clamp(36px,5vw,72px) 0;border-top:1px solid var(--line)}
-.partner-groups{display:grid;gap:8px}
+.partner-groups{display:grid;gap:var(--partner-section-gap)}
+.partner-tier--grant{margin-top:var(--partner-section-gap)}
+.partner-tier{display:grid;gap:12px}
+.partner-tier-heading{display:flex;align-items:center;gap:14px;margin:0;color:var(--green);font-family:Manrope,Arial,sans-serif;font-size:clamp(13px,1.2vw,18px);font-weight:800;letter-spacing:.08em;line-height:1;text-transform:uppercase}
+.partner-tier-heading::after{content:"";flex:1;border-top:1px solid #111}
 .partner-tier-grid,.partner-grant-logos{display:grid;grid-template-columns:repeat(var(--partner-columns, 1),minmax(0,1fr));gap:8px}
-.partner-card{display:flex;flex:1 1 calc((100% - 40px) / 6);justify-content:center;align-items:center;isolation:isolate;min-width:0;height:clamp(90px,calc(12vw - 30px),150px);overflow:hidden;background:#f2f2f2;padding:clamp(14px,1.8vw,28px)}
+.partner-tier-grid--last-two{grid-template-columns:repeat(6,minmax(0,1fr))}
+.partner-tier-grid--last-two>.partner-card{grid-column:span 2}
+.partner-tier-grid--last-two>.partner-card:nth-last-child(-n+2){grid-column:span 3}
+.partner-card{display:flex;flex:1 1 calc((100% - 40px) / 6);justify-content:center;align-items:center;isolation:isolate;width:100%;min-width:0;height:clamp(90px,calc(12vw - 30px),150px);overflow:hidden;background:#f2f2f2;padding:clamp(14px,1.8vw,28px)}
 .partner-card img{display:block;margin:0 auto;width:42%;height:70%;max-width:100%;max-height:100%;min-height:0;object-fit:contain;object-position:center;filter:grayscale(1) contrast(1.6);mix-blend-mode:multiply}
 .partner-card--main{flex:1 1 calc((100% - 16px) / 3);height:clamp(120px,calc(20vw - 35px),250px)}
 .partner-card--platinum{flex:1 1 calc((100% - 16px) / 3);height:clamp(120px,calc(20vw - 35px),250px)}
@@ -426,7 +433,7 @@ button,input,textarea,select{font-family:Manrope,sans-serif}
 .partner-card--gold img,.partner-card--golden img{width:70%;height:70%}
 .partner-card--silver img{width:60%;height:70%}
 .partner-card--price img,.partner-card--prize img{width:50%;height:70%}
-.partner-grant{display:grid;gap:8px;margin:0 0 8px}
+.partner-grant{display:grid;gap:8px;margin:0}
 .partner-card--grant{flex:1 1 calc((100% - 16px) / 3);height:clamp(120px,calc(20vw - 35px),250px)}
 .partner-card--grant img{width:80%;height:70%}
 .partner-grant-note{display:flex;flex:1 1 100%;flex-direction:column;align-items:center;justify-content:center;min-height:clamp(88px,7vw,112px);padding:clamp(14px,1.5vw,24px);background:#f2f2f2;text-align:center}
@@ -469,12 +476,12 @@ button,input,textarea,select{font-family:Manrope,sans-serif}
 .faq-item[open] .faq-plus:after{transform:rotate(0deg)}
 .faq-item[open] summary{align-items:start;padding-top:32px;padding-bottom:32px}
 @media(max-width:767px){
-  .partner-showcase{padding-bottom:56px}
+  .partner-showcase{--partner-section-gap:32px;padding-bottom:56px}
   .partner-heading{gap:18px}
   .partner-heading h2{font-size:clamp(32px,9.5vw,48px)}
   .partner-heading>img{width:52px}
   .partner-rule{margin:32px 0}
-  .partner-groups{gap:6px}
+  .partner-tier{gap:10px}
   .partner-tier-grid,.partner-grant-logos{gap:6px}
   .partner-card{padding:14px}
   .partner-card{height:90px}
@@ -483,7 +490,7 @@ button,input,textarea,select{font-family:Manrope,sans-serif}
   .partner-card--silver{flex:1 1 calc((100% - 6px) / 2);height:120px}
   .partner-card--price,.partner-card--prize{flex:1 1 calc((100% - 6px) / 2);height:105px}
   .partner-card img{min-height:0}
-  .partner-grant{gap:6px;margin:0 0 6px}
+  .partner-grant{gap:6px}
   .partner-grant-note{min-height:110px;padding:16px}
   .partner-grant-note p{font-size:15px;line-height:1.45}
   .partner-cta{align-items:center;flex-direction:column;margin-top:24px;padding:22px;gap:12px;text-align:center}
