@@ -413,7 +413,7 @@ button,input,textarea,select{font-family:Manrope,sans-serif}
 .partner-heading>img{width:clamp(56px,6vw,89px);height:auto;flex:none}
 .partner-rule{margin:clamp(36px,5vw,72px) 0;border-top:1px solid var(--line)}
 .partner-groups{display:grid;gap:var(--partner-section-gap)}
-.partner-tier--grant{margin-top:var(--partner-section-gap)}
+.partner-tier--grant{margin:0 0 var(--partner-section-gap)}
 .partner-tier{display:grid;gap:12px}
 .partner-tier-heading{display:flex;align-items:center;gap:14px;margin:0;color:var(--green);font-family:Manrope,Arial,sans-serif;font-size:clamp(13px,1.2vw,18px);font-weight:800;letter-spacing:.08em;line-height:1;text-transform:uppercase}
 .partner-tier-heading::after{content:"";flex:1;border-top:1px solid #111}
@@ -514,6 +514,21 @@ button,input,textarea,select{font-family:Manrope,sans-serif}
   .faq-preview{grid-column:1/-1;grid-row:2;color:#666;font-size:13px}
   .faq-plus{grid-column:2;grid-row:1;width:20px;height:20px}
   .faq-item[open] summary{padding-top:22px;padding-bottom:22px}
+}
+
+@media(min-width:768px){
+  .partner-tier-grid--gold{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .partner-tier-grid--gold:has(>.partner-card:nth-child(6):last-child){grid-template-columns:repeat(8,minmax(0,1fr))}
+  .partner-tier-grid--gold:has(>.partner-card:nth-child(6):last-child)>.partner-card{grid-column:span 2}
+  .partner-tier-grid--gold:has(>.partner-card:nth-child(6):last-child)>.partner-card:nth-last-child(-n+2){grid-column:span 4}
+  .partner-tier-grid--silver:has(>.partner-card:nth-child(6):last-child){grid-template-columns:repeat(8,minmax(0,1fr))}
+  .partner-tier-grid--silver:has(>.partner-card:nth-child(6):last-child)>.partner-card{grid-column:span 2}
+  .partner-tier-grid--silver:has(>.partner-card:nth-child(6):last-child)>.partner-card:nth-last-child(-n+2){grid-column:span 4}
+}
+
+@media(max-width:420px){
+  .partner-tier-grid--platinum{grid-template-columns:1fr}
+  .partner-tier-grid--platinum>.partner-card{grid-column:1}
 }
 
 .site-footer{width:100%;margin:0;background:#000;color:#fff;padding:0;overflow:hidden}

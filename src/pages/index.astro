@@ -118,6 +118,7 @@ const partnerTierLabels = {
 const partnerGridColumns = (count) => {
   if (count <= 3) return count;
   if (count === 4) return 2;
+  if (count === 5 || count === 6) return 3;
 
   for (const columns of [4, 3, 2]) {
     if (count % columns !== 1) return columns;
@@ -130,6 +131,7 @@ const normalizePartnerName = (value) => value.toLowerCase().normalize('NFD').rep
 const partnerNames = [
   { keywords: ['birne'], name: 'Birne' },
   { keywords: ['asai'], name: 'ASAI' },
+  { keywords: ['origami'], name: 'Origami Studio' },
   { keywords: ['telekom'], name: 'Telekom' },
   { keywords: ['mesto zilina'], name: 'Mesto Žilina' },
   { keywords: ['zu h s eng cb'], name: 'University of Žilina' },
@@ -150,6 +152,7 @@ const partnerLinkRules = [
   { keywords: ['nivam'], url: 'https://nivam.sk/' },
   { keywords: ['inovia'], url: 'https://inovia.sk/' },
   { keywords: ['telekom'], url: 'https://www.telekom.sk/' },
+  { keywords: ['origami'], url: 'https://www.origamistudio.sk/' },
   { keywords: ['mesto zilina'], url: 'https://zilina.sk/' },
   { keywords: ['zu h s eng cb'], url: 'https://www.uniza.sk/index.php/en/' },
   { keywords: ['nn group'], url: 'https://www.nn.sk/zivotne-poistenie-od-nn/' },
@@ -237,17 +240,17 @@ const eventPartnerGroups = partnerGroups.filter((group) => group.tier !== 'grant
       <section class="partner-showcase shell" id="partners">
         <div class="partner-heading"><h2>TOGETHER,<br/>WE DO GREAT THINGS.</h2><img src={assetPath('/star-sponsor.png')} alt="" aria-hidden="true"/></div>
         <div class="partner-rule"></div>
+        {grantPartners && <div class="partner-tier partner-tier--grant">
+          <h3 class="partner-tier-heading">{grantPartners.label}</h3>
+          <div class="partner-grant">
+            <article class="partner-grant-note"><p>Toto podujatie bolo podporené z dotácie Ministerstva školstva, výskumu, vývoja a mládeže SR v oblasti práce s mládežou, ktoré administruje NIVAM – Národný inštitút vzdelávania a mládeže.</p></article>
+            <div class="partner-grant-logos" style={`--partner-columns: ${partnerGridColumns(grantPartners.partners.length)}`}>{grantPartners.partners.map((partner) => partner.url ? <a class={`partner-card partner-card--grant`} href={partner.url} target="_blank" rel="noopener noreferrer" aria-label={`Open ${partner.name} website`}><img src={partner.image} alt={partner.name} loading="lazy" data-logo-format={partner.format}/></a> : <article class="partner-card partner-card--grant"><img src={partner.image} alt={partner.name} loading="lazy" data-logo-format={partner.format}/></article>)}</div>
+          </div>
+        </div>}
         <div class="partner-groups">{eventPartnerGroups.map((group) => <section class={`partner-tier partner-tier--${group.tier}`}>
           <h3 class="partner-tier-heading">{group.label}</h3>
           <div class={`partner-tier-grid partner-tier-grid--${group.tier}${partnerGridHasTwoItemLastRow(group.partners.length) ? ' partner-tier-grid--last-two' : ''}`} style={`--partner-columns: ${partnerGridColumns(group.partners.length)}`}>{group.partners.map((partner) => partner.url ? <a class={`partner-card partner-card--${partner.tier}`} href={partner.url} target="_blank" rel="noopener noreferrer" aria-label={`Open ${partner.name} website`}><img src={partner.image} alt={partner.name} loading="lazy" data-logo-format={partner.format}/></a> : <article class={`partner-card partner-card--${partner.tier}`}><img src={partner.image} alt={partner.name} loading="lazy" data-logo-format={partner.format}/></article>)}</div>
         </section>)}</div>
-        {grantPartners && <div class="partner-tier partner-tier--grant">
-          <h3 class="partner-tier-heading">{grantPartners.label}</h3>
-          <div class="partner-grant">
-            <div class="partner-grant-logos" style={`--partner-columns: ${partnerGridColumns(grantPartners.partners.length)}`}>{grantPartners.partners.map((partner) => partner.url ? <a class={`partner-card partner-card--grant`} href={partner.url} target="_blank" rel="noopener noreferrer" aria-label={`Open ${partner.name} website`}><img src={partner.image} alt={partner.name} loading="lazy" data-logo-format={partner.format}/></a> : <article class="partner-card partner-card--grant"><img src={partner.image} alt={partner.name} loading="lazy" data-logo-format={partner.format}/></article>)}</div>
-            <article class="partner-grant-note"><p>Toto podujatie bolo podporené z dotácie Ministerstva školstva, výskumu, vývoja a mládeže SR v oblasti práce s mládežou, ktoré administruje NIVAM – Národný inštitút vzdelávania a mládeže.</p></article>
-          </div>
-        </div>}
         <a class="partner-cta" href={site.partnerFormUrl} target="_blank" rel="noopener noreferrer"><span class="partner-cta-label">WANT TO BECOME A PARTNER?</span><span class="partner-build-row"><i class="partner-cta-star" aria-hidden="true"></i><strong>LET'S BUILD {footerYearLabel} TOGETHER</strong><i class="partner-cta-star" aria-hidden="true"></i></span></a>
       </section>
   </main>
