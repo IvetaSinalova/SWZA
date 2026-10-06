@@ -489,6 +489,18 @@ button,input,textarea,select{font-family:Manrope,sans-serif}
   .partner-rule{margin:32px 0}
   .partner-tier{gap:10px}
   .partner-tier-grid,.partner-grant-logos{gap:6px}
+  .partner-tier-grid--columns-4{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .partner-tier-grid--columns-4>.partner-card{grid-column:auto}
+  .partner-tier-grid--columns-4.partner-tier-grid--last-2,.partner-tier-grid--columns-4.partner-tier-grid--last-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .partner-tier-grid--columns-4.partner-tier-grid--last-2>.partner-card,.partner-tier-grid--columns-4.partner-tier-grid--last-3>.partner-card{grid-column:auto}
+  .partner-tier-grid--count-4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .partner-tier-grid--count-8{grid-template-columns:repeat(6,minmax(0,1fr))}
+  .partner-tier-grid--count-8>.partner-card{grid-column:span 2}
+  .partner-tier-grid--count-8>.partner-card:nth-last-child(-n+2){grid-column:span 3}
+  .partner-tier-grid--count-11.partner-tier-grid--columns-4{grid-template-columns:repeat(6,minmax(0,1fr))}
+  .partner-tier-grid--count-11.partner-tier-grid--columns-4>.partner-card{grid-column:span 2}
+  .partner-tier-grid--count-11.partner-tier-grid--columns-4>.partner-card:nth-last-child(-n+3){grid-column:span 2}
+  .partner-tier-grid--count-11.partner-tier-grid--columns-4>.partner-card:nth-last-child(-n+2){grid-column:span 3}
   .partner-card{padding:14px}
   .partner-card{height:90px}
   .partner-card--main,.partner-card--platinum,.partner-card--grant{flex-basis:100%;height:150px}
@@ -535,6 +547,15 @@ button,input,textarea,select{font-family:Manrope,sans-serif}
 @media(max-width:420px){
   .partner-tier-grid--platinum{grid-template-columns:1fr}
   .partner-tier-grid--platinum>.partner-card{grid-column:1}
+}
+
+@media(max-width:520px){
+  .partner-tier-grid--count-4,.partner-tier-grid--count-8,.partner-tier-grid--count-9,.partner-tier-grid--count-11{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .partner-tier-grid--count-8>.partner-card,.partner-tier-grid--count-8>.partner-card:nth-last-child(-n+2),.partner-tier-grid--count-11.partner-tier-grid--columns-4>.partner-card,.partner-tier-grid--count-11.partner-tier-grid--columns-4>.partner-card:nth-last-child(-n+3){grid-column:auto}
+  .partner-tier-grid--count-11.partner-tier-grid--columns-4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .partner-tier-grid--count-11.partner-tier-grid--columns-4>.partner-card,.partner-tier-grid--count-11.partner-tier-grid--columns-4>.partner-card:nth-last-child(-n+3){grid-column:auto}
+  .partner-tier-grid--count-9>.partner-card:last-child,.partner-tier-grid--count-11>.partner-card:last-child{grid-column:1/-1}
+  .partner-grant-logos{grid-template-columns:1fr}
 }
 
 .site-footer{width:100%;margin:0;background:#000;color:#fff;padding:0;overflow:hidden}
