@@ -4,7 +4,7 @@ introHtml: >-
   <strong>EXPERIENCED FOUNDERS AND INVESTORS</strong> HELPING TEAMS
   <strong>SHARPEN THEIR IDEAS</strong>, <strong>VALIDATE THEIR
   VALUE</strong>, AND TELL A <strong>STORY THAT STANDS OUT</strong>.
-announcementStatus: partial
+announcementStatus: complete
 items:
   - name: Tatiana Ondrejková
     company: Pelikan.sk
@@ -26,3 +26,8 @@ items:
     role: Startup Lead - Innovation Manager
     image: Michal-Poruban.jpg
     text: Startup lead at INOVIA helping founders access expert support, grow across the CEE region, and connect with investors.
+  - name: Jakub Soviar
+    company: UNIZA
+    role: Professor & Marketing Management Consultant
+    image: jakub-soviar.jpg
+    text: Management and marketing expert with 20+ years of experience in cooperation strategies, business models, and building business ecosystems.
