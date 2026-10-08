@@ -114,6 +114,7 @@ const partnerTierLabels = {
   prize: 'PRICE PARTNERS',
   media: 'MEDIA PARTNERS',
   grant: 'GRANT PARTNERS',
+  supporting: 'SUPPORTING PARTNERS',
 };
 const partnerGridColumns = (count) => {
   if (count <= 3) return count;
@@ -146,6 +147,18 @@ const partnerNames = [
   { keywords: ['zilinsky samospravny kraj'], name: 'Žilinský samosprávny kraj' },
   { keywords: ['at park'], name: 'AT Park, s. r. o.' },
   { keywords: ['she explores'], name: 'SHE EXPLORES AI' },
+  { keywords: ['ickk'], name: 'ICKK' },
+  { keywords: ['junior achievment'], name: 'Junior Achievement' },
+  { keywords: ['dasato'], name: 'Dasato' },
+  { keywords: ['logo nx'], name: 'Nexteria' },
+  { keywords: ['lyceum'], name: 'Lyceum' },
+  { keywords: ['logo lp'], name: 'LP' },
+  { keywords: ['merineo'], name: 'Merineo' },
+  { keywords: ['monere'], name: 'Monere' },
+  { keywords: ['rse'], name: 'RSE' },
+  { keywords: ['ti uniza'], name: 'Technological Institute UNIZA' },
+  { keywords: ['pronea'], name: 'Pronea' },
+  { keywords: ['voxberg'], name: 'Voxberg' },
 ];
 const partnerNameFor = (file) => {
   const haystack = normalizePartnerName(file);
@@ -192,6 +205,17 @@ const partnerLinkRules = [
   { keywords: ['zilinskyvecernik', 'zilinsky vecernik'], url: 'https://www.zilinskyvecernik.sk/' },
   { keywords: ['at park'], url: 'https://www.atpark.eu/' },
   { keywords: ['she explores'], url: 'https://www.sheexploresai.com/' },
+  { keywords: ['ickk'], url: 'https://ickk.sk/' },
+  { keywords: ['junior achievment'], url: 'https://www.firma.jaslovensko.sk/o-programe/' },
+  { keywords: ['dasato'], url: 'https://www.dasato.org/' },
+  { keywords: ['lyceum'], url: 'https://lyceum.sk/' },
+  { keywords: ['logo nx'], url: 'https://nexteria.sk/' },
+  { keywords: ['merineo'], url: 'https://merineo.sk/' },
+  { keywords: ['monere'], url: 'https://www.monere.sk/' },
+  { keywords: ['rse'], url: 'https://rse-consulting.solutions/' },
+  { keywords: ['ti uniza'], url: 'https://www.ti.uniza.sk/index.php/sk/' },
+  { keywords: ['pronea'], url: 'https://pronea.sk/pronea-media/' },
+  { keywords: ['voxberg'], url: 'https://www.voxberg.com/sk' },
 ];
 const partnerUrlFor = (file, name) => {
   const haystack = normalizePartnerName(`${file} ${name}`);

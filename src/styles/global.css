@@ -429,6 +429,7 @@ button,input,textarea,select{font-family:Manrope,sans-serif}
 .partner-tier-grid--columns-4.partner-tier-grid--last-3>.partner-card:nth-last-child(-n+3){grid-column:span 4}
 .partner-card{display:flex;flex:1 1 calc((100% - 40px) / 6);justify-content:center;align-items:center;isolation:isolate;width:100%;min-width:0;height:clamp(90px,calc(12vw - 30px),150px);overflow:hidden;background:#f2f2f2;padding:clamp(14px,1.8vw,28px)}
 .partner-card img{display:block;margin:0 auto;width:42%;height:70%;max-width:100%;max-height:100%;min-height:0;object-fit:contain;object-position:center;filter:grayscale(1) contrast(1.6);mix-blend-mode:multiply}
+.partner-card:has(img[alt="Lyceum"]) img{width:74%;height:74%;filter:brightness(0);mix-blend-mode:normal}
 .partner-card--main{flex:1 1 calc((100% - 16px) / 3);height:clamp(120px,calc(20vw - 35px),250px)}
 .partner-card--platinum{flex:1 1 calc((100% - 16px) / 3);height:clamp(120px,calc(20vw - 35px),250px)}
 .partner-card--gold,.partner-card--golden{flex:1 1 calc((100% - 24px) / 4);height:clamp(110px,calc(18vw - 30px),225px)}
