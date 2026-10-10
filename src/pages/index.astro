@@ -117,15 +117,8 @@ const partnerTierLabels = {
   supporting: 'SUPPORTING PARTNERS',
 };
 const partnerGridColumns = (count) => {
-  if (count <= 3) return count;
-  if (count === 4) return 2;
-  if (count === 5 || count === 6) return 3;
-
-  for (const columns of [4, 3, 2]) {
-    if (count % columns !== 1) return columns;
-  }
-
-  return Math.ceil(count / 3);
+  if (count <= 4) return Math.min(count, 2);
+  return 3;
 };
 const partnerGridLastRowCount = (count) => count % partnerGridColumns(count);
 const normalizePartnerName = (value) => value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
@@ -281,7 +274,7 @@ const eventPartnerGroups = partnerGroups.filter((group) => group.tier !== 'grant
           <h3 class="partner-tier-heading">{grantPartners.label}</h3>
           <div class="partner-grant">
             <article class="partner-grant-note"><p>Toto podujatie bolo podporené z dotácie Ministerstva školstva, výskumu, vývoja a mládeže SR v oblasti práce s mládežou, ktoré administruje NIVAM – Národný inštitút vzdelávania a mládeže.</p></article>
-            <div class="partner-grant-logos" style={`--partner-columns: ${partnerGridColumns(grantPartners.partners.length)}`}>{grantPartners.partners.map((partner) => partner.url ? <a class={`partner-card partner-card--grant`} href={partner.url} target="_blank" rel="noopener noreferrer" aria-label={`Open ${partner.name} website`}><img src={partner.image} alt={partner.name} loading="lazy" data-logo-format={partner.format}/></a> : <article class="partner-card partner-card--grant"><img src={partner.image} alt={partner.name} loading="lazy" data-logo-format={partner.format}/></article>)}</div>
+            <div class={`partner-grant-logos partner-tier-grid--count-${grantPartners.partners.length} partner-tier-grid--columns-${partnerGridColumns(grantPartners.partners.length)} partner-tier-grid--last-${partnerGridLastRowCount(grantPartners.partners.length)}`} style={`--partner-columns: ${partnerGridColumns(grantPartners.partners.length)}`}>{grantPartners.partners.map((partner) => partner.url ? <a class={`partner-card partner-card--grant`} href={partner.url} target="_blank" rel="noopener noreferrer" aria-label={`Open ${partner.name} website`}><img src={partner.image} alt={partner.name} loading="lazy" data-logo-format={partner.format}/></a> : <article class="partner-card partner-card--grant"><img src={partner.image} alt={partner.name} loading="lazy" data-logo-format={partner.format}/></article>)}</div>
           </div>
         </div>}
         <div class="partner-groups">{eventPartnerGroups.map((group) => <section class={`partner-tier partner-tier--${group.tier}`}>
