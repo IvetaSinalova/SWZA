@@ -103,7 +103,7 @@ const galleryImages = readdirSync(join(process.cwd(), 'public/images/home/about/
   .filter((file) => /\.(jpe?g|png|webp|avif|gif)$/i.test(file))
   .map((file) => `${sharedImageRoot}/about/gallery/${encodeURIComponent(file)}`);
 const partnerRoot = join(process.cwd(), `public/images/events/${eventYear}/partners`);
-const partnerPriority = ['main', 'platinum', 'gold', 'golden', 'silver', 'media', 'price', 'prize'];
+const partnerPriority = ['main', 'platinum', 'gold', 'golden', 'silver', 'price', 'prize', 'supporting', 'media'];
 const partnerTierLabels = {
   main: 'MAIN PARTNER',
   platinum: 'PLATINUM PARTNERS',

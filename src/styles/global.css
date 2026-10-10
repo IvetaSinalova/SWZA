@@ -518,6 +518,7 @@ button,input,textarea,select{font-family:Manrope,sans-serif}
   .partner-card img{min-height:0}
   /* Keep every partner category equally legible on phones and small tablets. */
   .partner-tier-grid[class*="partner-tier-grid--count-"],.partner-grant-logos{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .partner-tier-grid--price.partner-tier-grid--columns-3.partner-tier-grid--last-2,.partner-tier-grid--prize.partner-tier-grid--columns-3.partner-tier-grid--last-2{grid-template-columns:repeat(2,minmax(0,1fr))}
   .partner-tier-grid[class*="partner-tier-grid--count-"]>.partner-card,.partner-grant-logos>.partner-card{grid-column:auto}
   .partner-tier-grid--columns-3.partner-tier-grid--last-2>.partner-card,.partner-grant-logos.partner-tier-grid--columns-3.partner-tier-grid--last-2>.partner-card{grid-column:auto}
   .partner-tier-grid--price>.partner-card,.partner-tier-grid--prize>.partner-card{grid-column:auto}
